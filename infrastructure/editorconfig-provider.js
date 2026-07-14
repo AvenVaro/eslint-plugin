@@ -34,7 +34,7 @@ function loadConfig(filePath) {
 /**
  * Intercepts the operational config-loading mechanism with an isolated test wrapper.
  *
- * @param {import('editorconfig').KnownProps} properties - Fake properties payload to return in tests.
+ * @param {import('editorconfig').Props} properties - Fake properties payload to return in tests.
  * @param {string} expectedFilePath - The targeted file path where this fake state must trigger.
  *
  * @returns {void}
@@ -55,11 +55,11 @@ function resetMockingLoadConfig() {
 /**
  * Evaluates operational execution paths and substitutes live disk payload with test mock variables.
  *
- * @param {import('editorconfig').KnownProps} properties - Fake properties payload injected by the mock system.
+ * @param {import('editorconfig').Props} properties - Fake properties payload injected by the mock system.
  * @param {string} actualFilePath - Runtime file path evaluated by the active rule during asset scanning.
  * @param {string} expectedFilePath - Strict isolation path filter injected during test setup hooks.
  *
- * @returns {import('editorconfig').KnownProps} Mocked payload on filter match, or an empty fallback configuration object.
+ * @returns {import('editorconfig').Props} Mocked payload on filter match, or an empty fallback configuration object.
  */
 function mockLoadConfig(properties, actualFilePath, expectedFilePath) {
   if (actualFilePath === expectedFilePath) {
@@ -75,7 +75,7 @@ function mockLoadConfig(properties, actualFilePath, expectedFilePath) {
  * @param {boolean | undefined} useEditorconfig - User runtime toggle flag extracted from ESLint rules array.
  * @param {string} filePath - The absolute target asset destination evaluated during active traversal.
  *
- * @returns {import('editorconfig').KnownProps} Final configuration block properties, or an isolated empty fallback structure.
+ * @returns {import('editorconfig').Props} Final configuration block properties, or an isolated empty fallback structure.
  */
 function getConfig(useEditorconfig, filePath) {
   useEditorconfig = useEditorconfig === undefined
