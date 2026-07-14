@@ -1,9 +1,14 @@
 import js from '@eslint/js';
 import stylistic from '@stylistic/eslint-plugin';
 import globals from 'globals';
-import avenvaro from './src/rules/eslint-plugin-custom.js';
+import tseslint from 'typescript-eslint';
+import eslintJson from '@eslint/json';
+import jsoncPlugin from 'eslint-plugin-jsonc';
+import avenvaro from './src/index.js';
 
-export default [
+const jsonc = jsoncPlugin.default || jsoncPlugin;
+
+export default tseslint.config(
   {
     ignores: [
       'LICENSE',
@@ -11,25 +16,31 @@ export default [
     ]
   },
   js.configs.recommended,
+  ...tseslint.configs.recommended,
   {
     files: [
       '**/*.js',
       '**/*.mjs',
-      '**/*.cjs'
+      '**/*.cjs',
+      '**/*.ts',
+      '**/*.mts',
+      '**/*.cts'
     ],
     languageOptions: {
       ecmaVersion: 'latest',
       sourceType: 'module',
+      parser: tseslint.parser,
       globals: {
         ...globals.node
       }
     },
     plugins: {
       '@stylistic': stylistic,
-      'custom': avenvaro
+      'avenvaro': avenvaro
     },
     rules: {
-      'custom/ternary-punctuation': 'error',
+      'avenvaro/indent': 'error',
+      //'avenvaro/ternary-punctuation': 'error',
       '@stylistic/quotes': [
         'error',
         'single'
@@ -133,61 +144,28 @@ export default [
         'always'
       ]
     }
+  },
+  {
+    files: [
+      '**/*.json',
+      '**/*.jsonc',
+      '**/*.code-workspace'
+    ],
+    language: 'json/json',
+    plugins: {
+      'json': eslintJson,
+      'jsonc': jsonc
+    },
+    languageOptions: {
+      parser: eslintJson.parser
+    },
+    rules: {
+      'no-irregular-whitespace': 'off',
+      'json/no-duplicate-keys': 'error',
+      'jsonc/indent': [
+        'error',
+        2
+      ]
+    }
   }
-];
-
-const a = isNaN(1) ? 1 : 2;
-
-const b = isNaN(1) ? 1
-  : 2
-;
-
-const c = isNaN(1) ? 1
-  : 2
-;
-
-const d = isNaN(1) ? 1
-  : 2
-;
-
- const e = isNaN(1) ? 1
-   : 2
- ;
-
-const f = isNaN(1) ? 1
-  : 2
-;
-
-const g = isNaN(1)
-  ? 1
-  : 2
-;
-
-const h = isNaN(1)
-  ? 1
-  : 2
-;
-
-const i = isNaN(1)
-  ? 1
-  : 2
-;
-
- const j = isNaN(1)
-   ? 1
-   : 2
- ;
-
-const k = isNaN(1)
-  ? 1
-  : 2
-;
-
-const l = isNaN(1)
-  ? 1
-  : 2
-;
-
-function foo() {
-  return [ a, b, c, d, e, f, g, h, i, j, k, l ];
-}
+);
