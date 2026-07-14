@@ -6,8 +6,7 @@
   ],
   "extensions": {
     "recommendations": [
-      "dbaeumer.vscode-eslint",
-      "editorconfig.editorconfig"
+      "dbaeumer.vscode-eslint"
     ]
   }
 }

@@ -5,9 +5,10 @@
   "main": "src/index.js",
   "type": "module",
   "scripts": {
-    "editorconfig": "editorconfig-checker",
-    "lint": "eslint . && editorconfig-checker",
-    "lint:fix": "eslint . --fix"
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "peerDependencies": {
     "eslint": ">=9.0.0"
@@ -29,10 +30,10 @@
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@stylistic/eslint-plugin": "^5.10.0",
-    "editorconfig-checker": "^6.1.1",
     "eslint": "^10.7.0",
     "eslint-plugin-yml": "^3.6.0",
     "globals": "^17.7.0",
+    "vitest": "^4.1.10",
     "yaml-eslint-parser": "^2.1.0"
   }
 }
