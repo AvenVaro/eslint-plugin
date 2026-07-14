@@ -4,9 +4,14 @@ import globals from 'globals';
 import tseslint from 'typescript-eslint';
 import eslintJson from '@eslint/json';
 import jsoncPlugin from 'eslint-plugin-jsonc';
+import ymlPlugin from 'eslint-plugin-yml';
+
+import * as yamlParser from 'yaml-eslint-parser';
+
 import avenvaro from './src/index.js';
 
 const jsonc = jsoncPlugin.default || jsoncPlugin;
+const yml = ymlPlugin.default || ymlPlugin;
 
 export default tseslint.config(
   {
@@ -165,6 +170,47 @@ export default tseslint.config(
       'jsonc/indent': [
         'error',
         2
+      ],
+      'jsonc/object-curly-spacing': [
+        'error',
+        'always'
+      ],
+      'jsonc/array-bracket-spacing': [
+        'error',
+        'always'
+      ]
+    }
+  },
+  {
+    files: [
+      '**/*.yaml',
+      '**/*.yml'
+    ],
+    plugins: {
+      yml: yml
+    },
+    languageOptions: {
+      parser: yamlParser
+    },
+    rules: {
+      ...yml.configs['flat/standard'].rules,
+      'yml/indent': [
+        'error',
+        2
+      ],
+      'yml/no-multiple-empty-lines': [
+        'error',
+        {
+          max: 1,
+          maxEOF: 0
+        }
+      ],
+      'yml/key-spacing': [
+        'error',
+        {
+          beforeColon: false,
+          afterColon: true
+        }
       ]
     }
   }

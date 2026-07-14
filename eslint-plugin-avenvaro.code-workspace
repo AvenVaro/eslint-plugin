@@ -26,6 +26,12 @@
     "[json-workspace]": {
       "editor.defaultFormatter": "dbaeumer.vscode-eslint"
     },
+    "[yaml]": {
+      "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+    },
+    "[yml]": {
+      "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+    },
     "files.associations": {
       "*.code-workspace": "jsonc"
     },
@@ -42,7 +48,9 @@
       "typescriptreact",
       "json",
       "jsonc",
-      "json-workspace"
+      "json-workspace",
+      "yaml",
+      "yml"
     ],
     "eslint.useFlatConfig": true,
     "eslint.nodePath": "node_modules",
