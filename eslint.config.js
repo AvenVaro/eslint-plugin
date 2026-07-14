@@ -95,7 +95,7 @@ export default tseslint.config(
         'error',
         {
           max: 1,
-          maxEOF: 1
+          maxEOF: 0
         }
       ],
       '@stylistic/function-paren-newline': [
