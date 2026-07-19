@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Strict structural alignment, operator grid formatting, and syntax delimiter placement rules for ESLint.",
   "main": "src/index.js",
+  "types": "src/index.d.ts",
   "type": "module",
   "scripts": {
     "editorconfig": "editorconfig-checker",
@@ -41,5 +42,12 @@
     "typescript-eslint": "^8.64.0",
     "vitest": "^4.1.10",
     "yaml-eslint-parser": "^2.1.0"
-  }
+  },
+  "files": [
+    "src",
+    "infrastructure",
+    "LICENSE",
+    "NOTICE",
+    "README.md"
+  ]
 }
