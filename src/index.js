@@ -1,3 +1,7 @@
+import indentJS from './rules/js/indent.js';
+
 export default {
-  rules: {}
+  rules: {
+    'js/indent': indentJS
+  }
 };
