@@ -30,23 +30,6 @@ export interface EditorconfigProvider {
   loadConfig(filePath: string): Props;
 
   /**
-   * Intercepts the core config-loading mechanism to return predefined mock properties during tests.
-   *
-   * @param properties The fake configuration properties to inject into the provider state.
-   * @param expectedFilePath The target file path for which the injected mock properties should apply.
-   *
-   * @returns void
-   */
-  mockLoadConfig(properties: Props, expectedFilePath: string): void;
-
-  /**
-   * Reverts the config-loading mechanism back to its original runtime implementation, clearing injected test hooks.
-   *
-   * @returns void
-   */
-  resetMockingLoadConfig(): void;
-
-  /**
    * High-level orchestration method that evaluates user flags and safely coordinates configuration retrieval.
    *
    * @param useEditorconfig Toggle flag determining whether the system should hit the file system or bypass it.
