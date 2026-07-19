@@ -16,7 +16,8 @@
     "test:watch": "vitest"
   },
   "peerDependencies": {
-    "eslint": ">=9.0.0"
+    "eslint": ">=9.0.0",
+    "@stylistic/eslint-plugin": ">=5.0.0"
   },
   "dependencies": {
     "editorconfig": "^1.0.4"
@@ -28,7 +29,9 @@
     "formatter",
     "style",
     "layout",
-    "grid"
+    "grid",
+    "indent",
+    "js-indent"
   ],
   "author": "Aven Varo",
   "license": "Apache-2.0",
