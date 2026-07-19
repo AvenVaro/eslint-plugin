@@ -47,7 +47,7 @@ export interface EditorconfigProvider {
    *
    * @returns A validated indentation count or the literal string layout token.
    */
-  getIndentSize(config: Props | undefined, defaultValue: number | 'tab'): number | 'tab';
+  getIndentSize(config: Props | undefined, defaultValue: number | 'tab' | undefined): number | 'tab' | undefined;
 
   /**
    * Validates and extracts the indentation formatting layout token style from configuration.
@@ -57,7 +57,7 @@ export interface EditorconfigProvider {
    *
    * @returns A validated style layout keyword token.
    */
-  getIndentStyle(config: Props | undefined, defaultValue: 'space' | 'tab'): 'space' | 'tab';
+  getIndentStyle(config: Props | undefined, defaultValue: 'space' | 'tab' | undefined): 'space' | 'tab' | undefined;
 
   /**
    * Validates and extracts the targeted line-ending sequence token from configuration metadata.
@@ -67,7 +67,7 @@ export interface EditorconfigProvider {
    *
    * @returns A validated line termination style keyword token.
    */
-  getEndOfLine(config: Props | undefined, defaultValue: 'lf' | 'crlf'): 'lf' | 'crlf';
+  getEndOfLine(config: Props | undefined, defaultValue: 'lf' | 'crlf' | undefined): 'lf' | 'crlf' | undefined;
 
   /**
    * Validates and extracts the active validation state flag for final newline injections.
@@ -77,7 +77,7 @@ export interface EditorconfigProvider {
    *
    * @returns The active verification boolean identifier.
    */
-  getInsertFinalNewLine(config: Props | undefined, defaultValue: boolean): boolean;
+  getInsertFinalNewLine(config: Props | undefined, defaultValue: boolean | undefined): boolean | undefined;
 
   /**
    * Validates and extracts the explicit horizontal layout tab width boundary configuration integer.
@@ -87,7 +87,7 @@ export interface EditorconfigProvider {
    *
    * @returns A non-negative layout step size metric.
    */
-  geTabWidth(config: Props | undefined, defaultValue: number): number;
+  geTabWidth(config: Props | undefined, defaultValue: number | undefined): number | undefined;
 
   /**
    * Validates and extracts the active structural optimization switch state for removing trailing whitespace tokens.
@@ -97,7 +97,7 @@ export interface EditorconfigProvider {
    *
    * @returns The active content cleaner operation state flag.
    */
-  getTrimTrailingWhitespace(config: Props | undefined, defaultValue: boolean): boolean;
+  getTrimTrailingWhitespace(config: Props | undefined, defaultValue: boolean | undefined): boolean | undefined;
 
   /**
    * Validates, cleans, and extracts the target character encryption identifier string token.
@@ -107,7 +107,7 @@ export interface EditorconfigProvider {
    *
    * @returns A sanitized configuration layout metadata text string.
    */
-  getCharset(config: Props | undefined, defaultValue: string): string;
+  getCharset(config: Props | undefined, defaultValue: string | undefined): string | undefined;
 }
 
 declare const editorconfigProvider: EditorconfigProvider;

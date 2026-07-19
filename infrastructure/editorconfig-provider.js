@@ -80,9 +80,9 @@ function isUnset(property) {
  * Resolves the indentation size or fallback value, validating numerical ranges and tab string identifiers.
  *
  * @param {import('editorconfig').Props | undefined} config - Raw EditorConfig properties block read from disk.
- * @param {number | 'tab'} defaultValue - Fallback configuration token used when the target property is invalid or missing.
+ * @param {number | 'tab' | undefined} defaultValue - Fallback configuration token used when the target property is invalid or missing.
  *
- * @returns {number | 'tab'} Valid indentation quantity value or the provided fallback.
+ * @returns {number | 'tab' | undefined} Valid indentation quantity value or the provided fallback.
  */
 function getIndentSize(config, defaultValue) {
   if (isUnset(config?.indent_size)) {
@@ -106,9 +106,9 @@ function getIndentSize(config, defaultValue) {
  * Resolves the structural indentation formatting layout style token from the raw configuration.
  *
  * @param {import('editorconfig').Props | undefined} config - Raw EditorConfig properties block read from disk.
- * @param {'space' | 'tab'} defaultValue - Fallback formatting layout value used when the target property is invalid or missing.
+ * @param {'space' | 'tab' | undefined} defaultValue - Fallback formatting layout value used when the target property is invalid or missing.
  *
- * @returns {'space' | 'tab'} Valid style layout type keyword or the provided fallback.
+ * @returns {'space' | 'tab' | undefined} Valid style layout type keyword or the provided fallback.
  */
 function getIndentStyle(config, defaultValue) {
   if (isUnset(config?.indent_style)) {
@@ -132,9 +132,9 @@ function getIndentStyle(config, defaultValue) {
  * Resolves the targeted line-ending normalization sequence keyword from the raw configuration block.
  *
  * @param {import('editorconfig').Props | undefined} config - Raw EditorConfig properties block read from disk.
- * @param {'lf' | 'crlf'} defaultValue - Fallback line ending sequence value used when the target property is invalid or missing.
+ * @param {'lf' | 'crlf' | undefined} defaultValue - Fallback line ending sequence value used when the target property is invalid or missing.
  *
- * @returns {'lf' | 'crlf'} Valid line termination style keyword or the provided fallback.
+ * @returns {'lf' | 'crlf' | undefined} Valid line termination style keyword or the provided fallback.
  */
 function getEndOfLine(config, defaultValue) {
   if (isUnset(config?.end_of_line)) {
@@ -158,9 +158,9 @@ function getEndOfLine(config, defaultValue) {
  * Resolves whether files should enforce trailing line-termination characters at EOF locations.
  *
  * @param {import('editorconfig').Props | undefined} config - Raw EditorConfig properties block read from disk.
- * @param {boolean} defaultValue - Fallback validation logic switch state used when the target property is invalid or missing.
+ * @param {boolean | undefined} defaultValue - Fallback validation logic switch state used when the target property is invalid or missing.
  *
- * @returns {boolean} Valid active state flag identifier or the provided fallback.
+ * @returns {boolean | undefined} Valid active state flag identifier or the provided fallback.
  */
 function getInsertFinalNewLine(config, defaultValue) {
   if (isUnset(config?.insert_final_newline)) {
@@ -178,9 +178,9 @@ function getInsertFinalNewLine(config, defaultValue) {
  * Resolves the hard-coded width token representing tab spaces, enforcing non-negative restrictions.
  *
  * @param {import('editorconfig').Props | undefined} config - Raw EditorConfig properties block read from disk.
- * @param {number} defaultValue - Fallback integer scale boundary metric used when the target property is invalid or missing.
+ * @param {number | undefined} defaultValue - Fallback integer scale boundary metric used when the target property is invalid or missing.
  *
- * @returns {number} Valid fallback layout scale value or the provided boundary multiplier.
+ * @returns {number | undefined} Valid fallback layout scale value or the provided boundary multiplier.
  */
 function geTabWidth(config, defaultValue) {
   if (isUnset(config?.tab_width)) {
@@ -198,9 +198,9 @@ function geTabWidth(config, defaultValue) {
  * Resolves whether trailing whitespaces must be stripped from source line contents during asset evaluations.
  *
  * @param {import('editorconfig').Props | undefined} config - Raw EditorConfig properties block read from disk.
- * @param {boolean} defaultValue - Fallback execution state switcher token used when the target property is invalid or missing.
+ * @param {boolean | undefined} defaultValue - Fallback execution state switcher token used when the target property is invalid or missing.
  *
- * @returns {boolean} Valid active modification configuration value or the provided fallback.
+ * @returns {boolean | undefined} Valid active modification configuration value or the provided fallback.
  */
 function getTrimTrailingWhitespace(config, defaultValue) {
   if (isUnset(config?.trim_trailing_whitespace)) {
@@ -218,9 +218,9 @@ function getTrimTrailingWhitespace(config, defaultValue) {
  * Resolves the active string layout token representing file character encoding schemas.
  *
  * @param {import('editorconfig').Props | undefined} config - Raw EditorConfig properties block read from disk.
- * @param {string} defaultValue - Fallback file encoding schema text identifier used when the target property is invalid or missing.
+ * @param {string | undefined} defaultValue - Fallback file encoding schema text identifier used when the target property is invalid or missing.
  *
- * @returns {string} Clean non-empty configuration string asset block or the provided fallback.
+ * @returns {string | undefined} Clean non-empty configuration string asset block or the provided fallback.
  */
 function getCharset(config, defaultValue) {
   if (isUnset(config?.charset)) {
