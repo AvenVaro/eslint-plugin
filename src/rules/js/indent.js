@@ -117,6 +117,11 @@ function getCoreIdentProperties(context) {
 function getProcessedJsIndentOptionsTuple(context) {
   const options = getProcessedJsIndentOptions(context.options[1]);
   const config = editorconfigProvider.getConfig(options.useEditorconfig, context.filename);
+  const indentStyle = editorconfigProvider.getIndentStyle(config, undefined);
+
+  if (indentStyle === editorconfigProvider.propertyValue.tab) {
+    return [ indentStyle, options ];
+  }
 
   const indentSize = editorconfigProvider.getIndentSize(
     config,
