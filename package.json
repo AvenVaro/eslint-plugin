@@ -5,6 +5,9 @@
   "main": "src/index.js",
   "types": "src/index.d.ts",
   "type": "module",
+  "engines": {
+    "node": ">=20.19.0"
+  },
   "scripts": {
     "editorconfig": "editorconfig-checker",
     "lint": "eslint . && editorconfig-checker",
