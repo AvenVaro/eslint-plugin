@@ -243,6 +243,53 @@ function describe() {
       insert_final_newline: false
     })
   );
+
+  vitest.it.concurrent(
+    'geTabWidth returns default value if config is undefined',
+    () => test_geTabWidth_returnsDefaultValue(undefined)
+  );
+
+  vitest.it.concurrent(
+    'geTabWidth returns default value if tab_width is undefined',
+    () => test_geTabWidth_returnsDefaultValue({
+      tab_width: undefined
+    })
+  );
+
+  vitest.it.concurrent(
+    `geTabWidth returns default value if tab_width is '${editorconfigProvider.propertyValue.unset}' string`,
+    () => test_geTabWidth_returnsDefaultValue({
+      tab_width: editorconfigProvider.propertyValue.unset
+    })
+  );
+
+  vitest.it.concurrent(
+    'geTabWidth returns default value if tab_width is not a number',
+    () => test_geTabWidth_returnsDefaultValue({
+      tab_width: 'invalid'
+    })
+  );
+
+  vitest.it.concurrent(
+    'geTabWidth returns default value if tab_width is a negative number',
+    () => test_geTabWidth_returnsDefaultValue({
+      tab_width: -1
+    })
+  );
+
+  vitest.it.concurrent(
+    'geTabWidth returns tab_width if tab_width is a positive number',
+    () => test_geTabWidth_returnsTabWidth({
+      tab_width: 1
+    })
+  );
+
+  vitest.it.concurrent(
+    'geTabWidth returns tab_width if tab_width is a zero',
+    () => test_geTabWidth_returnsTabWidth({
+      tab_width: 0
+    })
+  );
 }
 
 function test_propertyValue_isStrictImmutableDictionary() {
@@ -398,6 +445,31 @@ function test_getInsertFinalNewLine_returnsInsertFinalNewLine(config) {
   vitest.expect(actualValue).toEqual(config.insert_final_newline);
 
   vitest.expect(actualValue).not.toEqual(deaultValue);
+}
+
+function test_geTabWidth_returnsDefaultValue(config) {
+  const expectedValue1 = 30;
+  const expectedValue2 = undefined;
+
+  const actualValue1 = editorconfigProvider.geTabWidth(config, expectedValue1);
+  const actualValue2 = editorconfigProvider.geTabWidth(config, expectedValue2);
+
+  vitest.expect(actualValue1).toEqual(expectedValue1);
+  vitest.expect(actualValue2).toEqual(expectedValue2);
+}
+
+function test_geTabWidth_returnsTabWidth(config) {
+  const deaultValue1 = 30;
+  const deaultValue2 = undefined;
+
+  const actualValue1 = editorconfigProvider.geTabWidth(config, deaultValue1);
+  const actualValue2 = editorconfigProvider.geTabWidth(config, deaultValue2);
+
+  vitest.expect(actualValue1).toEqual(config.tab_width);
+  vitest.expect(actualValue2).toEqual(config.tab_width);
+
+  vitest.expect(actualValue1).not.toEqual(deaultValue1);
+  vitest.expect(actualValue2).not.toEqual(deaultValue2);
 }
 
 //================================
