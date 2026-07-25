@@ -23,64 +23,64 @@ const rmOptions = {
 // Tests
 //================================
 
-vitest.describe('EditorConfig Provider - Physical Integration Tier', describe);
+vitest.describe.concurrent('EditorConfig Provider - Physical Integration Tier', describe);
 
 function describe() {
   const testTempRootDir = path.join(import.meta.dirname, '__tmp_integration_editorconfigProvider_tests__');
 
   vitest.afterAll(() => afterAll(testTempRootDir));
 
-  vitest.it(
+  vitest.it.concurrent(
     'Should physically read properties from a real .editorconfig file on disk. For js.',
     () => test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_js(testTempRootDir)
   );
 
-  vitest.it(
+  vitest.it.concurrent(
     'Should physically read properties from a real .editorconfig file on disk. For md.',
     () => test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_md(testTempRootDir)
   );
 
-  vitest.it(
+  vitest.it.concurrent(
     'Should physically read properties from a real .editorconfig file on disk. For tab.',
     () => test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_tab(testTempRootDir)
   );
 
-  vitest.it(
+  vitest.it.concurrent(
     'Should physically read properties from a real .editorconfig file on disk. For tab. Indent size is string.',
     () => test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_tab_indentSizeIsString(testTempRootDir)
   );
 
-  vitest.it(
+  vitest.it.concurrent(
     'Should physically read properties from a real .editorconfig file on disk. For tab. Tab width.',
     () => test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_tab_tabWidth(testTempRootDir)
   );
 
-  vitest.it(
+  vitest.it.concurrent(
     'Should physically read properties from a real .editorconfig file on disk. For tab. Tab width. Indent size is string.',
     () => test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_tab_indentSizeIsString_tabWidth(testTempRootDir)
   );
 
-  vitest.it(
+  vitest.it.concurrent(
     'Should physically read properties from a real .editorconfig file on disk. For space.',
     () => test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_space(testTempRootDir)
   );
 
-  vitest.it(
+  vitest.it.concurrent(
     'Should physically read properties from a real .editorconfig file on disk. For space. Indent size is string.',
     () => test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_space_indentSizeIsString(testTempRootDir)
   );
 
-  vitest.it(
+  vitest.it.concurrent(
     'Should physically read properties from a real .editorconfig file on disk. For space. Tab width.',
     () => test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_space_tabWidth(testTempRootDir)
   );
 
-  vitest.it(
+  vitest.it.concurrent(
     'Should physically read properties from a real .editorconfig file on disk. For space. Tab width. Indent size is string.',
     () => test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_space_indentSizeIsString_tabWidth(testTempRootDir)
   );
 
-  vitest.it(
+  vitest.it.concurrent(
     'Should safely return an empty object if .editorconfig is missing',
     test_loadConfig_editorconfigFileIsNotFounded
   );
