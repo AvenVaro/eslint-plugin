@@ -156,6 +156,53 @@ function describe() {
       indent_style: editorconfigProvider.propertyValue.space
     })
   );
+
+  vitest.it.concurrent(
+    'getEndOfLine returns default value if config is undefined',
+    () => test_getEndOfLine_returnsDefaultValue(undefined)
+  );
+
+  vitest.it.concurrent(
+    'getEndOfLine returns default value if end_of_line is undefined',
+    () => test_getEndOfLine_returnsDefaultValue({
+      end_of_line: undefined
+    })
+  );
+
+  vitest.it.concurrent(
+    `getEndOfLine returns default value if end_of_line is '${editorconfigProvider.propertyValue.unset}' string`,
+    () => test_getEndOfLine_returnsDefaultValue({
+      end_of_line: editorconfigProvider.propertyValue.unset
+    })
+  );
+
+  vitest.it.concurrent(
+    `getEndOfLine returns default value if end_of_line is not '${editorconfigProvider.propertyValue.lf}' or '${editorconfigProvider.propertyValue.crlf}' string`,
+    () => test_getEndOfLine_returnsDefaultValue({
+      end_of_line: 'invalid'
+    })
+  );
+
+  vitest.it.concurrent(
+    'getEndOfLine returns default value if end_of_line is not a string',
+    () => test_getEndOfLine_returnsDefaultValue({
+      end_of_line: -1
+    })
+  );
+
+  vitest.it.concurrent(
+    `getEndOfLine returns end_of_line if end_of_line is '${editorconfigProvider.propertyValue.lf}' string`,
+    () => test_getEndOfLine_returnsEndOfLine({
+      end_of_line: editorconfigProvider.propertyValue.lf
+    })
+  );
+
+  vitest.it.concurrent(
+    `getEndOfLine returns end_of_line if end_of_line is '${editorconfigProvider.propertyValue.crlf}' string`,
+    () => test_getEndOfLine_returnsEndOfLine({
+      end_of_line: editorconfigProvider.propertyValue.crlf
+    })
+  );
 }
 
 function test_propertyValue_isStrictImmutableDictionary() {
@@ -252,6 +299,38 @@ function test_getIndentStyle_returnsIndentStyle(config) {
   vitest.expect(actualValue1).toEqual(config.indent_style);
   vitest.expect(actualValue2).toEqual(config.indent_style);
   vitest.expect(actualValue3).toEqual(config.indent_style);
+
+  vitest.expect(actualValue1).not.toEqual(deaultValue1);
+  vitest.expect(actualValue2).not.toEqual(deaultValue2);
+  vitest.expect(actualValue3).not.toEqual(deaultValue3);
+}
+
+function test_getEndOfLine_returnsDefaultValue(config) {
+  const expectedValue1 = editorconfigProvider.propertyValue.lf;
+  const expectedValue2 = editorconfigProvider.propertyValue.crlf;
+  const expectedValue3 = undefined;
+
+  const actualValue1 = editorconfigProvider.getEndOfLine(config, expectedValue1);
+  const actualValue2 = editorconfigProvider.getEndOfLine(config, expectedValue2);
+  const actualValue3 = editorconfigProvider.getEndOfLine(config, expectedValue3);
+
+  vitest.expect(actualValue1).toEqual(expectedValue1);
+  vitest.expect(actualValue2).toEqual(expectedValue2);
+  vitest.expect(actualValue3).toEqual(expectedValue3);
+}
+
+function test_getEndOfLine_returnsEndOfLine(config) {
+  const deaultValue1 = 'editorconfigProvider.propertyValue.lf';
+  const deaultValue2 = 'editorconfigProvider.propertyValue.crlf';
+  const deaultValue3 = undefined;
+
+  const actualValue1 = editorconfigProvider.getEndOfLine(config, deaultValue1);
+  const actualValue2 = editorconfigProvider.getEndOfLine(config, deaultValue2);
+  const actualValue3 = editorconfigProvider.getEndOfLine(config, deaultValue3);
+
+  vitest.expect(actualValue1).toEqual(config.end_of_line);
+  vitest.expect(actualValue2).toEqual(config.end_of_line);
+  vitest.expect(actualValue3).toEqual(config.end_of_line);
 
   vitest.expect(actualValue1).not.toEqual(deaultValue1);
   vitest.expect(actualValue2).not.toEqual(deaultValue2);
