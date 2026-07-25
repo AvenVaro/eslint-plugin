@@ -20,11 +20,11 @@
     "test:integration:watch": "vitest tests/integration"
   },
   "peerDependencies": {
-    "eslint": ">=9.0.0",
-    "@stylistic/eslint-plugin": ">=5.0.0"
+    "@stylistic/eslint-plugin": ">=5.0.0",
+    "eslint": ">=9.0.0"
   },
   "dependencies": {
-    "editorconfig": "^1.0.4"
+    "editorconfig": "^3.0.2"
   },
   "keywords": [
     "eslint",
@@ -47,6 +47,7 @@
     "eslint": "^10.7.0",
     "eslint-plugin-jsonc": "^3.3.0",
     "eslint-plugin-yml": "^3.6.0",
+    "esmock": "^2.7.6",
     "globals": "^17.7.0",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.64.0",
