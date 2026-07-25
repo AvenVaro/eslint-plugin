@@ -109,6 +109,53 @@ function describe() {
       indent_size: editorconfigProvider.propertyValue.tab
     })
   );
+
+  vitest.it.concurrent(
+    'getIndentStyle returns default value if config is undefined',
+    () => test_getIndentStyle_returnsDefaultValue(undefined)
+  );
+
+  vitest.it.concurrent(
+    'getIndentStyle returns default value if indent_style is undefined',
+    () => test_getIndentStyle_returnsDefaultValue({
+      indent_style: undefined
+    })
+  );
+
+  vitest.it.concurrent(
+    `getIndentStyle returns default value if indent_style is '${editorconfigProvider.propertyValue.unset}' string`,
+    () => test_getIndentStyle_returnsDefaultValue({
+      indent_style: editorconfigProvider.propertyValue.unset
+    })
+  );
+
+  vitest.it.concurrent(
+    `getIndentStyle returns default value if indent_style is not '${editorconfigProvider.propertyValue.tab}' or '${editorconfigProvider.propertyValue.space}' string`,
+    () => test_getIndentStyle_returnsDefaultValue({
+      indent_style: 'invalid'
+    })
+  );
+
+  vitest.it.concurrent(
+    'getIndentStyle returns default value if indent_style is not a string',
+    () => test_getIndentStyle_returnsDefaultValue({
+      indent_style: -1
+    })
+  );
+
+  vitest.it.concurrent(
+    `getIndentStyle returns indent_style if indent_style is '${editorconfigProvider.propertyValue.tab}' string`,
+    () => test_getIndentStyle_returnsIndentStyle({
+      indent_style: editorconfigProvider.propertyValue.tab
+    })
+  );
+
+  vitest.it.concurrent(
+    `getIndentStyle returns indent_style if indent_style is '${editorconfigProvider.propertyValue.space}' string`,
+    () => test_getIndentStyle_returnsIndentStyle({
+      indent_style: editorconfigProvider.propertyValue.space
+    })
+  );
 }
 
 function test_propertyValue_isStrictImmutableDictionary() {
@@ -173,6 +220,38 @@ function test_getIndentSize_returnsIndentSize(config) {
   vitest.expect(actualValue1).toEqual(config.indent_size);
   vitest.expect(actualValue2).toEqual(config.indent_size);
   vitest.expect(actualValue3).toEqual(config.indent_size);
+
+  vitest.expect(actualValue1).not.toEqual(deaultValue1);
+  vitest.expect(actualValue2).not.toEqual(deaultValue2);
+  vitest.expect(actualValue3).not.toEqual(deaultValue3);
+}
+
+function test_getIndentStyle_returnsDefaultValue(config) {
+  const expectedValue1 = editorconfigProvider.propertyValue.space;
+  const expectedValue2 = editorconfigProvider.propertyValue.tab;
+  const expectedValue3 = undefined;
+
+  const actualValue1 = editorconfigProvider.getIndentStyle(config, expectedValue1);
+  const actualValue2 = editorconfigProvider.getIndentStyle(config, expectedValue2);
+  const actualValue3 = editorconfigProvider.getIndentStyle(config, expectedValue3);
+
+  vitest.expect(actualValue1).toEqual(expectedValue1);
+  vitest.expect(actualValue2).toEqual(expectedValue2);
+  vitest.expect(actualValue3).toEqual(expectedValue3);
+}
+
+function test_getIndentStyle_returnsIndentStyle(config) {
+  const deaultValue1 = 'editorconfigProvider.propertyValue.tab';
+  const deaultValue2 = 'editorconfigProvider.propertyValue.space';
+  const deaultValue3 = undefined;
+
+  const actualValue1 = editorconfigProvider.getIndentStyle(config, deaultValue1);
+  const actualValue2 = editorconfigProvider.getIndentStyle(config, deaultValue2);
+  const actualValue3 = editorconfigProvider.getIndentStyle(config, deaultValue3);
+
+  vitest.expect(actualValue1).toEqual(config.indent_style);
+  vitest.expect(actualValue2).toEqual(config.indent_style);
+  vitest.expect(actualValue3).toEqual(config.indent_style);
 
   vitest.expect(actualValue1).not.toEqual(deaultValue1);
   vitest.expect(actualValue2).not.toEqual(deaultValue2);
