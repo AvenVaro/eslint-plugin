@@ -142,7 +142,7 @@ function getEndOfLine(config, defaultValue) {
   }
 
   if (
-    typeof config.indent_style === 'string'
+    typeof config.end_of_line === 'string'
     && (
       config.end_of_line === propertyValue.lf
       || config.end_of_line === propertyValue.crlf
