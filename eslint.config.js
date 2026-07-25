@@ -44,7 +44,7 @@ export default tseslint.config(
       'avenvaro': avenvaro
     },
     rules: {
-      'avenvaro/indent': 'error',
+      'avenvaro/js/indent': 'error',
       //'avenvaro/ternary-punctuation': 'error',
       '@stylistic/quotes': [
         'error',
