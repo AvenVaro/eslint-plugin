@@ -104,7 +104,7 @@ function describe() {
   );
 
   vitest.it.concurrent(
-    `getIndentSize returns default value if indent_size is '${editorconfigProvider.propertyValue.tab}' string`,
+    `getIndentSize returns indent_size if indent_size is '${editorconfigProvider.propertyValue.tab}' string`,
     () => test_getIndentSize_returnsIndentSize({
       indent_size: editorconfigProvider.propertyValue.tab
     })
