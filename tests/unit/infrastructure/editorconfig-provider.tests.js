@@ -203,6 +203,46 @@ function describe() {
       end_of_line: editorconfigProvider.propertyValue.crlf
     })
   );
+
+  vitest.it.concurrent(
+    'getInsertFinalNewLine returns default value if config is undefined',
+    () => test_getInsertFinalNewLine_returnsDefaultValue(undefined)
+  );
+
+  vitest.it.concurrent(
+    'getInsertFinalNewLine returns default value if insert_final_newline is undefined',
+    () => test_getInsertFinalNewLine_returnsDefaultValue({
+      insert_final_newline: undefined
+    })
+  );
+
+  vitest.it.concurrent(
+    `getInsertFinalNewLine returns default value if insert_final_newline is '${editorconfigProvider.propertyValue.unset}' string`,
+    () => test_getInsertFinalNewLine_returnsDefaultValue({
+      insert_final_newline: editorconfigProvider.propertyValue.unset
+    })
+  );
+
+  vitest.it.concurrent(
+    'getInsertFinalNewLine returns default value if insert_final_newline is not a boolean',
+    () => test_getInsertFinalNewLine_returnsDefaultValue({
+      insert_final_newline: -1
+    })
+  );
+
+  vitest.it.concurrent(
+    'getInsertFinalNewLine returns insert_final_newline if insert_final_newline is true',
+    () => test_getInsertFinalNewLine_returnsInsertFinalNewLine({
+      insert_final_newline: true
+    })
+  );
+
+  vitest.it.concurrent(
+    'getInsertFinalNewLine returns insert_final_newline if insert_final_newline is false',
+    () => test_getInsertFinalNewLine_returnsInsertFinalNewLine({
+      insert_final_newline: false
+    })
+  );
 }
 
 function test_propertyValue_isStrictImmutableDictionary() {
@@ -335,6 +375,29 @@ function test_getEndOfLine_returnsEndOfLine(config) {
   vitest.expect(actualValue1).not.toEqual(deaultValue1);
   vitest.expect(actualValue2).not.toEqual(deaultValue2);
   vitest.expect(actualValue3).not.toEqual(deaultValue3);
+}
+
+function test_getInsertFinalNewLine_returnsDefaultValue(config) {
+  const expectedValue1 = true;
+  const expectedValue2 = false;
+  const expectedValue3 = undefined;
+
+  const actualValue1 = editorconfigProvider.getInsertFinalNewLine(config, expectedValue1);
+  const actualValue2 = editorconfigProvider.getInsertFinalNewLine(config, expectedValue2);
+  const actualValue3 = editorconfigProvider.getInsertFinalNewLine(config, expectedValue3);
+
+  vitest.expect(actualValue1).toEqual(expectedValue1);
+  vitest.expect(actualValue2).toEqual(expectedValue2);
+  vitest.expect(actualValue3).toEqual(expectedValue3);
+}
+
+function test_getInsertFinalNewLine_returnsInsertFinalNewLine(config) {
+  const deaultValue = undefined;
+  const actualValue = editorconfigProvider.getInsertFinalNewLine(config, deaultValue);
+
+  vitest.expect(actualValue).toEqual(config.insert_final_newline);
+
+  vitest.expect(actualValue).not.toEqual(deaultValue);
 }
 
 //================================
