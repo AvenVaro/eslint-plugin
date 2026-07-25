@@ -290,6 +290,46 @@ function describe() {
       tab_width: 0
     })
   );
+
+  vitest.it.concurrent(
+    'getTrimTrailingWhitespace returns default value if config is undefined',
+    () => test_getTrimTrailingWhitespace_returnsDefaultValue(undefined)
+  );
+
+  vitest.it.concurrent(
+    'getTrimTrailingWhitespace returns default value if trim_trailing_whitespace is undefined',
+    () => test_getTrimTrailingWhitespace_returnsDefaultValue({
+      trim_trailing_whitespace: undefined
+    })
+  );
+
+  vitest.it.concurrent(
+    `getTrimTrailingWhitespace returns default value if trim_trailing_whitespace is '${editorconfigProvider.propertyValue.unset}' string`,
+    () => test_getTrimTrailingWhitespace_returnsDefaultValue({
+      trim_trailing_whitespace: editorconfigProvider.propertyValue.unset
+    })
+  );
+
+  vitest.it.concurrent(
+    'getTrimTrailingWhitespace returns default value if trim_trailing_whitespace is not a boolean',
+    () => test_getTrimTrailingWhitespace_returnsDefaultValue({
+      trim_trailing_whitespace: -1
+    })
+  );
+
+  vitest.it.concurrent(
+    'getTrimTrailingWhitespace returns trim_trailing_whitespace if trim_trailing_whitespace is true',
+    () => test_getTrimTrailingWhitespace_returnsTrimTrailingWhitespace({
+      trim_trailing_whitespace: true
+    })
+  );
+
+  vitest.it.concurrent(
+    'getTrimTrailingWhitespace returns trim_trailing_whitespace if trim_trailing_whitespace is false',
+    () => test_getTrimTrailingWhitespace_returnsTrimTrailingWhitespace({
+      trim_trailing_whitespace: false
+    })
+  );
 }
 
 function test_propertyValue_isStrictImmutableDictionary() {
@@ -470,6 +510,29 @@ function test_geTabWidth_returnsTabWidth(config) {
 
   vitest.expect(actualValue1).not.toEqual(deaultValue1);
   vitest.expect(actualValue2).not.toEqual(deaultValue2);
+}
+
+function test_getTrimTrailingWhitespace_returnsDefaultValue(config) {
+  const expectedValue1 = true;
+  const expectedValue2 = false;
+  const expectedValue3 = undefined;
+
+  const actualValue1 = editorconfigProvider.getTrimTrailingWhitespace(config, expectedValue1);
+  const actualValue2 = editorconfigProvider.getTrimTrailingWhitespace(config, expectedValue2);
+  const actualValue3 = editorconfigProvider.getTrimTrailingWhitespace(config, expectedValue3);
+
+  vitest.expect(actualValue1).toEqual(expectedValue1);
+  vitest.expect(actualValue2).toEqual(expectedValue2);
+  vitest.expect(actualValue3).toEqual(expectedValue3);
+}
+
+function test_getTrimTrailingWhitespace_returnsTrimTrailingWhitespace(config) {
+  const deaultValue = undefined;
+  const actualValue = editorconfigProvider.getTrimTrailingWhitespace(config, deaultValue);
+
+  vitest.expect(actualValue).toEqual(config.trim_trailing_whitespace);
+
+  vitest.expect(actualValue).not.toEqual(deaultValue);
 }
 
 //================================
