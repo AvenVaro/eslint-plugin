@@ -40,6 +40,21 @@ function describe() {
     'loadConfig returns the unchanged configuration from editorconfig',
     test_loadConfig_returnsUnchangedConfig_async
   );
+
+  vitest.it.concurrent(
+    'getConfig returns loaded configuration when useEditorconfig is true',
+    async () => await test_getConfig_async(true)
+  );
+
+  vitest.it.concurrent(
+    'getConfig returns an empty configuration when useEditorconfig is false',
+    test_getConfig_returnsEmptyConfigIfUseEditorconfigIsFalse
+  );
+
+  vitest.it.concurrent(
+    'getConfig loads configuration when useEditorconfig is undefined',
+    async () => await test_getConfig_async(undefined)
+  );
 }
 
 function test_propertyValue_isStrictImmutableDictionary() {
@@ -59,6 +74,21 @@ function test_propertyValue_isStrictImmutableDictionary() {
 async function test_loadConfig_returnsUnchangedConfig_async() {
   const mockedEditorconfigProvider = await getMockedEditorconfigProviderAsync(expectedConfig);
   const actualConfig = mockedEditorconfigProvider.loadConfig('fakePath');
+
+  vitest.expect(actualConfig).toEqual(expectedConfig);
+}
+
+function test_getConfig_returnsEmptyConfigIfUseEditorconfigIsFalse() {
+  /** @type {import('editorconfig').Props} */
+  const expectedConfig = {};
+  const actualConfig = editorconfigProvider.getConfig(false, 'fakePath');
+
+  vitest.expect(actualConfig).toEqual(expectedConfig);
+}
+
+async function test_getConfig_async(useEditorconfig) {
+  const mockedEditorconfigProvider = await getMockedEditorconfigProviderAsync(expectedConfig);
+  const actualConfig = mockedEditorconfigProvider.getConfig(useEditorconfig, 'fakePath');
 
   vitest.expect(actualConfig).toEqual(expectedConfig);
 }
