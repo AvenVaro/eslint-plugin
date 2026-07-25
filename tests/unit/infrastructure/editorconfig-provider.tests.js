@@ -330,6 +330,53 @@ function describe() {
       trim_trailing_whitespace: false
     })
   );
+
+  vitest.it.concurrent(
+    'getCharset returns default value if config is undefined',
+    () => test_getCharset_returnsDefaultValue(undefined)
+  );
+
+  vitest.it.concurrent(
+    'getCharset returns default value if charset is undefined',
+    () => test_getCharset_returnsDefaultValue({
+      charset: undefined
+    })
+  );
+
+  vitest.it.concurrent(
+    `getCharset returns default value if charset is '${editorconfigProvider.propertyValue.unset}' string`,
+    () => test_getCharset_returnsDefaultValue({
+      charset: editorconfigProvider.propertyValue.unset
+    })
+  );
+
+  vitest.it.concurrent(
+    'getCharset returns default value if charset is empty string',
+    () => test_getCharset_returnsDefaultValue({
+      charset: ''
+    })
+  );
+
+  vitest.it.concurrent(
+    'getCharset returns default value if charset is whitespace string',
+    () => test_getCharset_returnsDefaultValue({
+      charset: ' '
+    })
+  );
+
+  vitest.it.concurrent(
+    'getCharset returns default value if charset is not a string',
+    () => test_getCharset_returnsDefaultValue({
+      charset: -1
+    })
+  );
+
+  vitest.it.concurrent(
+    'getCharset returns charset if charset is string',
+    () => test_getCharset_returnsCharset({
+      charset: editorconfigProvider.propertyValue.lf
+    })
+  );
 }
 
 function test_propertyValue_isStrictImmutableDictionary() {
@@ -533,6 +580,38 @@ function test_getTrimTrailingWhitespace_returnsTrimTrailingWhitespace(config) {
   vitest.expect(actualValue).toEqual(config.trim_trailing_whitespace);
 
   vitest.expect(actualValue).not.toEqual(deaultValue);
+}
+
+function test_getCharset_returnsDefaultValue(config) {
+  const expectedValue1 = editorconfigProvider.propertyValue.lf;
+  const expectedValue2 = editorconfigProvider.propertyValue.crlf;
+  const expectedValue3 = undefined;
+
+  const actualValue1 = editorconfigProvider.getCharset(config, expectedValue1);
+  const actualValue2 = editorconfigProvider.getCharset(config, expectedValue2);
+  const actualValue3 = editorconfigProvider.getCharset(config, expectedValue3);
+
+  vitest.expect(actualValue1).toEqual(expectedValue1);
+  vitest.expect(actualValue2).toEqual(expectedValue2);
+  vitest.expect(actualValue3).toEqual(expectedValue3);
+}
+
+function test_getCharset_returnsCharset(config) {
+  const deaultValue1 = '';
+  const deaultValue2 = ' ';
+  const deaultValue3 = undefined;
+
+  const actualValue1 = editorconfigProvider.getCharset(config, deaultValue1);
+  const actualValue2 = editorconfigProvider.getCharset(config, deaultValue2);
+  const actualValue3 = editorconfigProvider.getCharset(config, deaultValue3);
+
+  vitest.expect(actualValue1).toEqual(config.charset);
+  vitest.expect(actualValue2).toEqual(config.charset);
+  vitest.expect(actualValue3).toEqual(config.charset);
+
+  vitest.expect(actualValue1).not.toEqual(deaultValue1);
+  vitest.expect(actualValue2).not.toEqual(deaultValue2);
+  vitest.expect(actualValue3).not.toEqual(deaultValue3);
 }
 
 //================================
