@@ -55,6 +55,60 @@ function describe() {
     'getConfig loads configuration when useEditorconfig is undefined',
     async () => await test_getConfig_async(undefined)
   );
+
+  vitest.it.concurrent(
+    'getIndentSize returns default value if config is undefined',
+    () => test_getIndentSize_returnsDefaultValue(undefined)
+  );
+
+  vitest.it.concurrent(
+    'getIndentSize returns default value if indent_size is undefined',
+    () => test_getIndentSize_returnsDefaultValue({
+      indent_size: undefined
+    })
+  );
+
+  vitest.it.concurrent(
+    `getIndentSize returns default value if indent_size is '${editorconfigProvider.propertyValue.unset}' string`,
+    () => test_getIndentSize_returnsDefaultValue({
+      indent_size: editorconfigProvider.propertyValue.unset
+    })
+  );
+
+  vitest.it.concurrent(
+    `getIndentSize returns default value if indent_size is not '${editorconfigProvider.propertyValue.tab}' string`,
+    () => test_getIndentSize_returnsDefaultValue({
+      indent_size: 'invalid'
+    })
+  );
+
+  vitest.it.concurrent(
+    'getIndentSize returns default value if indent_size is a negative number',
+    () => test_getIndentSize_returnsDefaultValue({
+      indent_size: -1
+    })
+  );
+
+  vitest.it.concurrent(
+    'getIndentSize returns indent_size if indent_size is a positive number',
+    () => test_getIndentSize_returnsIndentSize({
+      indent_size: 1
+    })
+  );
+
+  vitest.it.concurrent(
+    'getIndentSize returns indent_size if indent_size is a zero',
+    () => test_getIndentSize_returnsIndentSize({
+      indent_size: 0
+    })
+  );
+
+  vitest.it.concurrent(
+    `getIndentSize returns default value if indent_size is '${editorconfigProvider.propertyValue.tab}' string`,
+    () => test_getIndentSize_returnsIndentSize({
+      indent_size: editorconfigProvider.propertyValue.tab
+    })
+  );
 }
 
 function test_propertyValue_isStrictImmutableDictionary() {
@@ -91,6 +145,38 @@ async function test_getConfig_async(useEditorconfig) {
   const actualConfig = mockedEditorconfigProvider.getConfig(useEditorconfig, 'fakePath');
 
   vitest.expect(actualConfig).toEqual(expectedConfig);
+}
+
+function test_getIndentSize_returnsDefaultValue(config) {
+  const expectedValue1 = 40;
+  const expectedValue2 = editorconfigProvider.propertyValue.tab;
+  const expectedValue3 = undefined;
+
+  const actualValue1 = editorconfigProvider.getIndentSize(config, expectedValue1);
+  const actualValue2 = editorconfigProvider.getIndentSize(config, expectedValue2);
+  const actualValue3 = editorconfigProvider.getIndentSize(config, expectedValue3);
+
+  vitest.expect(actualValue1).toEqual(expectedValue1);
+  vitest.expect(actualValue2).toEqual(expectedValue2);
+  vitest.expect(actualValue3).toEqual(expectedValue3);
+}
+
+function test_getIndentSize_returnsIndentSize(config) {
+  const deaultValue1 = 40;
+  const deaultValue2 = editorconfigProvider.propertyValue.space;
+  const deaultValue3 = undefined;
+
+  const actualValue1 = editorconfigProvider.getIndentSize(config, deaultValue1);
+  const actualValue2 = editorconfigProvider.getIndentSize(config, deaultValue2);
+  const actualValue3 = editorconfigProvider.getIndentSize(config, deaultValue3);
+
+  vitest.expect(actualValue1).toEqual(config.indent_size);
+  vitest.expect(actualValue2).toEqual(config.indent_size);
+  vitest.expect(actualValue3).toEqual(config.indent_size);
+
+  vitest.expect(actualValue1).not.toEqual(deaultValue1);
+  vitest.expect(actualValue2).not.toEqual(deaultValue2);
+  vitest.expect(actualValue3).not.toEqual(deaultValue3);
 }
 
 //================================
