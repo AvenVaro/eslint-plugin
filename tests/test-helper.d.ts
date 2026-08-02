@@ -16,6 +16,16 @@ export interface TestHelper {
    * @throws {Error} Thrown if esmock fails to resolve, initialize, or load the module payload.
    */
   getMockedEditorconfigProviderAsync(config: Props): Promise<EditorconfigProvider>;
+
+  /**
+   * Assembles a structured multi-line source text file template string from a sequential token line array block.
+   *
+   * @param codeArray - A sequential collection of raw source code content line strings.
+   * @param insertEOL - Appends an empty string token at the EOF array index to enforce trailing newline normalization.
+   *
+   * @returns A concatenated multi-line source execution file payload string.
+   */
+  convertCodeArrayToCodeString(codeArray: string[], insertEOL?: boolean): string;
 }
 
 declare const testHelper: TestHelper;

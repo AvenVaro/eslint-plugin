@@ -2,7 +2,8 @@ import esmock from 'esmock';
 
 /** @type {import('./test-helper.d.ts').TestHelper} */
 const testHelper = Object.freeze({
-  getMockedEditorconfigProviderAsync: getMockedEditorconfigProviderAsync
+  getMockedEditorconfigProviderAsync: getMockedEditorconfigProviderAsync,
+  convertCodeArrayToCodeString: convertCodeArrayToCodeString
 });
 
 //================================
@@ -44,4 +45,21 @@ async function getMockedEditorconfigProviderAsync(config) {
   }
 
   throw new Error('Error mocking editorconfig provider.');
+}
+
+/**
+ * Assembles a structured multi-line source text file template string from a sequential token line array block.
+ * **Warning:** Passing a mutable reference to the `codeArray` parameter will mutate the source array if `insertEOL` evaluates to true.
+ *
+ * @param {string[]} codeArray - A sequential collection of raw source code content line strings.
+ * @param {boolean} [insertEOL=true] - Appends an empty string token at the EOF array index to enforce trailing newline normalization.
+ *
+ * @returns {string} A concatenated multi-line source execution file payload string.
+ */
+function convertCodeArrayToCodeString(codeArray, insertEOL = true) {
+  if (insertEOL) {
+    codeArray.push('');
+  }
+
+  return codeArray.join('\n');
 }
