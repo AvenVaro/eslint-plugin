@@ -3,6 +3,7 @@ import path from 'node:path';
 import fs from 'node:fs';
 import os from 'node:os';
 import editorconfigProvider from '../../../infrastructure/editorconfig-provider.js';
+import testHelper from '../../test-helper.js';
 
 //================================
 // Constants
@@ -102,7 +103,7 @@ function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_js(testT
   const expectedInsertFinalNewline = true;
   const expectedTrimTrailingWhitespace = true;
 
-  const editorconfig = [
+  const editorconfig = testHelper.convertCodeArrayToCodeString([
     'root = true',
     '',
     '[*]',
@@ -119,11 +120,11 @@ function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_js(testT
     '',
     '[*.js]',
     `indent_size = ${expectedIndentSize}`
-  ];
+  ]);
 
   try {
     fs.mkdirSync(path.dirname(mockTargetFile), mkdirOptions);
-    fs.writeFileSync(mockEditorconfigFile, editorconfig.join('\n'));
+    fs.writeFileSync(mockEditorconfigFile, editorconfig);
 
     const config = editorconfigProvider.getConfig(true, mockTargetFile);
 
@@ -151,7 +152,7 @@ function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_md(testT
   const expectedInsertFinalNewline = true;
   const expectedTrimTrailingWhitespace = false;
 
-  const editorconfig = [
+  const editorconfig = testHelper.convertCodeArrayToCodeString([
     'root = true',
     '',
     '[*]',
@@ -168,11 +169,11 @@ function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_md(testT
     '',
     '[*.js]',
     'indent_size = 3'
-  ];
+  ]);
 
   try {
     fs.mkdirSync(path.dirname(mockTargetFile), mkdirOptions);
-    fs.writeFileSync(mockEditorconfigFile, editorconfig.join('\n'));
+    fs.writeFileSync(mockEditorconfigFile, editorconfig);
 
     const config = editorconfigProvider.getConfig(true, mockTargetFile);
 
@@ -197,18 +198,18 @@ function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_tab(test
 
   const expectedIndentSize = 4;
 
-  const editorconfig = [
+  const editorconfig = testHelper.convertCodeArrayToCodeString([
     'root = true',
     '',
     '[*.js]',
     `indent_style = ${editorconfigProvider.propertyValue.tab}`,
     `indent_size = ${expectedIndentSize}`,
     `end_of_line = ${editorconfigProvider.propertyValue.lf}`
-  ];
+  ]);
 
   try {
     fs.mkdirSync(path.dirname(mockTargetFile), mkdirOptions);
-    fs.writeFileSync(mockEditorconfigFile, editorconfig.join('\n'));
+    fs.writeFileSync(mockEditorconfigFile, editorconfig);
 
     const config = editorconfigProvider.getConfig(true, mockTargetFile);
 
@@ -233,18 +234,18 @@ function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_tab_inde
 
   const expectedIndentSize = 'string_value';
 
-  const editorconfig = [
+  const editorconfig = testHelper.convertCodeArrayToCodeString([
     'root = true',
     '',
     '[*.js]',
     `indent_style = ${editorconfigProvider.propertyValue.tab}`,
     `indent_size = ${expectedIndentSize}`,
     `end_of_line = ${editorconfigProvider.propertyValue.lf}`
-  ];
+  ]);
 
   try {
     fs.mkdirSync(path.dirname(mockTargetFile), mkdirOptions);
-    fs.writeFileSync(mockEditorconfigFile, editorconfig.join('\n'));
+    fs.writeFileSync(mockEditorconfigFile, editorconfig);
 
     const config = editorconfigProvider.getConfig(true, mockTargetFile);
 
@@ -269,18 +270,18 @@ function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_tab_tabW
 
   const expectedIndentSize = 4;
 
-  const editorconfig = [
+  const editorconfig = testHelper.convertCodeArrayToCodeString([
     'root = true',
     '',
     '[*.js]',
     `indent_style = ${editorconfigProvider.propertyValue.tab}`,
     `tab_width = ${expectedIndentSize}`,
     `end_of_line = ${editorconfigProvider.propertyValue.lf}`
-  ];
+  ]);
 
   try {
     fs.mkdirSync(path.dirname(mockTargetFile), mkdirOptions);
-    fs.writeFileSync(mockEditorconfigFile, editorconfig.join('\n'));
+    fs.writeFileSync(mockEditorconfigFile, editorconfig);
 
     const config = editorconfigProvider.getConfig(true, mockTargetFile);
 
@@ -305,18 +306,18 @@ function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_tab_inde
 
   const expectedIndentSize = 'string_value';
 
-  const editorconfig = [
+  const editorconfig = testHelper.convertCodeArrayToCodeString([
     'root = true',
     '',
     '[*.js]',
     `indent_style = ${editorconfigProvider.propertyValue.tab}`,
     `tab_width = ${expectedIndentSize}`,
     `end_of_line = ${editorconfigProvider.propertyValue.lf}`
-  ];
+  ]);
 
   try {
     fs.mkdirSync(path.dirname(mockTargetFile), mkdirOptions);
-    fs.writeFileSync(mockEditorconfigFile, editorconfig.join('\n'));
+    fs.writeFileSync(mockEditorconfigFile, editorconfig);
 
     const config = editorconfigProvider.getConfig(true, mockTargetFile);
 
@@ -341,18 +342,18 @@ function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_space(te
 
   const expectedIndentSize = 4;
 
-  const editorconfig = [
+  const editorconfig = testHelper.convertCodeArrayToCodeString([
     'root = true',
     '',
     '[*.js]',
     `indent_style = ${editorconfigProvider.propertyValue.space}`,
     `indent_size = ${expectedIndentSize}`,
     `end_of_line = ${editorconfigProvider.propertyValue.lf}`
-  ];
+  ]);
 
   try {
     fs.mkdirSync(path.dirname(mockTargetFile), mkdirOptions);
-    fs.writeFileSync(mockEditorconfigFile, editorconfig.join('\n'));
+    fs.writeFileSync(mockEditorconfigFile, editorconfig);
 
     const config = editorconfigProvider.getConfig(true, mockTargetFile);
 
@@ -377,18 +378,18 @@ function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_space_in
 
   const expectedIndentSize = 'string_value';
 
-  const editorconfig = [
+  const editorconfig = testHelper.convertCodeArrayToCodeString([
     'root = true',
     '',
     '[*.js]',
     `indent_style = ${editorconfigProvider.propertyValue.space}`,
     `indent_size = ${expectedIndentSize}`,
     `end_of_line = ${editorconfigProvider.propertyValue.lf}`
-  ];
+  ]);
 
   try {
     fs.mkdirSync(path.dirname(mockTargetFile), mkdirOptions);
-    fs.writeFileSync(mockEditorconfigFile, editorconfig.join('\n'));
+    fs.writeFileSync(mockEditorconfigFile, editorconfig);
 
     const config = editorconfigProvider.getConfig(true, mockTargetFile);
 
@@ -413,18 +414,18 @@ function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_space_ta
 
   const expectedIndentSize = 4;
 
-  const editorconfig = [
+  const editorconfig = testHelper.convertCodeArrayToCodeString([
     'root = true',
     '',
     '[*.js]',
     `indent_style = ${editorconfigProvider.propertyValue.space}`,
     `tab_width = ${expectedIndentSize}`,
     `end_of_line = ${editorconfigProvider.propertyValue.lf}`
-  ];
+  ]);
 
   try {
     fs.mkdirSync(path.dirname(mockTargetFile), mkdirOptions);
-    fs.writeFileSync(mockEditorconfigFile, editorconfig.join('\n'));
+    fs.writeFileSync(mockEditorconfigFile, editorconfig);
 
     const config = editorconfigProvider.getConfig(true, mockTargetFile);
 
@@ -449,18 +450,18 @@ function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_space_in
 
   const expectedIndentSize = 'string_value';
 
-  const editorconfig = [
+  const editorconfig = testHelper.convertCodeArrayToCodeString([
     'root = true',
     '',
     '[*.js]',
     `indent_style = ${editorconfigProvider.propertyValue.space}`,
     `tab_width = ${expectedIndentSize}`,
     `end_of_line = ${editorconfigProvider.propertyValue.lf}`
-  ];
+  ]);
 
   try {
     fs.mkdirSync(path.dirname(mockTargetFile), mkdirOptions);
-    fs.writeFileSync(mockEditorconfigFile, editorconfig.join('\n'));
+    fs.writeFileSync(mockEditorconfigFile, editorconfig);
 
     const config = editorconfigProvider.getConfig(true, mockTargetFile);
 
