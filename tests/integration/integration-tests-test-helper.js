@@ -3,15 +3,15 @@ import fs from 'node:fs/promises';
 import os from 'node:os';
 
 /** @type {import('node:fs').MakeDirectoryOptions} */
-const mkdirOptions = {
+const mkdirOptions = Object.freeze({
   recursive: true
-};
+});
 
 /** @type {import('node:fs').RmOptions} */
-const rmOptions = {
+const rmOptions = Object.freeze({
   recursive: true,
   force: true
-};
+});
 
 /** @type {import('./integration-tests-test-helper.d.ts').IntegrationTestsTestHelper} */
 const integrationTestsTestHelper = Object.freeze({
