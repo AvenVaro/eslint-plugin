@@ -1,4 +1,4 @@
-/** @type {import('./indent-test-helper.d.ts').IndentTestHelper} */
+/** @type {import('./indent-rule-test-helper.d.ts').IndentTestHelper} */
 const indentTestHelper = Object.freeze({
   createIndentRule: createIndentRule
 });
