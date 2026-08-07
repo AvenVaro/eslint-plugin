@@ -1,5 +1,6 @@
 import * as vitest from 'vitest';
 import testHelper from '../../../../../../test-helper.js';
+import rulesTestHelper from '../../../rules-test-helper.js';
 import jsRulesTestHelper from '../../js-rules-test-helper.js';
 import indentRuleTestHelper from '../indent-rule-test-helper.js';
 
@@ -41,7 +42,7 @@ async function test_indentRule_useEditorconfig_false_async() {
     brokenSourceCode
   );
 
-  testHelper.expectResult(
+  rulesTestHelper.expectResult(
     results.withFix,
     {
       errorCount: 0,
@@ -50,7 +51,7 @@ async function test_indentRule_useEditorconfig_false_async() {
     }
   );
 
-  testHelper.expectResult(
+  rulesTestHelper.expectResult(
     results.withoutFix,
     {
       errorCount: 1,
