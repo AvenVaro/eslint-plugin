@@ -4,7 +4,7 @@ import { CodeProcessingResult } from '../rules-test-helper.js';
 /**
  * Helper for testing the JavaScript rules.
  */
-export interface JSRulesHelper {
+export interface JSRulesTestHelper {
   /**
    * Initializes an isolated instance of the ESLint engine in memory for JavaScript files (**\/*.js).
    *
@@ -36,6 +36,6 @@ export interface JSRulesHelper {
   executeCodeProcessingAsync(rules: Linter.Config['rules'], brokenSourceCode: string): Promise<CodeProcessingResult>;
 }
 
-declare const jSRulesTestHelper: JSRulesHelper;
+declare const jsRulesTestHelper: JSRulesTestHelper;
 
-export default jSRulesTestHelper;
+export default jsRulesTestHelper;
