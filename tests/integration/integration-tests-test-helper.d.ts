@@ -31,7 +31,7 @@ export interface IntegrationTestsTestHelper {
    *
    * @returns The resolved absolute filesystem path string pointing to the root container mapping.
    */
-  createTempRootPaths(partDirName: string): string;
+  createTempRootPath(partDirName: string): string;
 
   /**
    * Resolves absolute sandbox filesystem tracks for an isolated rule integration test container pass.

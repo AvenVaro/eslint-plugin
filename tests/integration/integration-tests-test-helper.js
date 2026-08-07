@@ -16,7 +16,7 @@ const rmOptions = {
 const integrationTestsTestHelper = Object.freeze({
   mkdirOptions: mkdirOptions,
   rmOptions: rmOptions,
-  createTempRootPaths: createTempRootPaths,
+  createTempRootPath: createTempRootPath,
   createTempPaths: createTempPaths,
   createTempFilesAsync: createTempFilesAsync
 });
@@ -40,7 +40,7 @@ export default integrationTestsTestHelper;
  *
  * @returns {string} The resolved absolute filesystem path string pointing to the root container mapping.
  */
-function createTempRootPaths(partDirName) {
+function createTempRootPath(partDirName) {
   return path.join(import.meta.dirname, `__tmp_integration_${partDirName}_tests__`);
 }
 
