@@ -1,8 +1,20 @@
+import { ESLint, Linter } from 'eslint';
 import { Props } from 'editorconfig';
 import { EditorconfigProvider } from '../infrastructure/editorconfig-provider.js';
 
 /**
- * Declares the structured type configuration contract for the frozen test helper runtime object.
+ * Linting result.
+ */
+export interface CodeProcessingResult {
+  /** Linting result with automatic error correction. */
+  withFix: ESLint.LintResult;
+
+  /** Linting result in read-only mode (without fixes). */
+  withoutFix: ESLint.LintResult;
+}
+
+/**
+ * Declares the high-level testing ecosystem infrastructure contract.
  */
 export interface TestHelper {
   /**
