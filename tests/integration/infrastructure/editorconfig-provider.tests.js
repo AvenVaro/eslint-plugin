@@ -1,7 +1,6 @@
 import * as vitest from 'vitest';
 import fs from 'node:fs/promises';
 import editorconfigProvider from '../../../infrastructure/editorconfig-provider.js';
-import testHelper from '../../test-helper.js';
 import integrationTestsTestHelper from '../integration-tests-test-helper.js';
 
 //================================
@@ -89,7 +88,7 @@ async function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_js
   const expectedInsertFinalNewline = true;
   const expectedTrimTrailingWhitespace = true;
 
-  const editorconfig = testHelper.convertCodeArrayToCodeString([
+  const editorconfig = integrationTestsTestHelper.convertCodeArrayToCodeString([
     'root = true',
     '',
     '[*]',
@@ -139,7 +138,7 @@ async function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_md
   const expectedInsertFinalNewline = true;
   const expectedTrimTrailingWhitespace = false;
 
-  const editorconfig = testHelper.convertCodeArrayToCodeString([
+  const editorconfig = integrationTestsTestHelper.convertCodeArrayToCodeString([
     'root = true',
     '',
     '[*]',
@@ -186,7 +185,7 @@ async function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_ta
 
   const expectedIndentSize = 4;
 
-  const editorconfig = testHelper.convertCodeArrayToCodeString([
+  const editorconfig = integrationTestsTestHelper.convertCodeArrayToCodeString([
     'root = true',
     '',
     '[*.js]',
@@ -223,7 +222,7 @@ async function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_ta
 
   const expectedIndentSize = 'string_value';
 
-  const editorconfig = testHelper.convertCodeArrayToCodeString([
+  const editorconfig = integrationTestsTestHelper.convertCodeArrayToCodeString([
     'root = true',
     '',
     '[*.js]',
@@ -260,7 +259,7 @@ async function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_ta
 
   const expectedIndentSize = 4;
 
-  const editorconfig = testHelper.convertCodeArrayToCodeString([
+  const editorconfig = integrationTestsTestHelper.convertCodeArrayToCodeString([
     'root = true',
     '',
     '[*.js]',
@@ -297,7 +296,7 @@ async function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_ta
 
   const expectedIndentSize = 'string_value';
 
-  const editorconfig = testHelper.convertCodeArrayToCodeString([
+  const editorconfig = integrationTestsTestHelper.convertCodeArrayToCodeString([
     'root = true',
     '',
     '[*.js]',
@@ -334,7 +333,7 @@ async function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_sp
 
   const expectedIndentSize = 4;
 
-  const editorconfig = testHelper.convertCodeArrayToCodeString([
+  const editorconfig = integrationTestsTestHelper.convertCodeArrayToCodeString([
     'root = true',
     '',
     '[*.js]',
@@ -371,7 +370,7 @@ async function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_sp
 
   const expectedIndentSize = 'string_value';
 
-  const editorconfig = testHelper.convertCodeArrayToCodeString([
+  const editorconfig = integrationTestsTestHelper.convertCodeArrayToCodeString([
     'root = true',
     '',
     '[*.js]',
@@ -408,7 +407,7 @@ async function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_sp
 
   const expectedIndentSize = 4;
 
-  const editorconfig = testHelper.convertCodeArrayToCodeString([
+  const editorconfig = integrationTestsTestHelper.convertCodeArrayToCodeString([
     'root = true',
     '',
     '[*.js]',
@@ -445,7 +444,7 @@ async function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_sp
 
   const expectedIndentSize = 'string_value';
 
-  const editorconfig = testHelper.convertCodeArrayToCodeString([
+  const editorconfig = integrationTestsTestHelper.convertCodeArrayToCodeString([
     'root = true',
     '',
     '[*.js]',

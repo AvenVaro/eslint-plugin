@@ -1,5 +1,5 @@
 import * as vitest from 'vitest';
-import testHelper from '../../../../../../test-helper.js';
+import integrationTestsTestHelper from '../../../../../integration-tests-test-helper.js';
 import rulesTestHelper from '../../../rules-test-helper.js';
 import jsRulesTestHelper from '../../js-rules-test-helper.js';
 import indentRuleTestHelper from '../indent-rule-test-helper.js';
@@ -8,24 +8,24 @@ import indentRuleTestHelper from '../indent-rule-test-helper.js';
 // Tests
 //================================
 
-vitest.describe('JavaScript Indent Rule. Use Editorconfig', describe);
+vitest.describe.concurrent('JavaScript Indent Rule. Use Editorconfig', describe);
 
 function describe() {
-  vitest.it(
+  vitest.it.concurrent(
     'Editorconfig is not used.',
     test_indentRule_useEditorconfig_false_async
   );
 }
 
 async function test_indentRule_useEditorconfig_false_async() {
-  const brokenSourceCode = testHelper.convertCodeArrayToCodeString([
+  const brokenSourceCode = integrationTestsTestHelper.convertCodeArrayToCodeString([
     'const condition = true;',
     'if (condition) {',
     'console.log("broken alignment");',
     '}'
   ]);
 
-  const expectedFixedSourceCode = testHelper.convertCodeArrayToCodeString([
+  const expectedFixedSourceCode = integrationTestsTestHelper.convertCodeArrayToCodeString([
     'const condition = true;',
     'if (condition) {',
     '          console.log("broken alignment");',
