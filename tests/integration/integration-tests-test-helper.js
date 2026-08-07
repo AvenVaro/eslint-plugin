@@ -17,7 +17,7 @@ const rmOptions = {
 const integrationTestsTestHelper = Object.freeze({
   mkdirOptions: mkdirOptions,
   rmOptions: rmOptions,
-  createTempRootPathAsync: createTempRootPathAsync,
+  createTempRootDirAsync: createTempRootDirAsync,
   createTempPaths: createTempPaths,
   createTempFilesAsync: createTempFilesAsync
 });
@@ -36,13 +36,13 @@ export default integrationTestsTestHelper;
  * @private
  * @async
  *
- * Resolves the absolute directory path targeting a specialized top-level temporary test sandbox on disk.
+ * Asynchronously generates a unique, isolated temporary root sandbox directory within the operating system's temporary file workspace.
  *
  * @param {string} partDirName - The semantic namespace token segment used to isolate the target rule layer category (e.g., 'rules' or 'infrastructure').
  *
- * @returns {Promise<string>} The resolved absolute filesystem path string pointing to the root container mapping.
+ * @returns {Promise<string>} A promise that resolves to the newly created absolute temporary directory root path string.
  */
-async function createTempRootPathAsync(partDirName) {
+async function createTempRootDirAsync(partDirName) {
   return await fs.mkdtemp(
     path.join(
       os.tmpdir(),

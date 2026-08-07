@@ -25,13 +25,13 @@ export interface IntegrationTestsTestHelper {
   readonly rmOptions: RmOptions;
 
   /**
-   * Resolves the absolute directory path targeting a specialized top-level temporary test sandbox on disk.
+   * Asynchronously generates a unique, isolated temporary root sandbox directory within the operating system's temporary file workspace.
    *
    * @param partDirName - The semantic namespace token segment used to isolate the target rule layer category (e.g., 'rules' or 'infrastructure').
    *
-   * @returns The resolved absolute filesystem path string pointing to the root container mapping.
+   * @returns A promise that resolves to the newly created absolute temporary directory root path string.
    */
-  createTempRootPathAsync(partDirName: string): Promise<string>;
+  createTempRootDirAsync(partDirName: string): Promise<string>;
 
   /**
    * Resolves absolute sandbox filesystem tracks for an isolated rule integration test container pass.
