@@ -1,102 +1,88 @@
 import * as vitest from 'vitest';
-import path from 'node:path';
-import fs from 'node:fs';
-import os from 'node:os';
+import fs from 'node:fs/promises';
 import editorconfigProvider from '../../../infrastructure/editorconfig-provider.js';
 import testHelper from '../../test-helper.js';
-
-//================================
-// Constants
-//================================
-
-/** @type {import('node:fs').MakeDirectoryOptions} */
-const mkdirOptions = {
-  recursive: true
-};
-
-/** @type {import('node:fs').RmOptions} */
-const rmOptions = {
-  recursive: true,
-  force: true
-};
+import integrationTestsTestHelper from '../integration-tests-test-helper.js';
 
 //================================
 // Tests
 //================================
 
-vitest.describe.concurrent('EditorConfig Provider - Physical Integration Tier', describe);
+vitest.describe.concurrent('EditorConfig Provider - Physical Integration Tier', describeAsync);
 
-function describe() {
-  const testTempRootDir = path.join(import.meta.dirname, '__tmp_integration_editorconfigProvider_tests__');
+async function describeAsync() {
+  const testTempRootDir = await integrationTestsTestHelper.createTempRootDirAsync('editorconfigProvider');
 
-  vitest.afterAll(() => afterAll(testTempRootDir));
+  vitest.afterAll(async () => await afterAllAsync(testTempRootDir));
 
   vitest.it.concurrent(
     'Should physically read properties from a real .editorconfig file on disk. For js.',
-    () => test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_js(testTempRootDir)
+    async () => await test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_js_async(testTempRootDir)
   );
 
   vitest.it.concurrent(
     'Should physically read properties from a real .editorconfig file on disk. For md.',
-    () => test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_md(testTempRootDir)
+    async () => await test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_md_async(testTempRootDir)
   );
 
   vitest.it.concurrent(
     'Should physically read properties from a real .editorconfig file on disk. For tab.',
-    () => test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_tab(testTempRootDir)
+    async () => await test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_tab_async(testTempRootDir)
   );
 
   vitest.it.concurrent(
     'Should physically read properties from a real .editorconfig file on disk. For tab. Indent size is string.',
-    () => test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_tab_indentSizeIsString(testTempRootDir)
+    async () => await test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_tab_indentSizeIsString_async(testTempRootDir)
   );
 
   vitest.it.concurrent(
     'Should physically read properties from a real .editorconfig file on disk. For tab. Tab width.',
-    () => test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_tab_tabWidth(testTempRootDir)
+    async () => await test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_tab_tabWidth_async(testTempRootDir)
   );
 
   vitest.it.concurrent(
     'Should physically read properties from a real .editorconfig file on disk. For tab. Tab width. Indent size is string.',
-    () => test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_tab_indentSizeIsString_tabWidth(testTempRootDir)
+    async () => await test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_tab_indentSizeIsString_tabWidth_async(testTempRootDir)
   );
 
   vitest.it.concurrent(
     'Should physically read properties from a real .editorconfig file on disk. For space.',
-    () => test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_space(testTempRootDir)
+    async () => await test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_space_async(testTempRootDir)
   );
 
   vitest.it.concurrent(
     'Should physically read properties from a real .editorconfig file on disk. For space. Indent size is string.',
-    () => test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_space_indentSizeIsString(testTempRootDir)
+    async () => await test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_space_indentSizeIsString_async(testTempRootDir)
   );
 
   vitest.it.concurrent(
     'Should physically read properties from a real .editorconfig file on disk. For space. Tab width.',
-    () => test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_space_tabWidth(testTempRootDir)
+    async () => await test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_space_tabWidth_async(testTempRootDir)
   );
 
   vitest.it.concurrent(
     'Should physically read properties from a real .editorconfig file on disk. For space. Tab width. Indent size is string.',
-    () => test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_space_indentSizeIsString_tabWidth(testTempRootDir)
+    async () => await test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_space_indentSizeIsString_tabWidth_async(testTempRootDir)
   );
 
   vitest.it.concurrent(
     'Should safely return an empty object if .editorconfig is missing',
-    test_loadConfig_editorconfigFileIsNotFounded
+    test_loadConfig_editorconfigFileIsNotFounded_async
   );
 }
 
-function afterAll(testTempRootDir) {
-  if (fs.existsSync(testTempRootDir)) {
-    fs.rmSync(testTempRootDir, rmOptions);
+async function afterAllAsync(testTempRootDir) {
+  if (testTempRootDir) {
+    await fs.rm(testTempRootDir, integrationTestsTestHelper.rmOptions);
   }
 }
 
-function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_js(testTempRootDir) {
-  const testTmpDir = path.join(testTempRootDir, 'test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_js');
-  const mockTargetFile = path.join(testTmpDir, 'src', 'index.js');
-  const mockEditorconfigFile = path.join(testTmpDir, '.editorconfig');
+async function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_js_async(testTempRootDir) {
+  const paths = integrationTestsTestHelper.createTempPaths(
+    testTempRootDir,
+    'test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_js_async',
+    'index.js'
+  );
 
   const expectedIndentSize = 3;
   const expectedCharset = 'unset_charset';
@@ -123,10 +109,9 @@ function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_js(testT
   ]);
 
   try {
-    fs.mkdirSync(path.dirname(mockTargetFile), mkdirOptions);
-    fs.writeFileSync(mockEditorconfigFile, editorconfig);
+    await integrationTestsTestHelper.createTempFilesAsync(paths, editorconfig);
 
-    const config = editorconfigProvider.getConfig(true, mockTargetFile);
+    const config = editorconfigProvider.getConfig(true, paths.mockTargetFile);
 
     vitest.expect(config).toBeDefined();
     vitest.expect(config.end_of_line).toBe(editorconfigProvider.propertyValue.lf);
@@ -138,14 +123,16 @@ function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_js(testT
     vitest.expect(config.charset).toBe(expectedCharset);
   }
   finally {
-    fs.rmSync(testTmpDir, rmOptions);
+    await fs.rm(paths.testTmpDir, integrationTestsTestHelper.rmOptions);
   }
 }
 
-function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_md(testTempRootDir) {
-  const testTmpDir = path.join(testTempRootDir, 'test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_md');
-  const mockTargetFile = path.join(testTmpDir, 'src', 'index.md');
-  const mockEditorconfigFile = path.join(testTmpDir, '.editorconfig');
+async function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_md_async(testTempRootDir) {
+  const paths = integrationTestsTestHelper.createTempPaths(
+    testTempRootDir,
+    'test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_md_async',
+    'index.md'
+  );
 
   const expectedIndentSize = 5;
   const expectedCharset = 'unset_charset';
@@ -172,10 +159,9 @@ function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_md(testT
   ]);
 
   try {
-    fs.mkdirSync(path.dirname(mockTargetFile), mkdirOptions);
-    fs.writeFileSync(mockEditorconfigFile, editorconfig);
+    await integrationTestsTestHelper.createTempFilesAsync(paths, editorconfig);
 
-    const config = editorconfigProvider.getConfig(true, mockTargetFile);
+    const config = editorconfigProvider.getConfig(true, paths.mockTargetFile);
 
     vitest.expect(config).toBeDefined();
     vitest.expect(config.end_of_line).toBe(editorconfigProvider.propertyValue.lf);
@@ -187,14 +173,16 @@ function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_md(testT
     vitest.expect(config.charset).toBe(expectedCharset);
   }
   finally {
-    fs.rmSync(testTmpDir, rmOptions);
+    await fs.rm(paths.testTmpDir, integrationTestsTestHelper.rmOptions);
   }
 }
 
-function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_tab(testTempRootDir) {
-  const testTmpDir = path.join(testTempRootDir, 'test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_tab');
-  const mockTargetFile = path.join(testTmpDir, 'src', 'index.js');
-  const mockEditorconfigFile = path.join(testTmpDir, '.editorconfig');
+async function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_tab_async(testTempRootDir) {
+  const paths = integrationTestsTestHelper.createTempPaths(
+    testTempRootDir,
+    'test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_tab_async',
+    'index.js'
+  );
 
   const expectedIndentSize = 4;
 
@@ -208,10 +196,9 @@ function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_tab(test
   ]);
 
   try {
-    fs.mkdirSync(path.dirname(mockTargetFile), mkdirOptions);
-    fs.writeFileSync(mockEditorconfigFile, editorconfig);
+    await integrationTestsTestHelper.createTempFilesAsync(paths, editorconfig);
 
-    const config = editorconfigProvider.getConfig(true, mockTargetFile);
+    const config = editorconfigProvider.getConfig(true, paths.mockTargetFile);
 
     vitest.expect(config).toBeDefined();
     vitest.expect(config.end_of_line).toBe(editorconfigProvider.propertyValue.lf);
@@ -223,14 +210,16 @@ function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_tab(test
     vitest.expect(config.charset).toBeUndefined();
   }
   finally {
-    fs.rmSync(testTmpDir, rmOptions);
+    await fs.rm(paths.testTmpDir, integrationTestsTestHelper.rmOptions);
   }
 }
 
-function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_tab_indentSizeIsString(testTempRootDir) {
-  const testTmpDir = path.join(testTempRootDir, 'test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_tab_indentSizeIsString');
-  const mockTargetFile = path.join(testTmpDir, 'src', 'index.js');
-  const mockEditorconfigFile = path.join(testTmpDir, '.editorconfig');
+async function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_tab_indentSizeIsString_async(testTempRootDir) {
+  const paths = integrationTestsTestHelper.createTempPaths(
+    testTempRootDir,
+    'test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_tab_indentSizeIsString_async',
+    'index.js'
+  );
 
   const expectedIndentSize = 'string_value';
 
@@ -244,10 +233,9 @@ function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_tab_inde
   ]);
 
   try {
-    fs.mkdirSync(path.dirname(mockTargetFile), mkdirOptions);
-    fs.writeFileSync(mockEditorconfigFile, editorconfig);
+    await integrationTestsTestHelper.createTempFilesAsync(paths, editorconfig);
 
-    const config = editorconfigProvider.getConfig(true, mockTargetFile);
+    const config = editorconfigProvider.getConfig(true, paths.mockTargetFile);
 
     vitest.expect(config).toBeDefined();
     vitest.expect(config.end_of_line).toBe(editorconfigProvider.propertyValue.lf);
@@ -259,14 +247,16 @@ function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_tab_inde
     vitest.expect(config.charset).toBeUndefined();
   }
   finally {
-    fs.rmSync(testTmpDir, rmOptions);
+    await fs.rm(paths.testTmpDir, integrationTestsTestHelper.rmOptions);
   }
 }
 
-function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_tab_tabWidth(testTempRootDir) {
-  const testTmpDir = path.join(testTempRootDir, 'test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_tab_tabWidth');
-  const mockTargetFile = path.join(testTmpDir, 'src', 'index.js');
-  const mockEditorconfigFile = path.join(testTmpDir, '.editorconfig');
+async function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_tab_tabWidth_async(testTempRootDir) {
+  const paths = integrationTestsTestHelper.createTempPaths(
+    testTempRootDir,
+    'test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_tab_tabWidth_async',
+    'index.js'
+  );
 
   const expectedIndentSize = 4;
 
@@ -280,10 +270,9 @@ function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_tab_tabW
   ]);
 
   try {
-    fs.mkdirSync(path.dirname(mockTargetFile), mkdirOptions);
-    fs.writeFileSync(mockEditorconfigFile, editorconfig);
+    await integrationTestsTestHelper.createTempFilesAsync(paths, editorconfig);
 
-    const config = editorconfigProvider.getConfig(true, mockTargetFile);
+    const config = editorconfigProvider.getConfig(true, paths.mockTargetFile);
 
     vitest.expect(config).toBeDefined();
     vitest.expect(config.end_of_line).toBe(editorconfigProvider.propertyValue.lf);
@@ -295,14 +284,16 @@ function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_tab_tabW
     vitest.expect(config.charset).toBeUndefined();
   }
   finally {
-    fs.rmSync(testTmpDir, rmOptions);
+    await fs.rm(paths.testTmpDir, integrationTestsTestHelper.rmOptions);
   }
 }
 
-function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_tab_indentSizeIsString_tabWidth(testTempRootDir) {
-  const testTmpDir = path.join(testTempRootDir, 'test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_tab_indentSizeIsString_tabWidth');
-  const mockTargetFile = path.join(testTmpDir, 'src', 'index.js');
-  const mockEditorconfigFile = path.join(testTmpDir, '.editorconfig');
+async function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_tab_indentSizeIsString_tabWidth_async(testTempRootDir) {
+  const paths = integrationTestsTestHelper.createTempPaths(
+    testTempRootDir,
+    'test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_tab_indentSizeIsString_tabWidth_async',
+    'index.js'
+  );
 
   const expectedIndentSize = 'string_value';
 
@@ -316,10 +307,9 @@ function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_tab_inde
   ]);
 
   try {
-    fs.mkdirSync(path.dirname(mockTargetFile), mkdirOptions);
-    fs.writeFileSync(mockEditorconfigFile, editorconfig);
+    await integrationTestsTestHelper.createTempFilesAsync(paths, editorconfig);
 
-    const config = editorconfigProvider.getConfig(true, mockTargetFile);
+    const config = editorconfigProvider.getConfig(true, paths.mockTargetFile);
 
     vitest.expect(config).toBeDefined();
     vitest.expect(config.end_of_line).toBe(editorconfigProvider.propertyValue.lf);
@@ -331,14 +321,16 @@ function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_tab_inde
     vitest.expect(config.charset).toBeUndefined();
   }
   finally {
-    fs.rmSync(testTmpDir, rmOptions);
+    await fs.rm(paths.testTmpDir, integrationTestsTestHelper.rmOptions);
   }
 }
 
-function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_space(testTempRootDir) {
-  const testTmpDir = path.join(testTempRootDir, 'test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_space');
-  const mockTargetFile = path.join(testTmpDir, 'src', 'index.js');
-  const mockEditorconfigFile = path.join(testTmpDir, '.editorconfig');
+async function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_space_async(testTempRootDir) {
+  const paths = integrationTestsTestHelper.createTempPaths(
+    testTempRootDir,
+    'test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_space_async',
+    'index.js'
+  );
 
   const expectedIndentSize = 4;
 
@@ -352,10 +344,9 @@ function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_space(te
   ]);
 
   try {
-    fs.mkdirSync(path.dirname(mockTargetFile), mkdirOptions);
-    fs.writeFileSync(mockEditorconfigFile, editorconfig);
+    await integrationTestsTestHelper.createTempFilesAsync(paths, editorconfig);
 
-    const config = editorconfigProvider.getConfig(true, mockTargetFile);
+    const config = editorconfigProvider.getConfig(true, paths.mockTargetFile);
 
     vitest.expect(config).toBeDefined();
     vitest.expect(config.end_of_line).toBe(editorconfigProvider.propertyValue.lf);
@@ -367,14 +358,16 @@ function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_space(te
     vitest.expect(config.charset).toBeUndefined();
   }
   finally {
-    fs.rmSync(testTmpDir, rmOptions);
+    await fs.rm(paths.testTmpDir, integrationTestsTestHelper.rmOptions);
   }
 }
 
-function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_space_indentSizeIsString(testTempRootDir) {
-  const testTmpDir = path.join(testTempRootDir, 'test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_space_indentSizeIsString');
-  const mockTargetFile = path.join(testTmpDir, 'src', 'index.js');
-  const mockEditorconfigFile = path.join(testTmpDir, '.editorconfig');
+async function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_space_indentSizeIsString_async(testTempRootDir) {
+  const paths = integrationTestsTestHelper.createTempPaths(
+    testTempRootDir,
+    'test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_space_indentSizeIsString_async',
+    'index.js'
+  );
 
   const expectedIndentSize = 'string_value';
 
@@ -388,10 +381,9 @@ function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_space_in
   ]);
 
   try {
-    fs.mkdirSync(path.dirname(mockTargetFile), mkdirOptions);
-    fs.writeFileSync(mockEditorconfigFile, editorconfig);
+    await integrationTestsTestHelper.createTempFilesAsync(paths, editorconfig);
 
-    const config = editorconfigProvider.getConfig(true, mockTargetFile);
+    const config = editorconfigProvider.getConfig(true, paths.mockTargetFile);
 
     vitest.expect(config).toBeDefined();
     vitest.expect(config.end_of_line).toBe(editorconfigProvider.propertyValue.lf);
@@ -403,14 +395,16 @@ function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_space_in
     vitest.expect(config.charset).toBeUndefined();
   }
   finally {
-    fs.rmSync(testTmpDir, rmOptions);
+    await fs.rm(paths.testTmpDir, integrationTestsTestHelper.rmOptions);
   }
 }
 
-function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_space_tabWidth(testTempRootDir) {
-  const testTmpDir = path.join(testTempRootDir, 'test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_space_tabWidth');
-  const mockTargetFile = path.join(testTmpDir, 'src', 'index.js');
-  const mockEditorconfigFile = path.join(testTmpDir, '.editorconfig');
+async function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_space_tabWidth_async(testTempRootDir) {
+  const paths = integrationTestsTestHelper.createTempPaths(
+    testTempRootDir,
+    'test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_space_tabWidth_async',
+    'index.js'
+  );
 
   const expectedIndentSize = 4;
 
@@ -424,10 +418,9 @@ function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_space_ta
   ]);
 
   try {
-    fs.mkdirSync(path.dirname(mockTargetFile), mkdirOptions);
-    fs.writeFileSync(mockEditorconfigFile, editorconfig);
+    await integrationTestsTestHelper.createTempFilesAsync(paths, editorconfig);
 
-    const config = editorconfigProvider.getConfig(true, mockTargetFile);
+    const config = editorconfigProvider.getConfig(true, paths.mockTargetFile);
 
     vitest.expect(config).toBeDefined();
     vitest.expect(config.end_of_line).toBe(editorconfigProvider.propertyValue.lf);
@@ -439,14 +432,16 @@ function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_space_ta
     vitest.expect(config.charset).toBeUndefined();
   }
   finally {
-    fs.rmSync(testTmpDir, rmOptions);
+    await fs.rm(paths.testTmpDir, integrationTestsTestHelper.rmOptions);
   }
 }
 
-function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_space_indentSizeIsString_tabWidth(testTempRootDir) {
-  const testTmpDir = path.join(testTempRootDir, 'test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_space_indentSizeIsString_tabWidth');
-  const mockTargetFile = path.join(testTmpDir, 'src', 'index.js');
-  const mockEditorconfigFile = path.join(testTmpDir, '.editorconfig');
+async function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_space_indentSizeIsString_tabWidth_async(testTempRootDir) {
+  const paths = integrationTestsTestHelper.createTempPaths(
+    testTempRootDir,
+    'test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_space_indentSizeIsString_tabWidth_async',
+    'index.js'
+  );
 
   const expectedIndentSize = 'string_value';
 
@@ -460,10 +455,9 @@ function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_space_in
   ]);
 
   try {
-    fs.mkdirSync(path.dirname(mockTargetFile), mkdirOptions);
-    fs.writeFileSync(mockEditorconfigFile, editorconfig);
+    await integrationTestsTestHelper.createTempFilesAsync(paths, editorconfig);
 
-    const config = editorconfigProvider.getConfig(true, mockTargetFile);
+    const config = editorconfigProvider.getConfig(true, paths.mockTargetFile);
 
     vitest.expect(config).toBeDefined();
     vitest.expect(config.end_of_line).toBe(editorconfigProvider.propertyValue.lf);
@@ -475,27 +469,27 @@ function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_space_in
     vitest.expect(config.charset).toBeUndefined();
   }
   finally {
-    fs.rmSync(testTmpDir, rmOptions);
+    await fs.rm(paths.testTmpDir, integrationTestsTestHelper.rmOptions);
   }
 }
 
-function test_loadConfig_editorconfigFileIsNotFounded() {
-  let systemTmpDir;
+async function test_loadConfig_editorconfigFileIsNotFounded_async() {
+  let tmpRootDir;
 
   try {
-    systemTmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'eslint-plugin-avenvaro-editorconfig-integtation-tests-'));
+    tmpRootDir = await integrationTestsTestHelper.createTempRootDirAsync('editorconfigProvider');
 
-    const targetFile = path.join(systemTmpDir, 'isolated', 'project', 'app.js');
+    const targetFile = integrationTestsTestHelper.createTempTargetFilePath(tmpRootDir, 'app.js');
 
-    fs.mkdirSync(path.dirname(targetFile), mkdirOptions);
+    await integrationTestsTestHelper.createTempTargetFileDirAsync(targetFile);
 
     const config = editorconfigProvider.loadConfig(targetFile);
 
     vitest.expect(config).toEqual({});
   }
   finally {
-    if (systemTmpDir) {
-      fs.rmSync(systemTmpDir, rmOptions);
+    if (tmpRootDir) {
+      await fs.rm(tmpRootDir, integrationTestsTestHelper.rmOptions);
     }
   }
 }
