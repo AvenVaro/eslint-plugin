@@ -1,5 +1,6 @@
 import path from 'node:path';
 import fs from 'node:fs';
+import os from 'node:os';
 
 /** @type {import('node:fs').MakeDirectoryOptions} */
 const mkdirOptions = {
@@ -16,7 +17,7 @@ const rmOptions = {
 const integrationTestsTestHelper = Object.freeze({
   mkdirOptions: mkdirOptions,
   rmOptions: rmOptions,
-  createTempRootPath: createTempRootPath,
+  createTempRootPathAsync: createTempRootPathAsync,
   createTempPaths: createTempPaths,
   createTempFilesAsync: createTempFilesAsync
 });
@@ -33,15 +34,21 @@ export default integrationTestsTestHelper;
 
 /**
  * @private
+ * @async
  *
  * Resolves the absolute directory path targeting a specialized top-level temporary test sandbox on disk.
  *
  * @param {string} partDirName - The semantic namespace token segment used to isolate the target rule layer category (e.g., 'rules' or 'infrastructure').
  *
- * @returns {string} The resolved absolute filesystem path string pointing to the root container mapping.
+ * @returns {Promise<string>} The resolved absolute filesystem path string pointing to the root container mapping.
  */
-function createTempRootPath(partDirName) {
-  return path.join(import.meta.dirname, `__tmp_integration_${partDirName}_tests__`);
+async function createTempRootPathAsync(partDirName) {
+  return await fs.mkdtemp(
+    path.join(
+      os.tmpdir(),
+      `eslint-plugin-avenvaro-${partDirName}-integraation-tests-`
+    )
+  );
 }
 
 /**
