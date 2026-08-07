@@ -10,7 +10,7 @@ const propertyValue = Object.freeze({
 });
 
 /** @type {import('./editorconfig-provider.d.ts').EditorconfigProvider} */
-const editorconfigProvider = {
+const editorconfigProvider = Object.freeze({
   propertyValue: propertyValue,
   loadConfig: loadConfig,
   getConfig: getConfig,
@@ -21,7 +21,7 @@ const editorconfigProvider = {
   geTabWidth: geTabWidth,
   getTrimTrailingWhitespace: getTrimTrailingWhitespace,
   getCharset: getCharset
-};
+});
 
 //================================
 // Exports
