@@ -12,9 +12,9 @@ export interface CodeProcessingResult {
 }
 
 /**
- * Declares the core configuration manager contract for setting up parent ESLint engine instances.
+ * Helper for testing the rules.
  */
-export interface EslintTestHelper {
+export interface RulesTestHelper {
   /**
    * Initializes a baseline isolated instance of the ESLint engine in memory.
    *
@@ -50,6 +50,6 @@ export interface EslintTestHelper {
   executeCodeProcessingAsync(files: string[], rules: Linter.Config['rules'], brokenSourceCode: string, filePath: string): Promise<CodeProcessingResult>;
 }
 
-declare const eslintTestHelper: EslintTestHelper;
+declare const rulesTestHelper: RulesTestHelper;
 
-export default eslintTestHelper;
+export default rulesTestHelper;
