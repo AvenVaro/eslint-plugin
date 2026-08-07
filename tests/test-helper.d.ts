@@ -80,6 +80,16 @@ export interface TestHelper {
    * @returns A concatenated multi-line source execution file payload string.
    */
   convertCodeArrayToCodeString(codeArray: string[], insertEOL?: boolean): string;
+
+  /**
+   * Assertively validates structural equality between properties of an actual ESLint evaluation result and an expected result blueprint.
+   *
+   * @param actualResult - The live evaluation metric record returned from the active execution pipeline block.
+   * @param expectedResult - The baseline expectation blueprint object mapping reference layout values.
+   *
+   * @returns void
+   */
+  expectResult(actualResult: ESLint.LintResult, expectedResult: ESLint.LintResult): void;
 }
 
 declare const testHelper: TestHelper;

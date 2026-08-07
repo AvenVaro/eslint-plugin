@@ -13,7 +13,8 @@ const eslintHelper = Object.freeze({
 const testHelper = Object.freeze({
   eslintHelper: eslintHelper,
   getMockedEditorconfigProviderAsync: getMockedEditorconfigProviderAsync,
-  convertCodeArrayToCodeString: convertCodeArrayToCodeString
+  convertCodeArrayToCodeString: convertCodeArrayToCodeString,
+  expectResult: expectResult
 });
 
 //================================
@@ -72,6 +73,22 @@ function convertCodeArrayToCodeString(codeArray, insertEOL = true) {
   }
 
   return codeArray.join('\n');
+}
+
+/**
+ * @private
+ *
+ * Assertively validates structural equality between properties of an actual ESLint evaluation result and an expected result blueprint.
+ *
+ * @param {import('eslint').ESLint.LintResult} actualResult - The live evaluation metric record returned from the active execution pipeline block.
+ * @param {import('eslint').ESLint.LintResult} expectedResult - The baseline expectation blueprint object mapping reference layout values.
+ *
+ * @returns {void}
+ */
+function expectResult(actualResult, expectedResult) {
+  expect(actualResult.errorCount).toBe(expectedResult.errorCount);
+  expect(actualResult.output).toBe(expectedResult.output);
+  expect(actualResult.source).toBe(expectedResult.source);
 }
 
 /**
