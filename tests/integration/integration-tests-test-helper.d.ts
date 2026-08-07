@@ -72,6 +72,16 @@ export interface IntegrationTestsTestHelper {
    * @returns The completed absolute track string routing to the virtual source asset location block.
    */
   createTempTargetFilePath(testTmpDir: string, fileName: string): string;
+
+  /**
+   * Assembles a structured multi-line source text file template string from a sequential token line array block.
+   *
+   * @param codeArray - A sequential collection of raw source code content line strings.
+   * @param insertEOL - Appends an empty string token at the EOF array index to enforce trailing newline normalization.
+   *
+   * @returns A concatenated multi-line source execution file payload string.
+   */
+  convertCodeArrayToCodeString(codeArray: string[], insertEOL?: boolean): string;
 }
 
 declare const integrationTestsTestHelper: IntegrationTestsTestHelper;
