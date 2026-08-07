@@ -14,9 +14,41 @@ export interface CodeProcessingResult {
 }
 
 /**
- * Declares the core configuration manager contract for setting up parent ESLint engine instances.
+ * Declares the high-level testing ecosystem infrastructure contract.
  */
-export interface EslintHelper {
+export interface TestHelper {
+  /**
+   * Asynchronously creates a mocked instance of the editorconfig provider.
+   * Intercepts the underlying 'editorconfig' engine core dependency using esmock.
+   *
+   * @param config - The predefined configuration properties to return from the mock.
+   *
+   * @returns A promise resolving directly to the mocked editorconfig provider module wrapper.
+   *
+   * @throws {Error} Thrown if esmock fails to resolve, initialize, or load the module payload.
+   */
+  getMockedEditorconfigProviderAsync(config: Props): Promise<EditorconfigProvider>;
+
+  /**
+   * Assembles a structured multi-line source text file template string from a sequential token line array block.
+   *
+   * @param codeArray - A sequential collection of raw source code content line strings.
+   * @param insertEOL - Appends an empty string token at the EOF array index to enforce trailing newline normalization.
+   *
+   * @returns A concatenated multi-line source execution file payload string.
+   */
+  convertCodeArrayToCodeString(codeArray: string[], insertEOL?: boolean): string;
+
+  /**
+   * Assertively validates structural equality between properties of an actual ESLint evaluation result and an expected result blueprint.
+   *
+   * @param actualResult - The live evaluation metric record returned from the active execution pipeline block.
+   * @param expectedResult - The baseline expectation blueprint object mapping reference layout values.
+   *
+   * @returns void
+   */
+  expectResult(actualResult: ESLint.LintResult, expectedResult: ESLint.LintResult): void;
+
   /**
    * Initializes a baseline isolated instance of the ESLint engine in memory.
    *
@@ -50,46 +82,6 @@ export interface EslintHelper {
    * @returns A promise that resolves to the comprehensive metric configuration payload mapping both code execution passes.
    */
   executeCodeProcessingAsync(files: string[], rules: Linter.Config['rules'], brokenSourceCode: string, filePath: string): Promise<CodeProcessingResult>;
-}
-
-/**
- * Declares the high-level testing ecosystem infrastructure contract.
- */
-export interface TestHelper {
-  /** Multi-layered engine generation namespace containing factory abstractions for setting up code linters. */
-  readonly eslintHelper: EslintHelper;
-
-  /**
-   * Asynchronously creates a mocked instance of the editorconfig provider.
-   * Intercepts the underlying 'editorconfig' engine core dependency using esmock.
-   *
-   * @param config - The predefined configuration properties to return from the mock.
-   *
-   * @returns A promise resolving directly to the mocked editorconfig provider module wrapper.
-   *
-   * @throws {Error} Thrown if esmock fails to resolve, initialize, or load the module payload.
-   */
-  getMockedEditorconfigProviderAsync(config: Props): Promise<EditorconfigProvider>;
-
-  /**
-   * Assembles a structured multi-line source text file template string from a sequential token line array block.
-   *
-   * @param codeArray - A sequential collection of raw source code content line strings.
-   * @param insertEOL - Appends an empty string token at the EOF array index to enforce trailing newline normalization.
-   *
-   * @returns A concatenated multi-line source execution file payload string.
-   */
-  convertCodeArrayToCodeString(codeArray: string[], insertEOL?: boolean): string;
-
-  /**
-   * Assertively validates structural equality between properties of an actual ESLint evaluation result and an expected result blueprint.
-   *
-   * @param actualResult - The live evaluation metric record returned from the active execution pipeline block.
-   * @param expectedResult - The baseline expectation blueprint object mapping reference layout values.
-   *
-   * @returns void
-   */
-  expectResult(actualResult: ESLint.LintResult, expectedResult: ESLint.LintResult): void;
 }
 
 declare const testHelper: TestHelper;

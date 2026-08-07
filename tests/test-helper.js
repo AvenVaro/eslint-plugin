@@ -1,20 +1,16 @@
 import esmock from 'esmock';
 import { ESLint } from 'eslint';
+import { expect } from 'vitest';
 import avenvaro from '../src/index.js';
-
-/** @type {import('./test-helper.d.ts').EslintHelper} */
-const eslintHelper = Object.freeze({
-  createESLlintEngine: createESLlintEngine,
-  runESLintEngineAsync: runESLintEngineAsync,
-  executeCodeProcessingAsync: executeCodeProcessingAsync
-});
 
 /** @type {import('./test-helper.d.ts').TestHelper} */
 const testHelper = Object.freeze({
-  eslintHelper: eslintHelper,
   getMockedEditorconfigProviderAsync: getMockedEditorconfigProviderAsync,
   convertCodeArrayToCodeString: convertCodeArrayToCodeString,
-  expectResult: expectResult
+  expectResult: expectResult,
+  createESLlintEngine: createESLlintEngine,
+  runESLintEngineAsync: runESLintEngineAsync,
+  executeCodeProcessingAsync: executeCodeProcessingAsync
 });
 
 //================================
