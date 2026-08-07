@@ -1,5 +1,5 @@
 import path from 'node:path';
-import fs from 'node:fs';
+import fs from 'node:fs/promises';
 import os from 'node:os';
 
 /** @type {import('node:fs').MakeDirectoryOptions} */
@@ -19,7 +19,9 @@ const integrationTestsTestHelper = Object.freeze({
   rmOptions: rmOptions,
   createTempRootDirAsync: createTempRootDirAsync,
   createTempPaths: createTempPaths,
-  createTempFilesAsync: createTempFilesAsync
+  createTempFilesAsync: createTempFilesAsync,
+  createTempTargetFileDirAsync: createTempTargetFileDirAsync,
+  createTempTargetFilePath: createTempTargetFilePath
 });
 
 //================================
@@ -67,7 +69,7 @@ function createTempPaths(rootDirName, dirName, fileName) {
 
   return {
     testTmpDir: testTmpDir,
-    mockTargetFile: path.join(testTmpDir, 'src', fileName),
+    mockTargetFile: createTempTargetFilePath(testTmpDir, fileName),
     mockEditorconfigFile: path.join(testTmpDir, '.editorconfig')
   };
 }
@@ -84,6 +86,34 @@ function createTempPaths(rootDirName, dirName, fileName) {
  * @returns {Promise<void>} A promise that resolves once the directories are created and the configuration payload is cleanly written.
  */
 async function createTempFilesAsync(paths, editorconfig) {
-  await fs.mkdir(path.dirname(paths.mockTargetFile), mkdirOptions);
+  await createTempTargetFileDirAsync(paths.mockTargetFile);
   await fs.writeFile(paths.mockEditorconfigFile, editorconfig);
+}
+
+/**
+ * @private
+ * @async
+ *
+ * Asynchronously extracts the parent folder path from the target file tracking token and constructs the deep nested container directory layout on disk.
+ *
+ * @param {string} mockTargetFile - The absolute tracking path string routing to the virtual source asset location block.
+ *
+ * @returns {Promise<void>} A promise that resolves once the parent directory structure has been successfully initialized on disk.
+ */
+async function createTempTargetFileDirAsync(mockTargetFile) {
+  await fs.mkdir(path.dirname(mockTargetFile), mkdirOptions);
+}
+
+/**
+ * @private
+ *
+ * Resolves the absolute filesystem path routing directly to the mock source code asset file entry point inside the source container layout.
+ *
+ * @param {string} testTmpDir - The absolute path targeting the isolated sandbox workspace folder assigned to the active test case.
+ * @param {string} fileName - The source asset module filename placeholder string (e.g., 'index.js').
+ *
+ * @returns {string} The completed absolute track string routing to the virtual source asset location block.
+ */
+function createTempTargetFilePath(testTmpDir, fileName) {
+  return path.join(testTmpDir, 'src', fileName);
 }

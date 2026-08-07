@@ -50,9 +50,28 @@ export interface IntegrationTestsTestHelper {
    * @param paths - The structural blueprint holding resolved absolute filesystem tracks for the active test container pass.
    * @param editorconfig - The raw serialization string payload containing the file layout parameters to be committed to disk.
    *
-   * @returns {Promise<void>} A promise that resolves once the directories are created and the configuration payload is cleanly written.
+   * @returns A promise that resolves once the directories are created and the configuration payload is cleanly written.
    */
   createTempFilesAsync(paths: IntegrationTestFilesystemBlueprint, editorconfig: string): Promise<void>;
+
+  /**
+   * Asynchronously extracts the parent folder path from the target file tracking token and constructs the deep nested container directory layout on disk.
+   *
+   * @param mockTargetFile - The absolute tracking path string routing to the virtual source asset location block.
+   *
+   * @returns A promise that resolves once the parent directory structure has been successfully initialized on disk.
+   */
+  createTempTargetFileDirAsync(mockTargetFile: string): Promise<void>;
+
+  /**
+   * Resolves the absolute filesystem path routing directly to the mock source code asset file entry point inside the source container layout.
+   *
+   * @param testTmpDir - The absolute path targeting the isolated sandbox workspace folder assigned to the active test case.
+   * @param fileName - The source asset module filename placeholder string (e.g., 'index.js').
+   *
+   * @returns The completed absolute track string routing to the virtual source asset location block.
+   */
+  createTempTargetFilePath(testTmpDir: string, fileName: string): string;
 }
 
 declare const integrationTestsTestHelper: IntegrationTestsTestHelper;
