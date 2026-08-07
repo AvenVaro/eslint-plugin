@@ -12,12 +12,12 @@
     "editorconfig": "editorconfig-checker",
     "lint": "eslint . && editorconfig-checker",
     "lint:fix": "eslint . --fix",
-    "test": "vitest run",
-    "test:watch": "vitest",
-    "test:unit": "vitest run tests/unit",
-    "test:unit:watch": "vitest tests/unit",
-    "test:integration": "vitest run tests/integration",
-    "test:integration:watch": "vitest tests/integration"
+    "tests": "vitest run",
+    "tests:watch": "vitest",
+    "tests:unit": "vitest run tests/unit",
+    "tests:unit:watch": "vitest tests/unit",
+    "tests:integration": "vitest run tests/integration",
+    "tests:integration:watch": "vitest tests/integration"
   },
   "peerDependencies": {
     "@stylistic/eslint-plugin": ">=5.0.0",
