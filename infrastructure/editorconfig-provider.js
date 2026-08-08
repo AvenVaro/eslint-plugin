@@ -1,17 +1,8 @@
 import editorconfig from 'editorconfig';
-
-/** @type {import('./editorconfig-provider.d.ts').EditorconfigPropertyValues} */
-const propertyValue = Object.freeze({
-  unset: 'unset',
-  tab: 'tab',
-  space: 'space',
-  lf: 'lf',
-  crlf: 'crlf'
-});
+import propertyValue from './property-value.js';
 
 /** @type {import('./editorconfig-provider.d.ts').EditorconfigProvider} */
 const editorconfigProvider = Object.freeze({
-  propertyValue: propertyValue,
   loadConfig: loadConfig,
   getConfig: getConfig,
   getIndentSize: getIndentSize,
@@ -80,9 +71,9 @@ function isUnset(property) {
  * Resolves the indentation size or fallback value, validating numerical ranges and tab string identifiers.
  *
  * @param {import('editorconfig').Props | undefined} config - Raw EditorConfig properties block read from disk.
- * @param {number | 'tab' | undefined} defaultValue - Fallback configuration token used when the target property is invalid or missing.
+ * @param {number | import('./property-value.d.ts').PropertyValue['tab'] | undefined} defaultValue - Fallback configuration token used when the target property is invalid or missing.
  *
- * @returns {number | 'tab' | undefined} Valid indentation quantity value or the provided fallback.
+ * @returns {number | import('./property-value.d.ts').PropertyValue['tab'] | undefined} Valid indentation quantity value or the provided fallback.
  */
 function getIndentSize(config, defaultValue) {
   if (isUnset(config?.indent_size)) {
@@ -106,9 +97,9 @@ function getIndentSize(config, defaultValue) {
  * Resolves the structural indentation formatting layout style token from the raw configuration.
  *
  * @param {import('editorconfig').Props | undefined} config - Raw EditorConfig properties block read from disk.
- * @param {'space' | 'tab' | undefined} defaultValue - Fallback formatting layout value used when the target property is invalid or missing.
+ * @param {import('./property-value.d.ts').PropertyValue['space'] | import('./property-value.d.ts').PropertyValue['tab'] | undefined} defaultValue - Fallback formatting layout value used when the target property is invalid or missing.
  *
- * @returns {'space' | 'tab' | undefined} Valid style layout type keyword or the provided fallback.
+ * @returns {import('./property-value.d.ts').PropertyValue['space'] | import('./property-value.d.ts').PropertyValue['tab'] | undefined} Valid style layout type keyword or the provided fallback.
  */
 function getIndentStyle(config, defaultValue) {
   if (isUnset(config?.indent_style)) {
@@ -132,9 +123,9 @@ function getIndentStyle(config, defaultValue) {
  * Resolves the targeted line-ending normalization sequence keyword from the raw configuration block.
  *
  * @param {import('editorconfig').Props | undefined} config - Raw EditorConfig properties block read from disk.
- * @param {'lf' | 'crlf' | undefined} defaultValue - Fallback line ending sequence value used when the target property is invalid or missing.
+ * @param {import('./property-value.d.ts').PropertyValue['lf'] | import('./property-value.d.ts').PropertyValue['crlf'] | undefined} defaultValue - Fallback line ending sequence value used when the target property is invalid or missing.
  *
- * @returns {'lf' | 'crlf' | undefined} Valid line termination style keyword or the provided fallback.
+ * @returns {import('./property-value.d.ts').PropertyValue['lf'] | import('./property-value.d.ts').PropertyValue['crlf'] | undefined} Valid line termination style keyword or the provided fallback.
  */
 function getEndOfLine(config, defaultValue) {
   if (isUnset(config?.end_of_line)) {

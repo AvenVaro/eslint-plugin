@@ -5,7 +5,7 @@ import jsRulesTestHelper from '../js-rules-test-helper.js';
 /** @type {import('./indent-rule-test-helper.d.ts').IndentTestHelper} */
 const indentTestHelper = Object.freeze({
   createIndentRule: createIndentRule,
-  tryExpect: tryExpect
+  tryExpectAsync: tryExpectAsync
 });
 
 //================================
@@ -23,7 +23,7 @@ export default indentTestHelper;
  *
  * Constructs a standardized ESLint rules configuration payload block specifically targeting the custom indentation rule.
  *
- * @param {number | 'tab' | undefined} indent - The target indentation step size (number of spaces) or hard tab token filter criteria.
+ * @param {number | import('../../../../../../infrastructure/property-value.d.ts').PropertyValue['tab'] | undefined} indent - The target indentation step size (number of spaces) or hard tab token filter criteria.
  * @param {import('../../../../../../src/rules/js/indent.d.ts').JsIndentOptions | undefined} options - Additional operational metadata parameter adjustments for the target rule logic.
  *
  * @returns {import('eslint').Linter.Config['rules']} A compliant rules dictionary mapping the generated configuration payload to the custom namespace selector.
@@ -49,14 +49,14 @@ function createIndentRule(indent, options) {
  * @param {string} testTempRootDir - The root directory where the temporary test folders are created.
  * @param {string} dirName - The specific name of the temporary directory for this test case.
  * @param {string} editorconfig - The raw content or configuration string for the .editorconfig file.
- * @param {number | 'tab' | undefined} indent - The target indentation step size (number of spaces) or hard tab token filter criteria.
+ * @param {number | import('../../../../../../infrastructure/property-value.d.ts').PropertyValue['tab'] | undefined} indent - The target indentation step size (number of spaces) or hard tab token filter criteria.
  * @param {import('../../../../../../src/rules/js/indent.d.ts').JsIndentOptions | undefined} options - Additional operational metadata parameter adjustments for the target rule logic.
  * @param {string} brokenSourceCode - The raw source text payload containing potential layout variations.
  * @param {string} expectedFixedSourceCode - The fixed source text payload containing potential layout variations.
  *
  * @returns {Promise<void>} A promise that fully resolves once assertions terminate successfully and cleanup actions conclude.
  */
-async function tryExpect(testTempRootDir, dirName, editorconfig, indent, options, brokenSourceCode, expectedFixedSourceCode) {
+async function tryExpectAsync(testTempRootDir, dirName, editorconfig, indent, options, brokenSourceCode, expectedFixedSourceCode) {
   const paths = integrationTestsTestHelper.createTempPaths(testTempRootDir, dirName, 'index.js');
 
   try {

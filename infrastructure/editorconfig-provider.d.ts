@@ -1,25 +1,10 @@
 import { Props } from 'editorconfig';
-
-/**
- * Standardized immutable lookup tokens matching the exact string literal values used by EditorConfig.
- */
-export type EditorconfigPropertyValues = Readonly<{
-  unset: 'unset';
-  tab: 'tab';
-  space: 'space';
-  lf: 'lf';
-  crlf: 'crlf';
-}>;
+import { PropertyValue } from './property-value.js';
 
 /**
  * Interface representing the EditorConfig data provider and its runtime mocking sub-system.
  */
 export interface EditorconfigProvider {
-  /**
-   * Strict immutable lookup dictionary containing standardized string literal values for EditorConfig properties.
-   */
-  readonly propertyValue: EditorconfigPropertyValues;
-
   /**
    * Synchronously reads and parses the .editorconfig file for the target file path.
    *
@@ -47,7 +32,10 @@ export interface EditorconfigProvider {
    *
    * @returns A validated indentation count or the literal string layout token.
    */
-  getIndentSize(config: Props | undefined, defaultValue: number | 'tab' | undefined): number | 'tab' | undefined;
+  getIndentSize(
+    config: Props | undefined,
+    defaultValue: number | PropertyValue['tab'] | undefined
+  ): number | PropertyValue['tab'] | undefined;
 
   /**
    * Validates and extracts the indentation formatting layout token style from configuration.
@@ -57,7 +45,10 @@ export interface EditorconfigProvider {
    *
    * @returns A validated style layout keyword token.
    */
-  getIndentStyle(config: Props | undefined, defaultValue: 'space' | 'tab' | undefined): 'space' | 'tab' | undefined;
+  getIndentStyle(
+    config: Props | undefined,
+    defaultValue: PropertyValue['space'] | PropertyValue['tab'] | undefined
+  ): PropertyValue['space'] | PropertyValue['tab'] | undefined;
 
   /**
    * Validates and extracts the targeted line-ending sequence token from configuration metadata.
@@ -67,7 +58,10 @@ export interface EditorconfigProvider {
    *
    * @returns A validated line termination style keyword token.
    */
-  getEndOfLine(config: Props | undefined, defaultValue: 'lf' | 'crlf' | undefined): 'lf' | 'crlf' | undefined;
+  getEndOfLine(
+    config: Props | undefined,
+    defaultValue: PropertyValue['lf'] | PropertyValue['crlf'] | undefined
+  ): PropertyValue['lf'] | PropertyValue['crlf'] | undefined;
 
   /**
    * Validates and extracts the active validation state flag for final newline injections.

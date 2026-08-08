@@ -1,15 +1,13 @@
 import * as vitest from 'vitest';
 import integrationTestsTestHelper from '../../../../../integration-tests-test-helper.js';
-import rulesTestHelper from '../../../rules-test-helper.js';
-import jsRulesTestHelper from '../../js-rules-test-helper.js';
 import indentRuleTestHelper from '../indent-rule-test-helper.js';
-import editorconfigProvider from '../../../../../../../infrastructure/editorconfig-provider.js';
+import propertyValue from '../../../../../../../infrastructure/property-value.js';
 
 //================================
 // Tests
 //================================
 
-vitest.describe.concurrent('JavaScript Indent Rule. Use Editorconfig', describeAsync);
+vitest.describe.concurrent('JavaScript Indent Rule. Use Editorconfig - Physical Integration Tier', describeAsync);
 
 async function describeAsync() {
   const testTempRootDir = await integrationTestsTestHelper.createTempRootDirAsync('JS_IndentRule_UseEditorConfig');
@@ -17,8 +15,8 @@ async function describeAsync() {
   vitest.afterAll(async () => await integrationTestsTestHelper.removeAsync(testTempRootDir));
 
   vitest.it.concurrent(
-    'Editorconfig is not used.',
-    test_indentRule_useEditorconfig_false_async
+    'useEditorconfig is false.',
+    async () => await test_indentRule_useEditorconfig_false_async(testTempRootDir)
   );
 
   vitest.it.concurrent(
@@ -32,7 +30,7 @@ async function describeAsync() {
   );
 }
 
-async function test_indentRule_useEditorconfig_false_async() {
+async function test_indentRule_useEditorconfig_false_async(testTempRootDir) {
   const brokenSourceCode = integrationTestsTestHelper.convertCodeArrayToCodeString([
     'const condition = true;',
     'if (condition) {',
@@ -47,17 +45,26 @@ async function test_indentRule_useEditorconfig_false_async() {
     '}'
   ]);
 
-  const results = await jsRulesTestHelper.executeCodeProcessingAsync(
-    indentRuleTestHelper.createIndentRule(
-      10,
-      {
-        useEditorconfig: false
-      }
-    ),
-    brokenSourceCode
-  );
+  const editorconfig = integrationTestsTestHelper.convertCodeArrayToCodeString([
+    'root = true',
+    '',
+    '[*.js]',
+    `indent_style = ${propertyValue.space}`,
+    'indent_size = 5',
+    `end_of_line = ${propertyValue.lf}`
+  ]);
 
-  rulesTestHelper.expectResults(results, expectedFixedSourceCode, brokenSourceCode);
+  await indentRuleTestHelper.tryExpectAsync(
+    testTempRootDir,
+    'test_indentRule_useEditorconfig_false_async',
+    editorconfig,
+    10,
+    {
+      useEditorconfig: false
+    },
+    brokenSourceCode,
+    expectedFixedSourceCode
+  );
 }
 
 async function test_indentRule_useEditorconfig_true_async(testTempRootDir) {
@@ -106,12 +113,12 @@ async function test_indentRule_useEditorconfig_async(testTempRootDir, useEditorc
     'root = true',
     '',
     '[*.js]',
-    `indent_style = ${editorconfigProvider.propertyValue.space}`,
+    `indent_style = ${propertyValue.space}`,
     'indent_size = 5',
-    `end_of_line = ${editorconfigProvider.propertyValue.lf}`
+    `end_of_line = ${propertyValue.lf}`
   ]);
 
-  indentRuleTestHelper.tryExpect(
+  await indentRuleTestHelper.tryExpectAsync(
     testTempRootDir,
     dirName,
     editorconfig,
