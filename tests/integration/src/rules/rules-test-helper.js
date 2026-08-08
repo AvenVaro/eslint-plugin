@@ -28,11 +28,13 @@ export default rulesTestHelper;
  * @param {string[]} files - An array of glob patterns defining which source files the configuration block should apply to.
  * @param {import('eslint').Linter.Config['rules']} rules - An object containing the configured rules matching the target Linter scheme.
  * @param {boolean} fix - Flag that enables generation of automatic code fixes at the linter core level.
+ * @param {string | undefined} rootDirPath - Current working diectory path.
  *
  * @returns {import('eslint').ESLint} A configured instance of the ESLint class, ready to lint strings in memory.
  */
-function createESLlintEngine(files, rules, fix) {
+function createESLlintEngine(files, rules, fix, rootDirPath) {
   return new ESLint({
+    cwd: rootDirPath,
     overrideConfigFile: true,
     overrideConfig: [
       {
@@ -83,17 +85,17 @@ async function runESLintEngineAsync(eslintEngine, brokenSourceCode, filePath) {
  * @param {string[]} files - An array of glob patterns defining which source files the configuration block should apply to.
  * @param {import('eslint').Linter.Config['rules']} rules - An object containing the configured rules matching the target Linter scheme.
  * @param {string} brokenSourceCode - The raw source text payload containing potential layout variations.
- * @param {string} filePath - The destination target path or mock location identifier to bind to the validation loop.
+ * @param {import('../../integration-tests-test-helper.d.ts').IntegrationTestFilesystemBlueprint} paths - The structural blueprint holding resolved absolute filesystem tracks for the active test container pass.
  *
- * @returns {Promise<import('./test-helper.d.ts').CodeProcessingResult>} A promise that resolves to the comprehensive metric configuration payload mapping both code execution passes.
+ * @returns {Promise<import('./rules-test-helper.d.ts').CodeProcessingResult>} A promise that resolves to the comprehensive metric configuration payload mapping both code execution passes.
  */
-async function executeCodeProcessingAsync(files, rules, brokenSourceCode, filePath) {
-  const eslintEngineWithFix = createESLlintEngine(files, rules, true);
-  const eslintEngineWithoutFix = createESLlintEngine(files, rules, false);
+async function executeCodeProcessingAsync(files, rules, brokenSourceCode, paths) {
+  const eslintEngineWithFix = createESLlintEngine(files, rules, true, paths.testTmpDir);
+  const eslintEngineWithoutFix = createESLlintEngine(files, rules, false, paths.testTmpDir);
 
   return {
-    withFix: await runESLintEngineAsync(eslintEngineWithFix, brokenSourceCode, filePath),
-    withoutFix: await runESLintEngineAsync(eslintEngineWithoutFix, brokenSourceCode, filePath)
+    withFix: await runESLintEngineAsync(eslintEngineWithFix, brokenSourceCode, paths.mockTargetFile),
+    withoutFix: await runESLintEngineAsync(eslintEngineWithoutFix, brokenSourceCode, paths.mockTargetFile)
   };
 }
 

@@ -1,4 +1,5 @@
 import { ESLint, Linter } from 'eslint';
+import { IntegrationTestFilesystemBlueprint } from '../../integration-tests-test-helper.js';
 
 /**
  * Linting result.
@@ -21,10 +22,11 @@ export interface RulesTestHelper {
    * @param files - An array of glob patterns defining which source files the configuration block should apply to.
    * @param rules - An object containing the configured rules matching the target Linter scheme.
    * @param fix - Flag that enables generation of automatic code fixes at the linter core level.
+   * @param rootDirPath - Current working diectory path.
    *
    * @returns A configured instance of the ESLint class, ready to lint strings in memory.
    */
-  createESLlintEngine(files: string[], rules: Linter.Config['rules'], fix: boolean): ESLint;
+  createESLlintEngine(files: string[], rules: Linter.Config['rules'], fix: boolean, rootDirPath: string | undefined): ESLint;
 
   /**
    * Executes the linting pipeline on the raw source code payload using the provided ESLint engine and absolute or virtual file path constraints.
@@ -43,11 +45,11 @@ export interface RulesTestHelper {
    * @param files - An array of glob patterns defining which source files the configuration block should apply to.
    * @param rules - An object containing the configured rules matching the target Linter scheme.
    * @param brokenSourceCode - The raw source text payload containing potential layout variations.
-   * @param filePath - The destination target path or mock location identifier to bind to the validation loop.
+   * @param paths - The structural blueprint holding resolved absolute filesystem tracks for the active test container pass.
    *
    * @returns A promise that resolves to the comprehensive metric configuration payload mapping both code execution passes.
    */
-  executeCodeProcessingAsync(files: string[], rules: Linter.Config['rules'], brokenSourceCode: string, filePath: string): Promise<CodeProcessingResult>;
+  executeCodeProcessingAsync(files: string[], rules: Linter.Config['rules'], brokenSourceCode: string, paths: IntegrationTestFilesystemBlueprint): Promise<CodeProcessingResult>;
 
   /**
    * Assertively validates structural equality between properties of an actual ESLint evaluation result and an expected result blueprint.
