@@ -60,6 +60,18 @@ export interface RulesTestHelper {
    * @returns void
    */
   expectResult(actualResult: ESLint.LintResult, expectedResult: ESLint.LintResult): void;
+
+  /**
+   * Assertively validates structural equality between properties of an actual ESLint evaluation result and an expected result blueprint.
+   *
+   * @param results - The comprehensive metric configuration payload mapping both code execution passes.
+   * @param expectedFixedSourceCode - The fixed source text payload containing potential layout variations.
+   * @param brokenSourceCode - The raw source text payload containing potential layout variations.
+   * @param errorCount - Number of errors for the result.
+   *
+   * @returns void
+   */
+  expectResults(results: CodeProcessingResult, expectedFixedSourceCode: string, brokenSourceCode: string, errorCount: number): void;
 }
 
 declare const rulesTestHelper: RulesTestHelper;

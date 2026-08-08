@@ -7,7 +7,8 @@ const rulesTestHelper = Object.freeze({
   createESLlintEngine: createESLlintEngine,
   runESLintEngineAsync: runESLintEngineAsync,
   executeCodeProcessingAsync: executeCodeProcessingAsync,
-  expectResult: expectResult
+  expectResult: expectResult,
+  expectResults: expectResults
 });
 
 //================================
@@ -113,4 +114,36 @@ function expectResult(actualResult, expectedResult) {
   expect(actualResult.errorCount).toBe(expectedResult.errorCount);
   expect(actualResult.output).toBe(expectedResult.output);
   expect(actualResult.source).toBe(expectedResult.source);
+}
+
+/**
+ * @private
+ *
+ * Assertively validates structural equality between properties of an actual ESLint evaluation result and an expected result blueprint.
+ *
+ * @param {import('./rules-test-helper.d.ts').CodeProcessingResult} results - The comprehensive metric configuration payload mapping both code execution passes.
+ * @param {string} expectedFixedSourceCode - The fixed source text payload containing potential layout variations.
+ * @param {string} brokenSourceCode - The raw source text payload containing potential layout variations.
+ * @param {number} [errorCount=1] - Number of errors for the result.
+ *
+ * @returns {void}
+ */
+function expectResults(results, expectedFixedSourceCode, brokenSourceCode, errorCount = 1) {
+  expectResult(
+    results.withFix,
+    {
+      errorCount: 0,
+      output: expectedFixedSourceCode,
+      source: undefined
+    }
+  );
+
+  expectResult(
+    results.withoutFix,
+    {
+      errorCount: errorCount,
+      output: undefined,
+      source: brokenSourceCode
+    }
+  );
 }
