@@ -1,5 +1,5 @@
 import * as vitest from 'vitest';
-import testHelper from '../../test-helper.js';
+import esmock from 'esmock';
 import editorconfigProvider from '../../../infrastructure/editorconfig-provider.js';
 
 //================================
@@ -394,7 +394,7 @@ function test_propertyValue_isStrictImmutableDictionary() {
 }
 
 async function test_loadConfig_returnsUnchangedConfig_async() {
-  const mockedEditorconfigProvider = await testHelper.getMockedEditorconfigProviderAsync(expectedConfig);
+  const mockedEditorconfigProvider = await getMockedEditorconfigProviderAsync(expectedConfig);
   const actualConfig = mockedEditorconfigProvider.loadConfig('fakePath');
 
   vitest.expect(actualConfig).toEqual(expectedConfig);
@@ -409,7 +409,7 @@ function test_getConfig_returnsEmptyConfigIfUseEditorconfigIsFalse() {
 }
 
 async function test_getConfig_async(useEditorconfig) {
-  const mockedEditorconfigProvider = await testHelper.getMockedEditorconfigProviderAsync(expectedConfig);
+  const mockedEditorconfigProvider = await getMockedEditorconfigProviderAsync(expectedConfig);
   const actualConfig = mockedEditorconfigProvider.getConfig(useEditorconfig, 'fakePath');
 
   vitest.expect(actualConfig).toEqual(expectedConfig);
@@ -612,4 +612,39 @@ function test_getCharset_returnsCharset(config) {
   vitest.expect(actualValue1).not.toEqual(deaultValue1);
   vitest.expect(actualValue2).not.toEqual(deaultValue2);
   vitest.expect(actualValue3).not.toEqual(deaultValue3);
+}
+
+//================================
+// Private Functions
+//================================
+
+/**
+ * @private
+ * @async
+ *
+ * Asynchronously creates a mocked instance of the editorconfig provider.
+ * Uses `esmock` to intercept the `editorconfig` dependency and inject a mock `parseSync` function.
+ *
+ * @param {import('editorconfig').Props} config - The predefined configuration properties to return from the mock.
+ *
+ * @returns {Promise<import('../infrastructure/editorconfig-provider.d.ts').EditorconfigProvider>} A promise that resolves to the mocked editorconfig provider module.
+ *
+ * @throws {Error} Thrown if esmock fails to resolve, initialize, or load the mocked module target payload.
+ */
+async function getMockedEditorconfigProviderAsync(config) {
+  const provider = await esmock(
+    '../infrastructure/editorconfig-provider.js',
+    {
+      editorconfig: {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        parseSync: (filePath) => config
+      }
+    }
+  );
+
+  if (provider) {
+    return provider.default || provider;
+  }
+
+  throw new Error('Error mocking editorconfig provider.');
 }
