@@ -1,5 +1,4 @@
 import * as vitest from 'vitest';
-import fs from 'node:fs/promises';
 import editorconfigProvider from '../../../infrastructure/editorconfig-provider.js';
 import integrationTestsTestHelper from '../integration-tests-test-helper.js';
 
@@ -12,7 +11,7 @@ vitest.describe.concurrent('EditorConfig Provider - Physical Integration Tier', 
 async function describeAsync() {
   const testTempRootDir = await integrationTestsTestHelper.createTempRootDirAsync('editorconfigProvider');
 
-  vitest.afterAll(async () => await afterAllAsync(testTempRootDir));
+  vitest.afterAll(async () => await integrationTestsTestHelper.removeAsync(testTempRootDir));
 
   vitest.it.concurrent(
     'Should physically read properties from a real .editorconfig file on disk. For js.',
@@ -70,12 +69,6 @@ async function describeAsync() {
   );
 }
 
-async function afterAllAsync(testTempRootDir) {
-  if (testTempRootDir) {
-    await fs.rm(testTempRootDir, integrationTestsTestHelper.rmOptions);
-  }
-}
-
 async function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_js_async(testTempRootDir) {
   const paths = integrationTestsTestHelper.createTempPaths(
     testTempRootDir,
@@ -122,7 +115,7 @@ async function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_js
     vitest.expect(config.charset).toBe(expectedCharset);
   }
   finally {
-    await fs.rm(paths.testTmpDir, integrationTestsTestHelper.rmOptions);
+    await integrationTestsTestHelper.removeAsync(paths.testTmpDir);
   }
 }
 
@@ -172,7 +165,7 @@ async function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_md
     vitest.expect(config.charset).toBe(expectedCharset);
   }
   finally {
-    await fs.rm(paths.testTmpDir, integrationTestsTestHelper.rmOptions);
+    await integrationTestsTestHelper.removeAsync(paths.testTmpDir);
   }
 }
 
@@ -209,7 +202,7 @@ async function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_ta
     vitest.expect(config.charset).toBeUndefined();
   }
   finally {
-    await fs.rm(paths.testTmpDir, integrationTestsTestHelper.rmOptions);
+    await integrationTestsTestHelper.removeAsync(paths.testTmpDir);
   }
 }
 
@@ -246,7 +239,7 @@ async function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_ta
     vitest.expect(config.charset).toBeUndefined();
   }
   finally {
-    await fs.rm(paths.testTmpDir, integrationTestsTestHelper.rmOptions);
+    await integrationTestsTestHelper.removeAsync(paths.testTmpDir);
   }
 }
 
@@ -283,7 +276,7 @@ async function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_ta
     vitest.expect(config.charset).toBeUndefined();
   }
   finally {
-    await fs.rm(paths.testTmpDir, integrationTestsTestHelper.rmOptions);
+    await integrationTestsTestHelper.removeAsync(paths.testTmpDir);
   }
 }
 
@@ -320,7 +313,7 @@ async function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_ta
     vitest.expect(config.charset).toBeUndefined();
   }
   finally {
-    await fs.rm(paths.testTmpDir, integrationTestsTestHelper.rmOptions);
+    await integrationTestsTestHelper.removeAsync(paths.testTmpDir);
   }
 }
 
@@ -357,7 +350,7 @@ async function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_sp
     vitest.expect(config.charset).toBeUndefined();
   }
   finally {
-    await fs.rm(paths.testTmpDir, integrationTestsTestHelper.rmOptions);
+    await integrationTestsTestHelper.removeAsync(paths.testTmpDir);
   }
 }
 
@@ -394,7 +387,7 @@ async function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_sp
     vitest.expect(config.charset).toBeUndefined();
   }
   finally {
-    await fs.rm(paths.testTmpDir, integrationTestsTestHelper.rmOptions);
+    await integrationTestsTestHelper.removeAsync(paths.testTmpDir);
   }
 }
 
@@ -431,7 +424,7 @@ async function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_sp
     vitest.expect(config.charset).toBeUndefined();
   }
   finally {
-    await fs.rm(paths.testTmpDir, integrationTestsTestHelper.rmOptions);
+    await integrationTestsTestHelper.removeAsync(paths.testTmpDir);
   }
 }
 
@@ -468,7 +461,7 @@ async function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_sp
     vitest.expect(config.charset).toBeUndefined();
   }
   finally {
-    await fs.rm(paths.testTmpDir, integrationTestsTestHelper.rmOptions);
+    await integrationTestsTestHelper.removeAsync(paths.testTmpDir);
   }
 }
 
@@ -487,8 +480,6 @@ async function test_loadConfig_editorconfigFileIsNotFounded_async() {
     vitest.expect(config).toEqual({});
   }
   finally {
-    if (tmpRootDir) {
-      await fs.rm(tmpRootDir, integrationTestsTestHelper.rmOptions);
-    }
+    await integrationTestsTestHelper.removeAsync(tmpRootDir);
   }
 }
