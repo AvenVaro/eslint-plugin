@@ -633,7 +633,7 @@ function test_getCharset_returnsCharset(config) {
  */
 async function getMockedEditorconfigProviderAsync(config) {
   const provider = await esmock(
-    '../infrastructure/editorconfig-provider.js',
+    '../../../infrastructure/editorconfig-provider.js',
     {
       editorconfig: {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
