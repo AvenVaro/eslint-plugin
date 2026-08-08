@@ -12,7 +12,7 @@ import editorconfigProvider from '../../../../../../../infrastructure/editorconf
 vitest.describe.concurrent('JavaScript Indent Rule. Use Editorconfig', describeAsync);
 
 async function describeAsync() {
-  const testTempRootDir = await integrationTestsTestHelper.createTempRootDirAsync('editorconfigProvider');
+  const testTempRootDir = await integrationTestsTestHelper.createTempRootDirAsync('JS_IndentRule_UseEditorConfig');
 
   vitest.afterAll(async () => await integrationTestsTestHelper.removeAsync(testTempRootDir));
 
@@ -102,8 +102,6 @@ async function test_indentRule_useEditorconfig_async(testTempRootDir, useEditorc
     '}'
   ]);
 
-  const paths = integrationTestsTestHelper.createTempPaths(testTempRootDir, dirName, 'index.js');
-
   const editorconfig = integrationTestsTestHelper.convertCodeArrayToCodeString([
     'root = true',
     '',
@@ -113,23 +111,15 @@ async function test_indentRule_useEditorconfig_async(testTempRootDir, useEditorc
     `end_of_line = ${editorconfigProvider.propertyValue.lf}`
   ]);
 
-  try {
-    await integrationTestsTestHelper.createTempFilesAsync(paths, editorconfig);
-
-    const results = await jsRulesTestHelper.executeCodeProcessingWithPathsAsync(
-      indentRuleTestHelper.createIndentRule(
-        10,
-        {
-          useEditorconfig: useEditorconfig
-        }
-      ),
-      brokenSourceCode,
-      paths
-    );
-
-    rulesTestHelper.expectResults(results, expectedFixedSourceCode, brokenSourceCode);
-  }
-  finally {
-    await integrationTestsTestHelper.removeAsync(paths.testTmpDir);
-  }
+  indentRuleTestHelper.tryExpect(
+    testTempRootDir,
+    dirName,
+    editorconfig,
+    10,
+    {
+      useEditorconfig: useEditorconfig
+    },
+    brokenSourceCode,
+    expectedFixedSourceCode
+  );
 }
