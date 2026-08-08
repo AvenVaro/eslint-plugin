@@ -4,7 +4,8 @@ import rulesTestHelper from '../rules-test-helper.js';
 const jsRulesTestHelper = Object.freeze({
   createESLlintEngine: createESLlintEngine,
   runESLintEngineAsync: runESLintEngineAsync,
-  executeCodeProcessingAsync: executeCodeProcessingAsync
+  executeCodeProcessingAsync: executeCodeProcessingAsync,
+  executeCodeProcessingWithPathsAsync: executeCodeProcessingWithPathsAsync
 });
 
 //================================
@@ -24,16 +25,18 @@ export default jsRulesTestHelper;
  *
  * @param {import('eslint').Linter.Config['rules']} rules - An object containing the configured rules matching the target Linter scheme.
  * @param {boolean} fix - Flag that enables generation of automatic code fixes at the linter core level.
+ * @param {string | undefined} rootDirPath - Current working diectory path.
  *
  * @returns {import('eslint').ESLint} A configured instance of the ESLint class, ready to lint strings in memory.
  */
-function createESLlintEngine(rules, fix) {
+function createESLlintEngine(rules, fix, rootDirPath) {
   return rulesTestHelper.createESLlintEngine(
     [
       '**/*.js'
     ],
     rules,
-    fix
+    fix,
+    rootDirPath
   );
 }
 
@@ -61,14 +64,36 @@ async function runESLintEngineAsync(eslintEngine, brokenSourceCode) {
  * @param {import('eslint').Linter.Config['rules']} rules - An object containing the configured rules matching the target Linter scheme.
  * @param {string} brokenSourceCode - The raw source text payload containing potential layout variations.
  *
- * @returns {Promise<import('./test-helper.d.ts').CodeProcessingResult>} A promise that resolves to the comprehensive metric configuration payload mapping both code execution passes.
+ * @returns {Promise<import('../rules-test-helper.d.ts').CodeProcessingResult>} A promise that resolves to the comprehensive metric configuration payload mapping both code execution passes.
  */
 async function executeCodeProcessingAsync(rules, brokenSourceCode) {
-  const eslintEngineWithFix = createESLlintEngine(rules, true);
-  const eslintEngineWithoutFix = createESLlintEngine( rules, false);
+  const eslintEngineWithFix = createESLlintEngine(rules, true, undefined);
+  const eslintEngineWithoutFix = createESLlintEngine( rules, false, undefined);
 
   return {
     withFix: await runESLintEngineAsync(eslintEngineWithFix, brokenSourceCode),
     withoutFix: await runESLintEngineAsync(eslintEngineWithoutFix, brokenSourceCode)
+  };
+}
+
+/**
+ * @private
+ * @async
+ *
+ * Orchestrates dual-mode execution passes on raw source contents targeting a specific file path.
+ *
+ * @param {import('eslint').Linter.Config['rules']} rules - An object containing the configured rules matching the target Linter scheme.
+ * @param {string} brokenSourceCode - The raw source text payload containing potential layout variations.
+ * @param {import('../../../integration-tests-test-helper.d.ts').IntegrationTestFilesystemBlueprint} paths - The structural blueprint holding resolved absolute filesystem tracks for the active test container pass.
+ *
+ * @returns {Promise<import('../rules-test-helper.d.ts').CodeProcessingResult>} A promise that resolves to the comprehensive metric configuration payload mapping both code execution passes.
+ */
+async function executeCodeProcessingWithPathsAsync(rules, brokenSourceCode, paths) {
+  const eslintEngineWithFix = createESLlintEngine(rules, true, paths.testTmpDir);
+  const eslintEngineWithoutFix = createESLlintEngine( rules, false, paths.testTmpDir);
+
+  return {
+    withFix: await rulesTestHelper.runESLintEngineAsync(eslintEngineWithFix, brokenSourceCode, paths.mockTargetFile),
+    withoutFix: await rulesTestHelper.runESLintEngineAsync(eslintEngineWithoutFix, brokenSourceCode, paths.mockTargetFile)
   };
 }
