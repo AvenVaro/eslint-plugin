@@ -76,43 +76,42 @@ async function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_js
     'index.js'
   );
 
-  const expectedIndentSize = 3;
-  const expectedCharset = 'unset_charset';
-  const expectedInsertFinalNewline = true;
-  const expectedTrimTrailingWhitespace = true;
+  /** @type {import('editorconfig').Props} */
+  const expectedConfig = {
+    indent_style: editorconfigProvider.propertyValue.tab,
+    tab_width: 3,
+    end_of_line: editorconfigProvider.propertyValue.lf,
+    indent_size: 3,
+    insert_final_newline: true,
+    trim_trailing_whitespace: true,
+    charset: 'unset_charset'
+  };
 
   const editorconfig = integrationTestsTestHelper.convertCodeArrayToCodeString([
     'root = true',
     '',
     '[*]',
-    `indent_style = ${editorconfigProvider.propertyValue.tab}`,
+    `indent_style = ${expectedConfig.indent_style}`,
     'indent_size = 10',
-    `insert_final_newline = ${expectedInsertFinalNewline}`,
-    `trim_trailing_whitespace = ${expectedTrimTrailingWhitespace}`,
-    `charset = ${expectedCharset}`,
-    `end_of_line = ${editorconfigProvider.propertyValue.lf}`,
+    `insert_final_newline = ${expectedConfig.insert_final_newline}`,
+    `trim_trailing_whitespace = ${expectedConfig.trim_trailing_whitespace}`,
+    `charset = ${expectedConfig.charset}`,
+    `end_of_line = ${expectedConfig.end_of_line}`,
     '',
     '[*.md]',
     'indent_size = 5',
     'trim_trailing_whitespace = false',
     '',
     '[*.js]',
-    `indent_size = ${expectedIndentSize}`
+    `indent_size = ${expectedConfig.indent_size}`
   ]);
 
   try {
     await integrationTestsTestHelper.createTempFilesAsync(paths, editorconfig);
 
-    const config = editorconfigProvider.getConfig(true, paths.mockTargetFile);
+    const actualConfig = editorconfigProvider.getConfig(true, paths.mockTargetFile);
 
-    vitest.expect(config).toBeDefined();
-    vitest.expect(config.end_of_line).toBe(editorconfigProvider.propertyValue.lf);
-    vitest.expect(config.indent_style).toBe(editorconfigProvider.propertyValue.tab);
-    vitest.expect(config.indent_size).toBe(expectedIndentSize);
-    vitest.expect(config.insert_final_newline).toBe(expectedInsertFinalNewline);
-    vitest.expect(config.tab_width).toBe(expectedIndentSize);
-    vitest.expect(config.trim_trailing_whitespace).toBe(expectedTrimTrailingWhitespace);
-    vitest.expect(config.charset).toBe(expectedCharset);
+    expectConfig(actualConfig, expectedConfig);
   }
   finally {
     await integrationTestsTestHelper.removeAsync(paths.testTmpDir);
@@ -126,25 +125,31 @@ async function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_md
     'index.md'
   );
 
-  const expectedIndentSize = 5;
-  const expectedCharset = 'unset_charset';
-  const expectedInsertFinalNewline = true;
-  const expectedTrimTrailingWhitespace = false;
+  /** @type {import('editorconfig').Props} */
+  const expectedConfig = {
+    indent_style: editorconfigProvider.propertyValue.tab,
+    tab_width: 5,
+    end_of_line: editorconfigProvider.propertyValue.lf,
+    indent_size: 5,
+    insert_final_newline: true,
+    trim_trailing_whitespace: false,
+    charset: 'unset_charset'
+  };
 
   const editorconfig = integrationTestsTestHelper.convertCodeArrayToCodeString([
     'root = true',
     '',
     '[*]',
-    `indent_style = ${editorconfigProvider.propertyValue.tab}`,
+    `indent_style = ${expectedConfig.indent_style}`,
     'indent_size = 10',
-    `insert_final_newline = ${expectedInsertFinalNewline}`,
+    `insert_final_newline = ${expectedConfig.insert_final_newline}`,
     'trim_trailing_whitespace = true',
-    `charset = ${expectedCharset}`,
-    `end_of_line = ${editorconfigProvider.propertyValue.lf}`,
+    `charset = ${expectedConfig.charset}`,
+    `end_of_line = ${expectedConfig.end_of_line}`,
     '',
     '[*.md]',
-    `indent_size = ${expectedIndentSize}`,
-    `trim_trailing_whitespace = ${expectedTrimTrailingWhitespace}`,
+    `indent_size = ${expectedConfig.indent_size}`,
+    `trim_trailing_whitespace = ${expectedConfig.trim_trailing_whitespace}`,
     '',
     '[*.js]',
     'indent_size = 3'
@@ -153,16 +158,9 @@ async function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_md
   try {
     await integrationTestsTestHelper.createTempFilesAsync(paths, editorconfig);
 
-    const config = editorconfigProvider.getConfig(true, paths.mockTargetFile);
+    const actualConfig = editorconfigProvider.getConfig(true, paths.mockTargetFile);
 
-    vitest.expect(config).toBeDefined();
-    vitest.expect(config.end_of_line).toBe(editorconfigProvider.propertyValue.lf);
-    vitest.expect(config.indent_style).toBe(editorconfigProvider.propertyValue.tab);
-    vitest.expect(config.indent_size).toBe(expectedIndentSize);
-    vitest.expect(config.insert_final_newline).toBe(expectedInsertFinalNewline);
-    vitest.expect(config.tab_width).toBe(expectedIndentSize);
-    vitest.expect(config.trim_trailing_whitespace).toBe(expectedTrimTrailingWhitespace);
-    vitest.expect(config.charset).toBe(expectedCharset);
+    expectConfig(actualConfig, expectedConfig);
   }
   finally {
     await integrationTestsTestHelper.removeAsync(paths.testTmpDir);
@@ -176,30 +174,29 @@ async function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_ta
     'index.js'
   );
 
-  const expectedIndentSize = 4;
+  /** @type {import('editorconfig').Props} */
+  const expectedConfig = {
+    indent_style: editorconfigProvider.propertyValue.tab,
+    tab_width: 4,
+    end_of_line: editorconfigProvider.propertyValue.lf,
+    indent_size: 4
+  };
 
   const editorconfig = integrationTestsTestHelper.convertCodeArrayToCodeString([
     'root = true',
     '',
     '[*.js]',
-    `indent_style = ${editorconfigProvider.propertyValue.tab}`,
-    `indent_size = ${expectedIndentSize}`,
-    `end_of_line = ${editorconfigProvider.propertyValue.lf}`
+    `indent_style = ${expectedConfig.indent_style}`,
+    `indent_size = ${expectedConfig.indent_size}`,
+    `end_of_line = ${expectedConfig.end_of_line}`
   ]);
 
   try {
     await integrationTestsTestHelper.createTempFilesAsync(paths, editorconfig);
 
-    const config = editorconfigProvider.getConfig(true, paths.mockTargetFile);
+    const actualConfig = editorconfigProvider.getConfig(true, paths.mockTargetFile);
 
-    vitest.expect(config).toBeDefined();
-    vitest.expect(config.end_of_line).toBe(editorconfigProvider.propertyValue.lf);
-    vitest.expect(config.indent_style).toBe(editorconfigProvider.propertyValue.tab);
-    vitest.expect(config.indent_size).toBe(expectedIndentSize);
-    vitest.expect(config.insert_final_newline).toBeUndefined();
-    vitest.expect(config.tab_width).toBe(expectedIndentSize);
-    vitest.expect(config.trim_trailing_whitespace).toBeUndefined();
-    vitest.expect(config.charset).toBeUndefined();
+    expectConfig(actualConfig, expectedConfig);
   }
   finally {
     await integrationTestsTestHelper.removeAsync(paths.testTmpDir);
@@ -213,30 +210,29 @@ async function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_ta
     'index.js'
   );
 
-  const expectedIndentSize = 'string_value';
+  /** @type {import('editorconfig').Props} */
+  const expectedConfig = {
+    indent_style: editorconfigProvider.propertyValue.tab,
+    tab_width: 'string_value',
+    end_of_line: editorconfigProvider.propertyValue.lf,
+    indent_size: 'string_value'
+  };
 
   const editorconfig = integrationTestsTestHelper.convertCodeArrayToCodeString([
     'root = true',
     '',
     '[*.js]',
-    `indent_style = ${editorconfigProvider.propertyValue.tab}`,
-    `indent_size = ${expectedIndentSize}`,
-    `end_of_line = ${editorconfigProvider.propertyValue.lf}`
+    `indent_style = ${expectedConfig.indent_style}`,
+    `indent_size = ${expectedConfig.indent_size}`,
+    `end_of_line = ${expectedConfig.end_of_line}`
   ]);
 
   try {
     await integrationTestsTestHelper.createTempFilesAsync(paths, editorconfig);
 
-    const config = editorconfigProvider.getConfig(true, paths.mockTargetFile);
+    const actualConfig = editorconfigProvider.getConfig(true, paths.mockTargetFile);
 
-    vitest.expect(config).toBeDefined();
-    vitest.expect(config.end_of_line).toBe(editorconfigProvider.propertyValue.lf);
-    vitest.expect(config.indent_style).toBe(editorconfigProvider.propertyValue.tab);
-    vitest.expect(config.indent_size).toBe(expectedIndentSize);
-    vitest.expect(config.insert_final_newline).toBeUndefined();
-    vitest.expect(config.tab_width).toBe(expectedIndentSize);
-    vitest.expect(config.trim_trailing_whitespace).toBeUndefined();
-    vitest.expect(config.charset).toBeUndefined();
+    expectConfig(actualConfig, expectedConfig);
   }
   finally {
     await integrationTestsTestHelper.removeAsync(paths.testTmpDir);
@@ -250,30 +246,29 @@ async function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_ta
     'index.js'
   );
 
-  const expectedIndentSize = 4;
+  /** @type {import('editorconfig').Props} */
+  const expectedConfig = {
+    indent_style: editorconfigProvider.propertyValue.tab,
+    tab_width: 4,
+    end_of_line: editorconfigProvider.propertyValue.lf,
+    indent_size: 4
+  };
 
   const editorconfig = integrationTestsTestHelper.convertCodeArrayToCodeString([
     'root = true',
     '',
     '[*.js]',
-    `indent_style = ${editorconfigProvider.propertyValue.tab}`,
-    `tab_width = ${expectedIndentSize}`,
-    `end_of_line = ${editorconfigProvider.propertyValue.lf}`
+    `indent_style = ${expectedConfig.indent_style}`,
+    `tab_width = ${expectedConfig.tab_width}`,
+    `end_of_line = ${expectedConfig.end_of_line}`
   ]);
 
   try {
     await integrationTestsTestHelper.createTempFilesAsync(paths, editorconfig);
 
-    const config = editorconfigProvider.getConfig(true, paths.mockTargetFile);
+    const actualConfig = editorconfigProvider.getConfig(true, paths.mockTargetFile);
 
-    vitest.expect(config).toBeDefined();
-    vitest.expect(config.end_of_line).toBe(editorconfigProvider.propertyValue.lf);
-    vitest.expect(config.indent_style).toBe(editorconfigProvider.propertyValue.tab);
-    vitest.expect(config.indent_size).toBe(expectedIndentSize);
-    vitest.expect(config.insert_final_newline).toBeUndefined();
-    vitest.expect(config.tab_width).toBe(expectedIndentSize);
-    vitest.expect(config.trim_trailing_whitespace).toBeUndefined();
-    vitest.expect(config.charset).toBeUndefined();
+    expectConfig(actualConfig, expectedConfig);
   }
   finally {
     await integrationTestsTestHelper.removeAsync(paths.testTmpDir);
@@ -287,30 +282,29 @@ async function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_ta
     'index.js'
   );
 
-  const expectedIndentSize = 'string_value';
+  /** @type {import('editorconfig').Props} */
+  const expectedConfig = {
+    indent_style: editorconfigProvider.propertyValue.tab,
+    tab_width: 'string_value',
+    end_of_line: editorconfigProvider.propertyValue.lf,
+    indent_size: 'string_value'
+  };
 
   const editorconfig = integrationTestsTestHelper.convertCodeArrayToCodeString([
     'root = true',
     '',
     '[*.js]',
-    `indent_style = ${editorconfigProvider.propertyValue.tab}`,
-    `tab_width = ${expectedIndentSize}`,
-    `end_of_line = ${editorconfigProvider.propertyValue.lf}`
+    `indent_style = ${expectedConfig.indent_style}`,
+    `tab_width = ${expectedConfig.tab_width}`,
+    `end_of_line = ${expectedConfig.end_of_line}`
   ]);
 
   try {
     await integrationTestsTestHelper.createTempFilesAsync(paths, editorconfig);
 
-    const config = editorconfigProvider.getConfig(true, paths.mockTargetFile);
+    const actualConfig = editorconfigProvider.getConfig(true, paths.mockTargetFile);
 
-    vitest.expect(config).toBeDefined();
-    vitest.expect(config.end_of_line).toBe(editorconfigProvider.propertyValue.lf);
-    vitest.expect(config.indent_style).toBe(editorconfigProvider.propertyValue.tab);
-    vitest.expect(config.indent_size).toBe(expectedIndentSize);
-    vitest.expect(config.insert_final_newline).toBeUndefined();
-    vitest.expect(config.tab_width).toBe(expectedIndentSize);
-    vitest.expect(config.trim_trailing_whitespace).toBeUndefined();
-    vitest.expect(config.charset).toBeUndefined();
+    expectConfig(actualConfig, expectedConfig);
   }
   finally {
     await integrationTestsTestHelper.removeAsync(paths.testTmpDir);
@@ -324,30 +318,29 @@ async function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_sp
     'index.js'
   );
 
-  const expectedIndentSize = 4;
+  /** @type {import('editorconfig').Props} */
+  const expectedConfig = {
+    indent_style: editorconfigProvider.propertyValue.space,
+    tab_width: 4,
+    end_of_line: editorconfigProvider.propertyValue.lf,
+    indent_size: 4
+  };
 
   const editorconfig = integrationTestsTestHelper.convertCodeArrayToCodeString([
     'root = true',
     '',
     '[*.js]',
-    `indent_style = ${editorconfigProvider.propertyValue.space}`,
-    `indent_size = ${expectedIndentSize}`,
-    `end_of_line = ${editorconfigProvider.propertyValue.lf}`
+    `indent_style = ${expectedConfig.indent_style}`,
+    `indent_size = ${expectedConfig.indent_size}`,
+    `end_of_line = ${expectedConfig.end_of_line}`
   ]);
 
   try {
     await integrationTestsTestHelper.createTempFilesAsync(paths, editorconfig);
 
-    const config = editorconfigProvider.getConfig(true, paths.mockTargetFile);
+    const actualConfig = editorconfigProvider.getConfig(true, paths.mockTargetFile);
 
-    vitest.expect(config).toBeDefined();
-    vitest.expect(config.end_of_line).toBe(editorconfigProvider.propertyValue.lf);
-    vitest.expect(config.indent_style).toBe(editorconfigProvider.propertyValue.space);
-    vitest.expect(config.indent_size).toBe(expectedIndentSize);
-    vitest.expect(config.insert_final_newline).toBeUndefined();
-    vitest.expect(config.tab_width).toBe(expectedIndentSize);
-    vitest.expect(config.trim_trailing_whitespace).toBeUndefined();
-    vitest.expect(config.charset).toBeUndefined();
+    expectConfig(actualConfig, expectedConfig);
   }
   finally {
     await integrationTestsTestHelper.removeAsync(paths.testTmpDir);
@@ -361,30 +354,29 @@ async function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_sp
     'index.js'
   );
 
-  const expectedIndentSize = 'string_value';
+  /** @type {import('editorconfig').Props} */
+  const expectedConfig = {
+    indent_style: editorconfigProvider.propertyValue.space,
+    tab_width: 'string_value',
+    end_of_line: editorconfigProvider.propertyValue.lf,
+    indent_size: 'string_value'
+  };
 
   const editorconfig = integrationTestsTestHelper.convertCodeArrayToCodeString([
     'root = true',
     '',
     '[*.js]',
-    `indent_style = ${editorconfigProvider.propertyValue.space}`,
-    `indent_size = ${expectedIndentSize}`,
-    `end_of_line = ${editorconfigProvider.propertyValue.lf}`
+    `indent_style = ${expectedConfig.indent_style}`,
+    `indent_size = ${expectedConfig.indent_size}`,
+    `end_of_line = ${expectedConfig.end_of_line}`
   ]);
 
   try {
     await integrationTestsTestHelper.createTempFilesAsync(paths, editorconfig);
 
-    const config = editorconfigProvider.getConfig(true, paths.mockTargetFile);
+    const actualConfig = editorconfigProvider.getConfig(true, paths.mockTargetFile);
 
-    vitest.expect(config).toBeDefined();
-    vitest.expect(config.end_of_line).toBe(editorconfigProvider.propertyValue.lf);
-    vitest.expect(config.indent_style).toBe(editorconfigProvider.propertyValue.space);
-    vitest.expect(config.indent_size).toBe(expectedIndentSize);
-    vitest.expect(config.insert_final_newline).toBeUndefined();
-    vitest.expect(config.tab_width).toBe(expectedIndentSize);
-    vitest.expect(config.trim_trailing_whitespace).toBeUndefined();
-    vitest.expect(config.charset).toBeUndefined();
+    expectConfig(actualConfig, expectedConfig);
   }
   finally {
     await integrationTestsTestHelper.removeAsync(paths.testTmpDir);
@@ -398,30 +390,28 @@ async function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_sp
     'index.js'
   );
 
-  const expectedIndentSize = 4;
+  /** @type {import('editorconfig').Props} */
+  const expectedConfig = {
+    indent_style: editorconfigProvider.propertyValue.space,
+    tab_width: 4,
+    end_of_line: editorconfigProvider.propertyValue.lf
+  };
 
   const editorconfig = integrationTestsTestHelper.convertCodeArrayToCodeString([
     'root = true',
     '',
     '[*.js]',
-    `indent_style = ${editorconfigProvider.propertyValue.space}`,
-    `tab_width = ${expectedIndentSize}`,
-    `end_of_line = ${editorconfigProvider.propertyValue.lf}`
+    `indent_style = ${expectedConfig.indent_style}`,
+    `tab_width = ${expectedConfig.tab_width}`,
+    `end_of_line = ${expectedConfig.end_of_line}`
   ]);
 
   try {
     await integrationTestsTestHelper.createTempFilesAsync(paths, editorconfig);
 
-    const config = editorconfigProvider.getConfig(true, paths.mockTargetFile);
+    const actualConfig = editorconfigProvider.getConfig(true, paths.mockTargetFile);
 
-    vitest.expect(config).toBeDefined();
-    vitest.expect(config.end_of_line).toBe(editorconfigProvider.propertyValue.lf);
-    vitest.expect(config.indent_style).toBe(editorconfigProvider.propertyValue.space);
-    vitest.expect(config.indent_size).toBeUndefined();
-    vitest.expect(config.insert_final_newline).toBeUndefined();
-    vitest.expect(config.tab_width).toBe(expectedIndentSize);
-    vitest.expect(config.trim_trailing_whitespace).toBeUndefined();
-    vitest.expect(config.charset).toBeUndefined();
+    expectConfig(actualConfig, expectedConfig);
   }
   finally {
     await integrationTestsTestHelper.removeAsync(paths.testTmpDir);
@@ -435,30 +425,28 @@ async function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_sp
     'index.js'
   );
 
-  const expectedIndentSize = 'string_value';
+  /** @type {import('editorconfig').Props} */
+  const expectedConfig = {
+    indent_style: editorconfigProvider.propertyValue.space,
+    tab_width: 'string_value',
+    end_of_line: editorconfigProvider.propertyValue.lf
+  };
 
   const editorconfig = integrationTestsTestHelper.convertCodeArrayToCodeString([
     'root = true',
     '',
     '[*.js]',
-    `indent_style = ${editorconfigProvider.propertyValue.space}`,
-    `tab_width = ${expectedIndentSize}`,
-    `end_of_line = ${editorconfigProvider.propertyValue.lf}`
+    `indent_style = ${expectedConfig.indent_style}`,
+    `tab_width = ${expectedConfig.tab_width}`,
+    `end_of_line = ${expectedConfig.end_of_line}`
   ]);
 
   try {
     await integrationTestsTestHelper.createTempFilesAsync(paths, editorconfig);
 
-    const config = editorconfigProvider.getConfig(true, paths.mockTargetFile);
+    const actualConfig = editorconfigProvider.getConfig(true, paths.mockTargetFile);
 
-    vitest.expect(config).toBeDefined();
-    vitest.expect(config.end_of_line).toBe(editorconfigProvider.propertyValue.lf);
-    vitest.expect(config.indent_style).toBe(editorconfigProvider.propertyValue.space);
-    vitest.expect(config.indent_size).toBeUndefined(expectedIndentSize);
-    vitest.expect(config.insert_final_newline).toBeUndefined();
-    vitest.expect(config.tab_width).toBe(expectedIndentSize);
-    vitest.expect(config.trim_trailing_whitespace).toBeUndefined();
-    vitest.expect(config.charset).toBeUndefined();
+    expectConfig(actualConfig, expectedConfig);
   }
   finally {
     await integrationTestsTestHelper.removeAsync(paths.testTmpDir);
@@ -475,11 +463,39 @@ async function test_loadConfig_editorconfigFileIsNotFounded_async() {
 
     await integrationTestsTestHelper.createTempTargetFileDirAsync(targetFile);
 
-    const config = editorconfigProvider.loadConfig(targetFile);
+    /** @type {import('editorconfig').Props} */
+    const expectedConfig = {};
+    const actualConfig = editorconfigProvider.loadConfig(targetFile);
 
-    vitest.expect(config).toEqual({});
+    expectConfig(actualConfig, expectedConfig);
   }
   finally {
     await integrationTestsTestHelper.removeAsync(tmpRootDir);
   }
 }
+
+//================================
+// Private Functions
+//================================
+
+/**
+ * @private
+ *
+ * Asserts that the actual EditorConfig properties match the expected configuration.
+ *
+ * @param {import('editorconfig').Props} actualConfig - The configuration object received from the provider.
+ * @param {import('editorconfig').Props} expectedConfig - The reference configuration object to compare against.
+ *
+ * @returns {void} This function does not return a value.
+ */
+function expectConfig(actualConfig, expectedConfig) {
+  vitest.expect(actualConfig).toBeDefined();
+  vitest.expect(actualConfig.end_of_line).toBe(expectedConfig.end_of_line);
+  vitest.expect(actualConfig.indent_style).toBe(expectedConfig.indent_style);
+  vitest.expect(actualConfig.indent_size).toBe(expectedConfig.indent_size);
+  vitest.expect(actualConfig.insert_final_newline).toBe(expectedConfig.insert_final_newline);
+  vitest.expect(actualConfig.tab_width).toBe(expectedConfig.tab_width);
+  vitest.expect(actualConfig.trim_trailing_whitespace).toBe(expectedConfig.trim_trailing_whitespace);
+  vitest.expect(actualConfig.charset).toBe(expectedConfig.charset);
+}
+
