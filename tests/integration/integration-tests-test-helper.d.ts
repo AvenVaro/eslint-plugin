@@ -82,6 +82,16 @@ export interface IntegrationTestsTestHelper {
    * @returns A concatenated multi-line source execution file payload string.
    */
   convertCodeArrayToCodeString(codeArray: string[], insertEOL?: boolean): string;
+
+  /**
+   * Asynchronously removes a file or directory at the specified path if it is provided.
+   * Uses the predefined integration test options for the filesystem removal operation.
+   *
+   * @param path - The filesystem path to the file or directory to remove.
+   *
+   * @returns A promise that resolves when the removal operation is complete.
+   */
+  removeAsync(path: string): Promise<void>;
 }
 
 declare const integrationTestsTestHelper: IntegrationTestsTestHelper;

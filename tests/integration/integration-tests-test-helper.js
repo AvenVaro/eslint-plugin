@@ -22,7 +22,8 @@ const integrationTestsTestHelper = Object.freeze({
   createTempFilesAsync: createTempFilesAsync,
   createTempTargetFileDirAsync: createTempTargetFileDirAsync,
   createTempTargetFilePath: createTempTargetFilePath,
-  convertCodeArrayToCodeString: convertCodeArrayToCodeString
+  convertCodeArrayToCodeString: convertCodeArrayToCodeString,
+  removeAsync: removeAsync
 });
 
 //================================
@@ -134,4 +135,18 @@ function convertCodeArrayToCodeString(codeArray, insertEOL = true) {
   }
 
   return codeArray.join('\n');
+}
+
+/**
+ * Asynchronously removes a file or directory at the specified path if it is provided.
+ * Uses the predefined integration test options for the filesystem removal operation.
+ *
+ * @param {string} path - The filesystem path to the file or directory to remove.
+ *
+ * @returns {Promise<void>} A promise that resolves when the removal operation is complete.
+ */
+async function removeAsync(path) {
+  if (path) {
+    await fs.rm(path, integrationTestsTestHelper.rmOptions);
+  }
 }
