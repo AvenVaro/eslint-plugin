@@ -124,7 +124,7 @@ function expectResult(actualResult, expectedResult) {
  * @param {import('./rules-test-helper.d.ts').CodeProcessingResult} results - The comprehensive metric configuration payload mapping both code execution passes.
  * @param {string} expectedFixedSourceCode - The fixed source text payload containing potential layout variations.
  * @param {string} brokenSourceCode - The raw source text payload containing potential layout variations.
- * @param {number} [errorCount=1] - Number of errors for the result.
+ * @param {number} [errorCount=1] - The optional number of errors for the result.
  *
  * @returns {void}
  */

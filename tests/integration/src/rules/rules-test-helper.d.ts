@@ -67,11 +67,11 @@ export interface RulesTestHelper {
    * @param results - The comprehensive metric configuration payload mapping both code execution passes.
    * @param expectedFixedSourceCode - The fixed source text payload containing potential layout variations.
    * @param brokenSourceCode - The raw source text payload containing potential layout variations.
-   * @param errorCount - Number of errors for the result.
+   * @param errorCount - The optional number of errors for the result.
    *
    * @returns void
    */
-  expectResults(results: CodeProcessingResult, expectedFixedSourceCode: string, brokenSourceCode: string, errorCount: number): void;
+  expectResults(results: CodeProcessingResult, expectedFixedSourceCode: string, brokenSourceCode: string, errorCount?: number): void;
 }
 
 declare const rulesTestHelper: RulesTestHelper;
