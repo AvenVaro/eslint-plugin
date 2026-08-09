@@ -1,4 +1,6 @@
 import { Rule } from 'eslint';
+import { EPropertyValue } from '../../../infrastructure/property-value.enum.js'
+import { EType } from '../../../infrastructure/type.enum.js'
 
 /**
  * Configuration options for the EditorConfig-integrated JavaScript indentation rule.
@@ -11,10 +13,10 @@ export interface JsIndentOptions {
   variableDeclarator?: number | JsVariableDeclaratorIndentOptions;
 
   /** Enforces indentation level for the body of an Immediately-Invoked Function Expression (IIFE). */
-  outerIifeBody?: number | 'off';
+  outerIifeBody?: number | EPropertyValue['off'];
 
   /** Enforces indentation level for multi-line member expressions chained with a dot. */
-  memberExpression?: number | 'off';
+  memberExpression?: number | EPropertyValue['off'];
 
   /** Enforces indentation level for properties inside a class static block. */
   staticBlock?: JsStaticBlockIndentOptions;
@@ -29,13 +31,13 @@ export interface JsIndentOptions {
   functionExpression?: JsFunctionExpressionIndentOptions;
 
   /** Enforces indentation level for elements inside multi-line array expressions. */
-  arrayExpression?: number | 'first';
+  arrayExpression?: number | EPropertyValue['first'];
 
   /** Enforces indentation level for properties inside multi-line object expressions. */
-  objectExpression?: number | 'first';
+  objectExpression?: number | EPropertyValue['first'];
 
   /** Enforces indentation level for declarations inside multi-line import statements. */
-  importDeclaration?: number | 'first';
+  importDeclaration?: number | EPropertyValue['first'];
 
   /** If true, requires nested ternary expressions to be aligned on the same indentation level. */
   flatTernaryExpressions?: boolean;
@@ -50,7 +52,7 @@ export interface JsIndentOptions {
   useEditorconfig?: boolean;
 
   /** Fallback indentation size used when `.editorconfig` is unavailable or configuration keys are missing. */
-  defaultIndent?: number | 'tab';
+  defaultIndent?: number | EPropertyValue['tab'];
 }
 
 /**
@@ -80,7 +82,7 @@ export interface JsStaticBlockIndentOptions {
  */
 export interface JsCallExpressionIndentOptions {
   /** Indentation level or `'first'` alignment token for positional function arguments. */
-  arguments?: number | 'first';
+  arguments?: number | EPropertyValue['first'];
 }
 
 /**
@@ -88,7 +90,7 @@ export interface JsCallExpressionIndentOptions {
  */
 export interface JsFunctionDeclarationIndentOptions {
   /** Indentation level or `'first'` alignment token for formal function declaration parameters. */
-  parameters?: number | 'first';
+  parameters?: number | EPropertyValue['first'];
 
   /** Indentation level for statements within the function declaration body block. */
   body?: number;
@@ -99,7 +101,7 @@ export interface JsFunctionDeclarationIndentOptions {
  */
 export interface JsFunctionExpressionIndentOptions {
   /** Indentation level or `'first'` alignment token for formal function expression parameters. */
-  parameters?: number | 'first';
+  parameters?: number | EPropertyValue['first'];
 
   /** Indentation level for statements within the function expression body block. */
   body?: number;
@@ -109,7 +111,7 @@ export interface JsFunctionExpressionIndentOptions {
  * Represents the structure of a single property inside the ESLint schema validation object.
  */
 export interface JsonSchemaProperty {
-  type: 'string' | 'number' | 'boolean' | 'object';
+  type: EType['string'] | EType['number'] | EType['boolean'] | EType['object'];
 }
 
 /**
@@ -118,10 +120,10 @@ export interface JsonSchemaProperty {
 export interface JsIndentRuleMeta extends Omit<Rule.RuleModule['meta'], 'schema'> {
   schema: [
     {
-      type: 'number';
+      type: EType['number'];
     },
     {
-      type: 'object';
+      type: EType['object'];
       properties: {
         [K in keyof JsIndentOptions]: Record<string, unknown> | JsonSchemaProperty;
       };
@@ -137,7 +139,7 @@ export type JsIndentOptionsTuple = [
    * Dynamic indentation size resolved from the .editorconfig file,
    * or 'tab' for hard-tabbed layouts.
    */
-  indentSize?: number | 'tab',
+  indentSize?: number | EPropertyValue['tab'],
 
   /**
    * An object containing user-defined camelCase formatting overrides

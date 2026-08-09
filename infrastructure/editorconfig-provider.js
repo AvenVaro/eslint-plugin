@@ -1,5 +1,6 @@
 import editorconfig from 'editorconfig';
 import ePropertyValue from './property-value.enum.js';
+import eType from './type.enum.js';
 
 //================================
 // Typedefs
@@ -96,10 +97,10 @@ function getIndentSize(config, defaultValue) {
 
   if (
     (
-      typeof config.indent_size === 'string'
+      typeof config.indent_size === eType.string
       && config.indent_size === ePropertyValue.tab
     )
-    || (typeof config.indent_size === 'number' && config.indent_size >= 0)
+    || (typeof config.indent_size === eType.number && config.indent_size >= 0)
   ) {
     return config.indent_size;
   }
@@ -121,7 +122,7 @@ function getIndentStyle(config, defaultValue) {
   }
 
   if (
-    typeof config.indent_style === 'string'
+    typeof config.indent_style === eType.string
     && (
       config.indent_style === ePropertyValue.space
       || config.indent_style === ePropertyValue.tab
@@ -147,7 +148,7 @@ function getEndOfLine(config, defaultValue) {
   }
 
   if (
-    typeof config.end_of_line === 'string'
+    typeof config.end_of_line === eType.string
     && (
       config.end_of_line === ePropertyValue.lf
       || config.end_of_line === ePropertyValue.crlf
@@ -172,7 +173,7 @@ function getInsertFinalNewLine(config, defaultValue) {
     return defaultValue;
   }
 
-  if (typeof config.insert_final_newline === 'boolean') {
+  if (typeof config.insert_final_newline === eType.string) {
     return config.insert_final_newline;
   }
 
@@ -192,7 +193,7 @@ function geTabWidth(config, defaultValue) {
     return defaultValue;
   }
 
-  if (typeof config.tab_width === 'number' && config.tab_width >= 0) {
+  if (typeof config.tab_width === eType.number && config.tab_width >= 0) {
     return config.tab_width;
   }
 
@@ -212,7 +213,7 @@ function getTrimTrailingWhitespace(config, defaultValue) {
     return defaultValue;
   }
 
-  if (typeof config.trim_trailing_whitespace === 'boolean') {
+  if (typeof config.trim_trailing_whitespace === eType.boolean) {
     return config.trim_trailing_whitespace;
   }
 
@@ -232,7 +233,7 @@ function getCharset(config, defaultValue) {
     return defaultValue;
   }
 
-  if (typeof config.charset === 'string') {
+  if (typeof config.charset === eType.string) {
     const charset = config.charset.trim();
 
     if (charset) {
