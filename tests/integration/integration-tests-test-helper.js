@@ -2,18 +2,33 @@ import path from 'node:path';
 import fs from 'node:fs/promises';
 import os from 'node:os';
 
-/** @type {import('node:fs').MakeDirectoryOptions} */
+//================================
+// Typedefs
+//================================
+
+/**
+ * @typedef {import('node:fs').MakeDirectoryOptions} MakeDirectoryOptions
+ * @typedef {import('node:fs').RmOptions} RmOptions
+ * @typedef {import('./integration-tests-test-helper.d.ts').IntegrationTestsTestHelper} IntegrationTestsTestHelper
+ * @typedef {import('./integration-tests-test-helper.d.ts').IntegrationTestFilesystemBlueprint} IntegrationTestFilesystemBlueprint
+ */
+
+//================================
+// Constants
+//================================
+
+/** @type {MakeDirectoryOptions} */
 const mkdirOptions = Object.freeze({
   recursive: true
 });
 
-/** @type {import('node:fs').RmOptions} */
+/** @type {RmOptions} */
 const rmOptions = Object.freeze({
   recursive: true,
   force: true
 });
 
-/** @type {import('./integration-tests-test-helper.d.ts').IntegrationTestsTestHelper} */
+/** @type {IntegrationTestsTestHelper} */
 const integrationTestsTestHelper = Object.freeze({
   mkdirOptions: mkdirOptions,
   rmOptions: rmOptions,
@@ -64,7 +79,7 @@ async function createTempRootDirAsync(partDirName) {
  * @param {string} dirName - The target unique subdirectory name mapping the active test case.
  * @param {string} fileName - The source asset module filename placeholder (e.g., 'index.js').
  *
- * @returns {import('./integration-tests-test-helper.d.ts').IntegrationTestFilesystemBlueprint} A structural blueprint holding resolved path metrics.
+ * @returns {IntegrationTestFilesystemBlueprint} A structural blueprint holding resolved path metrics.
  */
 function createTempPaths(rootDirName, dirName, fileName) {
   const testTmpDir = path.join(rootDirName, dirName);
@@ -82,7 +97,7 @@ function createTempPaths(rootDirName, dirName, fileName) {
  *
  * Asynchronously constructs the temporary directory structure and commits the mock `.editorconfig` manifest file to disk.
  *
- * @param {import('./integration-tests-test-helper.d.ts').IntegrationTestFilesystemBlueprint} paths - The structural blueprint holding resolved absolute filesystem tracks for the active test container pass.
+ * @param {IntegrationTestFilesystemBlueprint} paths - The structural blueprint holding resolved absolute filesystem tracks for the active test container pass.
  * @param {string} editorconfig - The raw serialization string payload containing the file layout parameters to be committed to disk.
  *
  * @returns {Promise<void>} A promise that resolves once the directories are created and the configuration payload is cleanly written.

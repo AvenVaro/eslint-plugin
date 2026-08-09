@@ -1,4 +1,16 @@
-/** @type {import('./property-value.enum.d.ts').PropertyValue} */
+//================================
+// Typedefs
+//================================
+
+/**
+ * @typedef {import('./property-value.enum.d.ts').PropertyValue} PropertyValue
+ */
+
+//================================
+// Constants
+//================================
+
+/** @type {PropertyValue} */
 const propertyValue = Object.freeze({
   unset: 'unset',
   tab: 'tab',

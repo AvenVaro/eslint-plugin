@@ -4,6 +4,14 @@ import propertyValue from '../../../infrastructure/property-value.enum.js';
 import integrationTestsTestHelper from '../integration-tests-test-helper.js';
 
 //================================
+// Typedefs
+//================================
+
+/**
+ * @typedef {import('editorconfig').Props} Props
+ */
+
+//================================
 // Tests
 //================================
 
@@ -71,7 +79,7 @@ async function describeAsync() {
 }
 
 async function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_js_async(testTempRootDir) {
-  /** @type {import('editorconfig').Props} */
+  /** @type {Props} */
   const expectedConfig = {
     indent_style: propertyValue.tab,
     tab_width: 3,
@@ -108,7 +116,7 @@ async function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_js
 }
 
 async function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_md_async(testTempRootDir) {
-  /** @type {import('editorconfig').Props} */
+  /** @type {Props} */
   const expectedConfig = {
     indent_style: propertyValue.tab,
     tab_width: 5,
@@ -146,7 +154,7 @@ async function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_md
 }
 
 async function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_tab_async(testTempRootDir) {
-  /** @type {import('editorconfig').Props} */
+  /** @type {Props} */
   const expectedConfig = {
     indent_style: propertyValue.tab,
     tab_width: 4,
@@ -170,7 +178,7 @@ async function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_ta
 }
 
 async function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_tab_indentSizeIsString_async(testTempRootDir) {
-  /** @type {import('editorconfig').Props} */
+  /** @type {Props} */
   const expectedConfig = {
     indent_style: propertyValue.tab,
     tab_width: 'string_value',
@@ -194,7 +202,7 @@ async function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_ta
 }
 
 async function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_tab_tabWidth_async(testTempRootDir) {
-  /** @type {import('editorconfig').Props} */
+  /** @type {Props} */
   const expectedConfig = {
     indent_style: propertyValue.tab,
     tab_width: 4,
@@ -218,7 +226,7 @@ async function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_ta
 }
 
 async function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_tab_indentSizeIsString_tabWidth_async(testTempRootDir) {
-  /** @type {import('editorconfig').Props} */
+  /** @type {Props} */
   const expectedConfig = {
     indent_style: propertyValue.tab,
     tab_width: 'string_value',
@@ -242,7 +250,7 @@ async function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_ta
 }
 
 async function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_space_async(testTempRootDir) {
-  /** @type {import('editorconfig').Props} */
+  /** @type {Props} */
   const expectedConfig = {
     indent_style: propertyValue.space,
     tab_width: 4,
@@ -266,7 +274,7 @@ async function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_sp
 }
 
 async function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_space_indentSizeIsString_async(testTempRootDir) {
-  /** @type {import('editorconfig').Props} */
+  /** @type {Props} */
   const expectedConfig = {
     indent_style: propertyValue.space,
     tab_width: 'string_value',
@@ -290,7 +298,7 @@ async function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_sp
 }
 
 async function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_space_tabWidth_async(testTempRootDir) {
-  /** @type {import('editorconfig').Props} */
+  /** @type {Props} */
   const expectedConfig = {
     indent_style: propertyValue.space,
     tab_width: 4,
@@ -313,7 +321,7 @@ async function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_sp
 }
 
 async function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_space_indentSizeIsString_tabWidth_async(testTempRootDir) {
-  /** @type {import('editorconfig').Props} */
+  /** @type {Props} */
   const expectedConfig = {
     indent_style: propertyValue.space,
     tab_width: 'string_value',
@@ -345,7 +353,7 @@ async function test_loadConfig_editorconfigFileIsNotFounded_async() {
 
     await integrationTestsTestHelper.createTempTargetFileDirAsync(targetFile);
 
-    /** @type {import('editorconfig').Props} */
+    /** @type {Props} */
     const expectedConfig = {};
     const actualConfig = editorconfigProvider.loadConfig(targetFile);
 
@@ -365,8 +373,8 @@ async function test_loadConfig_editorconfigFileIsNotFounded_async() {
  *
  * Asserts that the actual EditorConfig properties match the expected configuration.
  *
- * @param {import('editorconfig').Props} actualConfig - The configuration object received from the provider.
- * @param {import('editorconfig').Props} expectedConfig - The reference configuration object to compare against.
+ * @param {Props} actualConfig - The configuration object received from the provider.
+ * @param {Props} expectedConfig - The reference configuration object to compare against.
  *
  * @returns {void} This function does not return a value.
  */
@@ -389,7 +397,7 @@ function expectConfig(actualConfig, expectedConfig) {
  * EditorConfig properties, and assert them against the expected configuration.
  * Automatically cleans up the created temporary directory in the `finally` block.
  *
- * @param {import('editorconfig').Props} expectedConfig - The reference configuration object to compare against.
+ * @param {Props} expectedConfig - The reference configuration object to compare against.
  * @param {string} editorconfig - The raw content or configuration string for the .editorconfig file.
  * @param {string} testTempRootDir - The root directory where the temporary test folders are created.
  * @param {string} dirName - The specific name of the temporary directory for this test case.

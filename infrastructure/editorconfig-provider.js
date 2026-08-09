@@ -1,7 +1,21 @@
 import editorconfig from 'editorconfig';
 import propertyValue from './property-value.enum.js';
 
-/** @type {import('./editorconfig-provider.d.ts').EditorconfigProvider} */
+//================================
+// Typedefs
+//================================
+
+/**
+ * @typedef {import('./editorconfig-provider.d.ts').EditorconfigProvider} EditorconfigProvider
+ * @typedef {import('./property-value.enum.d.ts').PropertyValue} PropertyValue
+ * @typedef {import('editorconfig').Props} Props
+ */
+
+//================================
+// Constants
+//================================
+
+/** @type {EditorconfigProvider} */
 const editorconfigProvider = Object.freeze({
   loadConfig: loadConfig,
   getConfig: getConfig,
@@ -29,7 +43,7 @@ export default editorconfigProvider;
  *
  * @param {string} filePath - The absolute destination path of the target source file.
  *
- * @returns {import('editorconfig').Props} Core configuration metadata block parsed from disk.
+ * @returns {Props} Core configuration metadata block parsed from disk.
  */
 function loadConfig(filePath) {
   return editorconfig.parseSync(filePath);
@@ -41,7 +55,7 @@ function loadConfig(filePath) {
  * @param {boolean | undefined} useEditorconfig - User runtime toggle flag extracted from ESLint rules array.
  * @param {string} filePath - The absolute target asset destination evaluated during active traversal.
  *
- * @returns {import('editorconfig').Props} Final configuration block properties, or an isolated empty fallback structure.
+ * @returns {Props} Final configuration block properties, or an isolated empty fallback structure.
  */
 function getConfig(useEditorconfig, filePath) {
   useEditorconfig = useEditorconfig === undefined
@@ -70,10 +84,10 @@ function isUnset(property) {
 /**
  * Resolves the indentation size or fallback value, validating numerical ranges and tab string identifiers.
  *
- * @param {import('editorconfig').Props | undefined} config - Raw EditorConfig properties block read from disk.
- * @param {number | import('./property-value.enum.d.ts').PropertyValue['tab'] | undefined} defaultValue - Fallback configuration token used when the target property is invalid or missing.
+ * @param {Props | undefined} config - Raw EditorConfig properties block read from disk.
+ * @param {number | PropertyValue['tab'] | undefined} defaultValue - Fallback configuration token used when the target property is invalid or missing.
  *
- * @returns {number | import('./property-value.enum.d.ts').PropertyValue['tab'] | undefined} Valid indentation quantity value or the provided fallback.
+ * @returns {number | PropertyValue['tab'] | undefined} Valid indentation quantity value or the provided fallback.
  */
 function getIndentSize(config, defaultValue) {
   if (isUnset(config?.indent_size)) {
@@ -96,10 +110,10 @@ function getIndentSize(config, defaultValue) {
 /**
  * Resolves the structural indentation formatting layout style token from the raw configuration.
  *
- * @param {import('editorconfig').Props | undefined} config - Raw EditorConfig properties block read from disk.
- * @param {import('./property-value.enum.d.ts').PropertyValue['space'] | import('./property-value.enum.d.ts').PropertyValue['tab'] | undefined} defaultValue - Fallback formatting layout value used when the target property is invalid or missing.
+ * @param {Props | undefined} config - Raw EditorConfig properties block read from disk.
+ * @param {PropertyValue['space'] | PropertyValue['tab'] | undefined} defaultValue - Fallback formatting layout value used when the target property is invalid or missing.
  *
- * @returns {import('./property-value.enum.d.ts').PropertyValue['space'] | import('./property-value.enum.d.ts').PropertyValue['tab'] | undefined} Valid style layout type keyword or the provided fallback.
+ * @returns {PropertyValue['space'] | PropertyValue['tab'] | undefined} Valid style layout type keyword or the provided fallback.
  */
 function getIndentStyle(config, defaultValue) {
   if (isUnset(config?.indent_style)) {
@@ -122,10 +136,10 @@ function getIndentStyle(config, defaultValue) {
 /**
  * Resolves the targeted line-ending normalization sequence keyword from the raw configuration block.
  *
- * @param {import('editorconfig').Props | undefined} config - Raw EditorConfig properties block read from disk.
- * @param {import('./property-value.enum.d.ts').PropertyValue['lf'] | import('./property-value.enum.d.ts').PropertyValue['crlf'] | undefined} defaultValue - Fallback line ending sequence value used when the target property is invalid or missing.
+ * @param {Props | undefined} config - Raw EditorConfig properties block read from disk.
+ * @param {PropertyValue['lf'] | PropertyValue['crlf'] | undefined} defaultValue - Fallback line ending sequence value used when the target property is invalid or missing.
  *
- * @returns {import('./property-value.enum.d.ts').PropertyValue['lf'] | import('./property-value.enum.d.ts').PropertyValue['crlf'] | undefined} Valid line termination style keyword or the provided fallback.
+ * @returns {PropertyValue['lf'] | PropertyValue['crlf'] | undefined} Valid line termination style keyword or the provided fallback.
  */
 function getEndOfLine(config, defaultValue) {
   if (isUnset(config?.end_of_line)) {
@@ -148,7 +162,7 @@ function getEndOfLine(config, defaultValue) {
 /**
  * Resolves whether files should enforce trailing line-termination characters at EOF locations.
  *
- * @param {import('editorconfig').Props | undefined} config - Raw EditorConfig properties block read from disk.
+ * @param {Props | undefined} config - Raw EditorConfig properties block read from disk.
  * @param {boolean | undefined} defaultValue - Fallback validation logic switch state used when the target property is invalid or missing.
  *
  * @returns {boolean | undefined} Valid active state flag identifier or the provided fallback.
@@ -168,7 +182,7 @@ function getInsertFinalNewLine(config, defaultValue) {
 /**
  * Resolves the hard-coded width token representing tab spaces, enforcing non-negative restrictions.
  *
- * @param {import('editorconfig').Props | undefined} config - Raw EditorConfig properties block read from disk.
+ * @param {Props | undefined} config - Raw EditorConfig properties block read from disk.
  * @param {number | undefined} defaultValue - Fallback integer scale boundary metric used when the target property is invalid or missing.
  *
  * @returns {number | undefined} Valid fallback layout scale value or the provided boundary multiplier.
@@ -188,7 +202,7 @@ function geTabWidth(config, defaultValue) {
 /**
  * Resolves whether trailing whitespaces must be stripped from source line contents during asset evaluations.
  *
- * @param {import('editorconfig').Props | undefined} config - Raw EditorConfig properties block read from disk.
+ * @param {Props | undefined} config - Raw EditorConfig properties block read from disk.
  * @param {boolean | undefined} defaultValue - Fallback execution state switcher token used when the target property is invalid or missing.
  *
  * @returns {boolean | undefined} Valid active modification configuration value or the provided fallback.
@@ -208,7 +222,7 @@ function getTrimTrailingWhitespace(config, defaultValue) {
 /**
  * Resolves the active string layout token representing file character encoding schemas.
  *
- * @param {import('editorconfig').Props | undefined} config - Raw EditorConfig properties block read from disk.
+ * @param {Props | undefined} config - Raw EditorConfig properties block read from disk.
  * @param {string | undefined} defaultValue - Fallback file encoding schema text identifier used when the target property is invalid or missing.
  *
  * @returns {string | undefined} Clean non-empty configuration string asset block or the provided fallback.

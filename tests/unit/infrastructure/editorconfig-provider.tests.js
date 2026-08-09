@@ -4,6 +4,15 @@ import editorconfigProvider from '../../../infrastructure/editorconfig-provider.
 import propertyValue from '../../../infrastructure/property-value.enum.js';
 
 //================================
+// Typedefs
+//================================
+
+/**
+ * @typedef {import('editorconfig').Props} Props
+ * @typedef {import('../infrastructure/editorconfig-provider.d.ts').EditorconfigProvider} EditorconfigProvider
+ */
+
+//================================
 // Constants
 //================================
 
@@ -13,7 +22,7 @@ import propertyValue from '../../../infrastructure/property-value.enum.js';
  *
  * The expected EditorConfig properties used for matching or validating file configurations.
  *
- * @type {import('editorconfig').Props}
+ * @type {Props}
  */
 const expectedConfig = Object.freeze({
   indent_size: 4,
@@ -383,7 +392,7 @@ async function test_loadConfig_returnsUnchangedConfig_async() {
 }
 
 function test_getConfig_returnsEmptyConfigIfUseEditorconfigIsFalse() {
-  /** @type {import('editorconfig').Props} */
+  /** @type {Props} */
   const expectedConfig = {};
   const actualConfig = editorconfigProvider.getConfig(false, 'fakePath');
 
@@ -607,9 +616,9 @@ function test_getCharset_returnsCharset(config) {
  * Asynchronously creates a mocked instance of the editorconfig provider.
  * Uses `esmock` to intercept the `editorconfig` dependency and inject a mock `parseSync` function.
  *
- * @param {import('editorconfig').Props} config - The predefined configuration properties to return from the mock.
+ * @param {Props} config - The predefined configuration properties to return from the mock.
  *
- * @returns {Promise<import('../infrastructure/editorconfig-provider.d.ts').EditorconfigProvider>} A promise that resolves to the mocked editorconfig provider module.
+ * @returns {Promise<EditorconfigProvider>} A promise that resolves to the mocked editorconfig provider module.
  *
  * @throws {Error} Thrown if esmock fails to resolve, initialize, or load the mocked module target payload.
  */
