@@ -4,7 +4,9 @@ const propertyValue = Object.freeze({
   tab: 'tab',
   space: 'space',
   lf: 'lf',
-  crlf: 'crlf'
+  crlf: 'crlf',
+  off: 'off',
+  first: 'first'
 });
 
 //================================

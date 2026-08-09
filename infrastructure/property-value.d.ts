@@ -7,6 +7,8 @@ export type PropertyValue = Readonly<{
   space: 'space';
   lf: 'lf';
   crlf: 'crlf';
+  off: 'off';
+  first: 'first';
 }>;
 
 declare const propertyValue: PropertyValue;
