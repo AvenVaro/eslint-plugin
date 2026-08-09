@@ -1,5 +1,5 @@
 import { Props } from 'editorconfig';
-import { PropertyValue } from './property-value.enum.js';
+import { EPropertyValue } from './property-value.enum.js';
 
 /**
  * Interface representing the EditorConfig data provider and its runtime mocking sub-system.
@@ -34,8 +34,8 @@ export interface EditorconfigProvider {
    */
   getIndentSize(
     config: Props | undefined,
-    defaultValue: number | PropertyValue['tab'] | undefined
-  ): number | PropertyValue['tab'] | undefined;
+    defaultValue: number | EPropertyValue['tab'] | undefined
+  ): number | EPropertyValue['tab'] | undefined;
 
   /**
    * Validates and extracts the indentation formatting layout token style from configuration.
@@ -47,8 +47,8 @@ export interface EditorconfigProvider {
    */
   getIndentStyle(
     config: Props | undefined,
-    defaultValue: PropertyValue['space'] | PropertyValue['tab'] | undefined
-  ): PropertyValue['space'] | PropertyValue['tab'] | undefined;
+    defaultValue: EPropertyValue['space'] | EPropertyValue['tab'] | undefined
+  ): EPropertyValue['space'] | EPropertyValue['tab'] | undefined;
 
   /**
    * Validates and extracts the targeted line-ending sequence token from configuration metadata.
@@ -60,8 +60,8 @@ export interface EditorconfigProvider {
    */
   getEndOfLine(
     config: Props | undefined,
-    defaultValue: PropertyValue['lf'] | PropertyValue['crlf'] | undefined
-  ): PropertyValue['lf'] | PropertyValue['crlf'] | undefined;
+    defaultValue: EPropertyValue['lf'] | EPropertyValue['crlf'] | undefined
+  ): EPropertyValue['lf'] | EPropertyValue['crlf'] | undefined;
 
   /**
    * Validates and extracts the active validation state flag for final newline injections.

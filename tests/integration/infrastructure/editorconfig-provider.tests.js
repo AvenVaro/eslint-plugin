@@ -1,6 +1,6 @@
 import * as vitest from 'vitest';
 import editorconfigProvider from '../../../infrastructure/editorconfig-provider.js';
-import propertyValue from '../../../infrastructure/property-value.enum.js';
+import ePropertyValue from '../../../infrastructure/property-value.enum.js';
 import integrationTestsTestHelper from '../integration-tests-test-helper.js';
 
 //================================
@@ -81,9 +81,9 @@ async function describeAsync() {
 async function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_js_async(testTempRootDir) {
   /** @type {Props} */
   const expectedConfig = {
-    indent_style: propertyValue.tab,
+    indent_style: ePropertyValue.tab,
     tab_width: 3,
-    end_of_line: propertyValue.lf,
+    end_of_line: ePropertyValue.lf,
     indent_size: 3,
     insert_final_newline: true,
     trim_trailing_whitespace: true,
@@ -118,9 +118,9 @@ async function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_js
 async function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_md_async(testTempRootDir) {
   /** @type {Props} */
   const expectedConfig = {
-    indent_style: propertyValue.tab,
+    indent_style: ePropertyValue.tab,
     tab_width: 5,
-    end_of_line: propertyValue.lf,
+    end_of_line: ePropertyValue.lf,
     indent_size: 5,
     insert_final_newline: true,
     trim_trailing_whitespace: false,
@@ -156,9 +156,9 @@ async function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_md
 async function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_tab_async(testTempRootDir) {
   /** @type {Props} */
   const expectedConfig = {
-    indent_style: propertyValue.tab,
+    indent_style: ePropertyValue.tab,
     tab_width: 4,
-    end_of_line: propertyValue.lf,
+    end_of_line: ePropertyValue.lf,
     indent_size: 4
   };
 
@@ -180,9 +180,9 @@ async function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_ta
 async function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_tab_indentSizeIsString_async(testTempRootDir) {
   /** @type {Props} */
   const expectedConfig = {
-    indent_style: propertyValue.tab,
+    indent_style: ePropertyValue.tab,
     tab_width: 'string_value',
-    end_of_line: propertyValue.lf,
+    end_of_line: ePropertyValue.lf,
     indent_size: 'string_value'
   };
 
@@ -204,9 +204,9 @@ async function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_ta
 async function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_tab_tabWidth_async(testTempRootDir) {
   /** @type {Props} */
   const expectedConfig = {
-    indent_style: propertyValue.tab,
+    indent_style: ePropertyValue.tab,
     tab_width: 4,
-    end_of_line: propertyValue.lf,
+    end_of_line: ePropertyValue.lf,
     indent_size: 4
   };
 
@@ -228,9 +228,9 @@ async function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_ta
 async function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_tab_indentSizeIsString_tabWidth_async(testTempRootDir) {
   /** @type {Props} */
   const expectedConfig = {
-    indent_style: propertyValue.tab,
+    indent_style: ePropertyValue.tab,
     tab_width: 'string_value',
-    end_of_line: propertyValue.lf,
+    end_of_line: ePropertyValue.lf,
     indent_size: 'string_value'
   };
 
@@ -252,9 +252,9 @@ async function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_ta
 async function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_space_async(testTempRootDir) {
   /** @type {Props} */
   const expectedConfig = {
-    indent_style: propertyValue.space,
+    indent_style: ePropertyValue.space,
     tab_width: 4,
-    end_of_line: propertyValue.lf,
+    end_of_line: ePropertyValue.lf,
     indent_size: 4
   };
 
@@ -276,9 +276,9 @@ async function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_sp
 async function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_space_indentSizeIsString_async(testTempRootDir) {
   /** @type {Props} */
   const expectedConfig = {
-    indent_style: propertyValue.space,
+    indent_style: ePropertyValue.space,
     tab_width: 'string_value',
-    end_of_line: propertyValue.lf,
+    end_of_line: ePropertyValue.lf,
     indent_size: 'string_value'
   };
 
@@ -300,9 +300,9 @@ async function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_sp
 async function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_space_tabWidth_async(testTempRootDir) {
   /** @type {Props} */
   const expectedConfig = {
-    indent_style: propertyValue.space,
+    indent_style: ePropertyValue.space,
     tab_width: 4,
-    end_of_line: propertyValue.lf
+    end_of_line: ePropertyValue.lf
   };
 
   await tryExpectConfigAsync(
@@ -323,9 +323,9 @@ async function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_sp
 async function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_space_indentSizeIsString_tabWidth_async(testTempRootDir) {
   /** @type {Props} */
   const expectedConfig = {
-    indent_style: propertyValue.space,
+    indent_style: ePropertyValue.space,
     tab_width: 'string_value',
-    end_of_line: propertyValue.lf
+    end_of_line: ePropertyValue.lf
   };
 
   await tryExpectConfigAsync(

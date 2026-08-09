@@ -1,7 +1,7 @@
 import * as vitest from 'vitest';
 import esmock from 'esmock';
 import editorconfigProvider from '../../../infrastructure/editorconfig-provider.js';
-import propertyValue from '../../../infrastructure/property-value.enum.js';
+import ePropertyValue from '../../../infrastructure/property-value.enum.js';
 
 //================================
 // Typedefs
@@ -26,8 +26,8 @@ import propertyValue from '../../../infrastructure/property-value.enum.js';
  */
 const expectedConfig = Object.freeze({
   indent_size: 4,
-  indent_style: propertyValue.space,
-  end_of_line: propertyValue.lf,
+  indent_style: ePropertyValue.space,
+  end_of_line: ePropertyValue.lf,
   insert_final_newline: true,
   tab_width: 4,
   trim_trailing_whitespace: true,
@@ -74,14 +74,14 @@ function describe() {
   );
 
   vitest.it.concurrent(
-    `getIndentSize returns default value if indent_size is '${propertyValue.unset}' string`,
+    `getIndentSize returns default value if indent_size is '${ePropertyValue.unset}' string`,
     () => test_getIndentSize_returnsDefaultValue({
-      indent_size: propertyValue.unset
+      indent_size: ePropertyValue.unset
     })
   );
 
   vitest.it.concurrent(
-    `getIndentSize returns default value if indent_size is not '${propertyValue.tab}' string`,
+    `getIndentSize returns default value if indent_size is not '${ePropertyValue.tab}' string`,
     () => test_getIndentSize_returnsDefaultValue({
       indent_size: 'invalid'
     })
@@ -109,9 +109,9 @@ function describe() {
   );
 
   vitest.it.concurrent(
-    `getIndentSize returns indent_size if indent_size is '${propertyValue.tab}' string`,
+    `getIndentSize returns indent_size if indent_size is '${ePropertyValue.tab}' string`,
     () => test_getIndentSize_returnsIndentSize({
-      indent_size: propertyValue.tab
+      indent_size: ePropertyValue.tab
     })
   );
 
@@ -128,14 +128,14 @@ function describe() {
   );
 
   vitest.it.concurrent(
-    `getIndentStyle returns default value if indent_style is '${propertyValue.unset}' string`,
+    `getIndentStyle returns default value if indent_style is '${ePropertyValue.unset}' string`,
     () => test_getIndentStyle_returnsDefaultValue({
-      indent_style: propertyValue.unset
+      indent_style: ePropertyValue.unset
     })
   );
 
   vitest.it.concurrent(
-    `getIndentStyle returns default value if indent_style is not '${propertyValue.tab}' or '${propertyValue.space}' string`,
+    `getIndentStyle returns default value if indent_style is not '${ePropertyValue.tab}' or '${ePropertyValue.space}' string`,
     () => test_getIndentStyle_returnsDefaultValue({
       indent_style: 'invalid'
     })
@@ -149,16 +149,16 @@ function describe() {
   );
 
   vitest.it.concurrent(
-    `getIndentStyle returns indent_style if indent_style is '${propertyValue.tab}' string`,
+    `getIndentStyle returns indent_style if indent_style is '${ePropertyValue.tab}' string`,
     () => test_getIndentStyle_returnsIndentStyle({
-      indent_style: propertyValue.tab
+      indent_style: ePropertyValue.tab
     })
   );
 
   vitest.it.concurrent(
-    `getIndentStyle returns indent_style if indent_style is '${propertyValue.space}' string`,
+    `getIndentStyle returns indent_style if indent_style is '${ePropertyValue.space}' string`,
     () => test_getIndentStyle_returnsIndentStyle({
-      indent_style: propertyValue.space
+      indent_style: ePropertyValue.space
     })
   );
 
@@ -175,14 +175,14 @@ function describe() {
   );
 
   vitest.it.concurrent(
-    `getEndOfLine returns default value if end_of_line is '${propertyValue.unset}' string`,
+    `getEndOfLine returns default value if end_of_line is '${ePropertyValue.unset}' string`,
     () => test_getEndOfLine_returnsDefaultValue({
-      end_of_line: propertyValue.unset
+      end_of_line: ePropertyValue.unset
     })
   );
 
   vitest.it.concurrent(
-    `getEndOfLine returns default value if end_of_line is not '${propertyValue.lf}' or '${propertyValue.crlf}' string`,
+    `getEndOfLine returns default value if end_of_line is not '${ePropertyValue.lf}' or '${ePropertyValue.crlf}' string`,
     () => test_getEndOfLine_returnsDefaultValue({
       end_of_line: 'invalid'
     })
@@ -196,16 +196,16 @@ function describe() {
   );
 
   vitest.it.concurrent(
-    `getEndOfLine returns end_of_line if end_of_line is '${propertyValue.lf}' string`,
+    `getEndOfLine returns end_of_line if end_of_line is '${ePropertyValue.lf}' string`,
     () => test_getEndOfLine_returnsEndOfLine({
-      end_of_line: propertyValue.lf
+      end_of_line: ePropertyValue.lf
     })
   );
 
   vitest.it.concurrent(
-    `getEndOfLine returns end_of_line if end_of_line is '${propertyValue.crlf}' string`,
+    `getEndOfLine returns end_of_line if end_of_line is '${ePropertyValue.crlf}' string`,
     () => test_getEndOfLine_returnsEndOfLine({
-      end_of_line: propertyValue.crlf
+      end_of_line: ePropertyValue.crlf
     })
   );
 
@@ -222,9 +222,9 @@ function describe() {
   );
 
   vitest.it.concurrent(
-    `getInsertFinalNewLine returns default value if insert_final_newline is '${propertyValue.unset}' string`,
+    `getInsertFinalNewLine returns default value if insert_final_newline is '${ePropertyValue.unset}' string`,
     () => test_getInsertFinalNewLine_returnsDefaultValue({
-      insert_final_newline: propertyValue.unset
+      insert_final_newline: ePropertyValue.unset
     })
   );
 
@@ -262,9 +262,9 @@ function describe() {
   );
 
   vitest.it.concurrent(
-    `geTabWidth returns default value if tab_width is '${propertyValue.unset}' string`,
+    `geTabWidth returns default value if tab_width is '${ePropertyValue.unset}' string`,
     () => test_geTabWidth_returnsDefaultValue({
-      tab_width: propertyValue.unset
+      tab_width: ePropertyValue.unset
     })
   );
 
@@ -309,9 +309,9 @@ function describe() {
   );
 
   vitest.it.concurrent(
-    `getTrimTrailingWhitespace returns default value if trim_trailing_whitespace is '${propertyValue.unset}' string`,
+    `getTrimTrailingWhitespace returns default value if trim_trailing_whitespace is '${ePropertyValue.unset}' string`,
     () => test_getTrimTrailingWhitespace_returnsDefaultValue({
-      trim_trailing_whitespace: propertyValue.unset
+      trim_trailing_whitespace: ePropertyValue.unset
     })
   );
 
@@ -349,9 +349,9 @@ function describe() {
   );
 
   vitest.it.concurrent(
-    `getCharset returns default value if charset is '${propertyValue.unset}' string`,
+    `getCharset returns default value if charset is '${ePropertyValue.unset}' string`,
     () => test_getCharset_returnsDefaultValue({
-      charset: propertyValue.unset
+      charset: ePropertyValue.unset
     })
   );
 
@@ -379,7 +379,7 @@ function describe() {
   vitest.it.concurrent(
     'getCharset returns charset if charset is string',
     () => test_getCharset_returnsCharset({
-      charset: propertyValue.lf
+      charset: ePropertyValue.lf
     })
   );
 }
@@ -408,7 +408,7 @@ async function test_getConfig_async(useEditorconfig) {
 
 function test_getIndentSize_returnsDefaultValue(config) {
   const expectedValue1 = 40;
-  const expectedValue2 = propertyValue.tab;
+  const expectedValue2 = ePropertyValue.tab;
   const expectedValue3 = undefined;
 
   const actualValue1 = editorconfigProvider.getIndentSize(config, expectedValue1);
@@ -422,7 +422,7 @@ function test_getIndentSize_returnsDefaultValue(config) {
 
 function test_getIndentSize_returnsIndentSize(config) {
   const deaultValue1 = 40;
-  const deaultValue2 = propertyValue.space;
+  const deaultValue2 = ePropertyValue.space;
   const deaultValue3 = undefined;
 
   const actualValue1 = editorconfigProvider.getIndentSize(config, deaultValue1);
@@ -439,8 +439,8 @@ function test_getIndentSize_returnsIndentSize(config) {
 }
 
 function test_getIndentStyle_returnsDefaultValue(config) {
-  const expectedValue1 = propertyValue.space;
-  const expectedValue2 = propertyValue.tab;
+  const expectedValue1 = ePropertyValue.space;
+  const expectedValue2 = ePropertyValue.tab;
   const expectedValue3 = undefined;
 
   const actualValue1 = editorconfigProvider.getIndentStyle(config, expectedValue1);
@@ -471,8 +471,8 @@ function test_getIndentStyle_returnsIndentStyle(config) {
 }
 
 function test_getEndOfLine_returnsDefaultValue(config) {
-  const expectedValue1 = propertyValue.lf;
-  const expectedValue2 = propertyValue.crlf;
+  const expectedValue1 = ePropertyValue.lf;
+  const expectedValue2 = ePropertyValue.crlf;
   const expectedValue3 = undefined;
 
   const actualValue1 = editorconfigProvider.getEndOfLine(config, expectedValue1);
@@ -574,8 +574,8 @@ function test_getTrimTrailingWhitespace_returnsTrimTrailingWhitespace(config) {
 }
 
 function test_getCharset_returnsDefaultValue(config) {
-  const expectedValue1 = propertyValue.lf;
-  const expectedValue2 = propertyValue.crlf;
+  const expectedValue1 = ePropertyValue.lf;
+  const expectedValue2 = ePropertyValue.crlf;
   const expectedValue3 = undefined;
 
   const actualValue1 = editorconfigProvider.getCharset(config, expectedValue1);

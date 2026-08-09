@@ -1,5 +1,5 @@
 import editorconfig from 'editorconfig';
-import propertyValue from './property-value.enum.js';
+import ePropertyValue from './property-value.enum.js';
 
 //================================
 // Typedefs
@@ -7,7 +7,7 @@ import propertyValue from './property-value.enum.js';
 
 /**
  * @typedef {import('./editorconfig-provider.d.ts').EditorconfigProvider} EditorconfigProvider
- * @typedef {import('./property-value.enum.d.ts').PropertyValue} PropertyValue
+ * @typedef {import('./property-value.enum.d.ts').EPropertyValue} EPropertyValue
  * @typedef {import('editorconfig').Props} Props
  */
 
@@ -78,16 +78,16 @@ function getConfig(useEditorconfig, filePath) {
  * @returns {boolean} True if the property represents an unassigned or explicitly unset state, otherwise false.
  */
 function isUnset(property) {
-  return property === undefined || property === propertyValue.unset;
+  return property === undefined || property === ePropertyValue.unset;
 }
 
 /**
  * Resolves the indentation size or fallback value, validating numerical ranges and tab string identifiers.
  *
  * @param {Props | undefined} config - Raw EditorConfig properties block read from disk.
- * @param {number | PropertyValue['tab'] | undefined} defaultValue - Fallback configuration token used when the target property is invalid or missing.
+ * @param {number | EPropertyValue['tab'] | undefined} defaultValue - Fallback configuration token used when the target property is invalid or missing.
  *
- * @returns {number | PropertyValue['tab'] | undefined} Valid indentation quantity value or the provided fallback.
+ * @returns {number | EPropertyValue['tab'] | undefined} Valid indentation quantity value or the provided fallback.
  */
 function getIndentSize(config, defaultValue) {
   if (isUnset(config?.indent_size)) {
@@ -97,7 +97,7 @@ function getIndentSize(config, defaultValue) {
   if (
     (
       typeof config.indent_size === 'string'
-      && config.indent_size === propertyValue.tab
+      && config.indent_size === ePropertyValue.tab
     )
     || (typeof config.indent_size === 'number' && config.indent_size >= 0)
   ) {
@@ -111,9 +111,9 @@ function getIndentSize(config, defaultValue) {
  * Resolves the structural indentation formatting layout style token from the raw configuration.
  *
  * @param {Props | undefined} config - Raw EditorConfig properties block read from disk.
- * @param {PropertyValue['space'] | PropertyValue['tab'] | undefined} defaultValue - Fallback formatting layout value used when the target property is invalid or missing.
+ * @param {EPropertyValue['space'] | EPropertyValue['tab'] | undefined} defaultValue - Fallback formatting layout value used when the target property is invalid or missing.
  *
- * @returns {PropertyValue['space'] | PropertyValue['tab'] | undefined} Valid style layout type keyword or the provided fallback.
+ * @returns {EPropertyValue['space'] | EPropertyValue['tab'] | undefined} Valid style layout type keyword or the provided fallback.
  */
 function getIndentStyle(config, defaultValue) {
   if (isUnset(config?.indent_style)) {
@@ -123,8 +123,8 @@ function getIndentStyle(config, defaultValue) {
   if (
     typeof config.indent_style === 'string'
     && (
-      config.indent_style === propertyValue.space
-      || config.indent_style === propertyValue.tab
+      config.indent_style === ePropertyValue.space
+      || config.indent_style === ePropertyValue.tab
     )
   ) {
     return config.indent_style;
@@ -137,9 +137,9 @@ function getIndentStyle(config, defaultValue) {
  * Resolves the targeted line-ending normalization sequence keyword from the raw configuration block.
  *
  * @param {Props | undefined} config - Raw EditorConfig properties block read from disk.
- * @param {PropertyValue['lf'] | PropertyValue['crlf'] | undefined} defaultValue - Fallback line ending sequence value used when the target property is invalid or missing.
+ * @param {EPropertyValue['lf'] | EPropertyValue['crlf'] | undefined} defaultValue - Fallback line ending sequence value used when the target property is invalid or missing.
  *
- * @returns {PropertyValue['lf'] | PropertyValue['crlf'] | undefined} Valid line termination style keyword or the provided fallback.
+ * @returns {EPropertyValue['lf'] | EPropertyValue['crlf'] | undefined} Valid line termination style keyword or the provided fallback.
  */
 function getEndOfLine(config, defaultValue) {
   if (isUnset(config?.end_of_line)) {
@@ -149,8 +149,8 @@ function getEndOfLine(config, defaultValue) {
   if (
     typeof config.end_of_line === 'string'
     && (
-      config.end_of_line === propertyValue.lf
-      || config.end_of_line === propertyValue.crlf
+      config.end_of_line === ePropertyValue.lf
+      || config.end_of_line === ePropertyValue.crlf
     )
   ) {
     return config.end_of_line;

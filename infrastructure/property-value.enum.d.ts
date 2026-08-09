@@ -1,7 +1,7 @@
 /**
  * Standardized immutable lookup tokens matching the exact string literal values used for proprties.
  */
-export type PropertyValue = Readonly<{
+export type EPropertyValue = Readonly<{
   unset: 'unset';
   tab: 'tab';
   space: 'space';
@@ -11,6 +11,6 @@ export type PropertyValue = Readonly<{
   first: 'first';
 }>;
 
-declare const propertyValue: PropertyValue;
+declare const ePropertyValue: EPropertyValue;
 
-export default propertyValue;
+export default ePropertyValue;

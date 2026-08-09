@@ -1,5 +1,5 @@
 import * as vitest from 'vitest';
-import propertyValue from '../../../infrastructure/property-value.enum.js';
+import ePropertyValue from '../../../infrastructure/property-value.enum.js';
 
 //================================
 // Tests
@@ -15,15 +15,15 @@ function describe() {
 }
 
 function test_propertyValue_isStrictImmutableDictionary() {
-  vitest.expect(Object.isFrozen(propertyValue)).toBe(true);
+  vitest.expect(Object.isFrozen(ePropertyValue)).toBe(true);
 
-  vitest.expect(propertyValue.unset).toBe('unset');
-  vitest.expect(propertyValue.tab).toBe('tab');
-  vitest.expect(propertyValue.space).toBe('space');
-  vitest.expect(propertyValue.lf).toBe('lf');
-  vitest.expect(propertyValue.crlf).toBe('crlf');
-  vitest.expect(propertyValue.off).toBe('off');
-  vitest.expect(propertyValue.first).toBe('first');
+  vitest.expect(ePropertyValue.unset).toBe('unset');
+  vitest.expect(ePropertyValue.tab).toBe('tab');
+  vitest.expect(ePropertyValue.space).toBe('space');
+  vitest.expect(ePropertyValue.lf).toBe('lf');
+  vitest.expect(ePropertyValue.crlf).toBe('crlf');
+  vitest.expect(ePropertyValue.off).toBe('off');
+  vitest.expect(ePropertyValue.first).toBe('first');
 
-  vitest.expect(Object.keys(propertyValue)).toHaveLength(7);
+  vitest.expect(Object.keys(ePropertyValue)).toHaveLength(7);
 }

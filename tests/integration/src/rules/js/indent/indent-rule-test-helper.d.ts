@@ -1,6 +1,6 @@
 import { Linter } from 'eslint';
 import { JsIndentOptions } from '../../../../../../src/rules/js/indent.js';
-import { PropertyValue } from '../../../../../../infrastructure/property-value.enum.js';
+import { EPropertyValue } from '../../../../../../infrastructure/property-value.enum.js';
 
 /**
  * Helper for testing the identity rule.
@@ -14,7 +14,7 @@ export interface IndentTestHelper {
    *
    * @returns A compliant rules dictionary mapping the generated configuration payload to the custom namespace selector.
    */
-  createIndentRule(indent: number | PropertyValue['tab'] | undefined, options: JsIndentOptions | undefined): Linter.Config['rules'];
+  createIndentRule(indent: number | EPropertyValue['tab'] | undefined, options: JsIndentOptions | undefined): Linter.Config['rules'];
 
   /**
    * Asynchronously orchestrates an end-to-end integration test execution by provisioning
@@ -35,7 +35,7 @@ export interface IndentTestHelper {
     testTempRootDir: string,
     dirName: string,
     editorconfig: string,
-    indent: number | PropertyValue['tab'] | undefined,
+    indent: number | EPropertyValue['tab'] | undefined,
     options: JsIndentOptions | undefined,
     brokenSourceCode: string,
     expectedFixedSourceCode: string

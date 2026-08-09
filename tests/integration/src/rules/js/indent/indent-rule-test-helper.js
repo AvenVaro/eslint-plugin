@@ -7,7 +7,7 @@ import jsRulesTestHelper from '../js-rules-test-helper.js';
 //================================
 
 /**
- * @typedef {import('../../../../../../infrastructure/property-value.enum.d.ts').PropertyValue} PropertyValue
+ * @typedef {import('../../../../../../infrastructure/property-value.enum.d.ts').EPropertyValue} EPropertyValue
  * @typedef {import('../../../../../../src/rules/js/indent.d.ts').JsIndentOptions} JsIndentOptions
  * @typedef {import('./indent-rule-test-helper.d.ts').IndentTestHelper} IndentTestHelper
  * @typedef {import('eslint').Linter.Config['rules']} Rules
@@ -38,7 +38,7 @@ export default indentTestHelper;
  *
  * Constructs a standardized ESLint rules configuration payload block specifically targeting the custom indentation rule.
  *
- * @param {number | PropertyValue['tab'] | undefined} indent - The target indentation step size (number of spaces) or hard tab token filter criteria.
+ * @param {number | EPropertyValue['tab'] | undefined} indent - The target indentation step size (number of spaces) or hard tab token filter criteria.
  * @param {JsIndentOptions | undefined} options - Additional operational metadata parameter adjustments for the target rule logic.
  *
  * @returns {Rules} A compliant rules dictionary mapping the generated configuration payload to the custom namespace selector.
@@ -64,7 +64,7 @@ function createIndentRule(indent, options) {
  * @param {string} testTempRootDir - The root directory where the temporary test folders are created.
  * @param {string} dirName - The specific name of the temporary directory for this test case.
  * @param {string} editorconfig - The raw content or configuration string for the .editorconfig file.
- * @param {number | PropertyValue['tab'] | undefined} indent - The target indentation step size (number of spaces) or hard tab token filter criteria.
+ * @param {number | EPropertyValue['tab'] | undefined} indent - The target indentation step size (number of spaces) or hard tab token filter criteria.
  * @param {JsIndentOptions | undefined} options - Additional operational metadata parameter adjustments for the target rule logic.
  * @param {string} brokenSourceCode - The raw source text payload containing potential layout variations.
  * @param {string} expectedFixedSourceCode - The fixed source text payload containing potential layout variations.

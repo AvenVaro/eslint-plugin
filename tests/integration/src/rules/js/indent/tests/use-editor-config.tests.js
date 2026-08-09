@@ -1,7 +1,7 @@
 import * as vitest from 'vitest';
 import integrationTestsTestHelper from '../../../../../integration-tests-test-helper.js';
 import indentRuleTestHelper from '../indent-rule-test-helper.js';
-import propertyValue from '../../../../../../../infrastructure/property-value.enum.js';
+import ePropertyValue from '../../../../../../../infrastructure/property-value.enum.js';
 
 //================================
 // Tests
@@ -49,9 +49,9 @@ async function test_indentRule_useEditorconfig_false_async(testTempRootDir) {
     'root = true',
     '',
     '[*.js]',
-    `indent_style = ${propertyValue.space}`,
+    `indent_style = ${ePropertyValue.space}`,
     'indent_size = 5',
-    `end_of_line = ${propertyValue.lf}`
+    `end_of_line = ${ePropertyValue.lf}`
   ]);
 
   await indentRuleTestHelper.tryExpectAsync(
@@ -113,9 +113,9 @@ async function test_indentRule_useEditorconfig_async(testTempRootDir, useEditorc
     'root = true',
     '',
     '[*.js]',
-    `indent_style = ${propertyValue.space}`,
+    `indent_style = ${ePropertyValue.space}`,
     'indent_size = 5',
-    `end_of_line = ${propertyValue.lf}`
+    `end_of_line = ${ePropertyValue.lf}`
   ]);
 
   await indentRuleTestHelper.tryExpectAsync(

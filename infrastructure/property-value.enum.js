@@ -3,15 +3,15 @@
 //================================
 
 /**
- * @typedef {import('./property-value.enum.d.ts').PropertyValue} PropertyValue
+ * @typedef {import('./property-value.enum.d.ts').EPropertyValue} EPropertyValue
  */
 
 //================================
 // Constants
 //================================
 
-/** @type {PropertyValue} */
-const propertyValue = Object.freeze({
+/** @type {EPropertyValue} */
+const ePropertyValue = Object.freeze({
   unset: 'unset',
   tab: 'tab',
   space: 'space',
@@ -25,4 +25,4 @@ const propertyValue = Object.freeze({
 // Exports
 //================================
 
-export default propertyValue;
+export default ePropertyValue;
