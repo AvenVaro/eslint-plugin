@@ -1,6 +1,6 @@
 import * as vitest from 'vitest';
 import editorconfigProvider from '../../../infrastructure/editorconfig-provider.js';
-import propertyValue from '../../../infrastructure/property-value.js';
+import propertyValue from '../../../infrastructure/property-value.enum.js';
 import integrationTestsTestHelper from '../integration-tests-test-helper.js';
 
 //================================

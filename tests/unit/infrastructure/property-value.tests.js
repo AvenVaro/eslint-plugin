@@ -1,5 +1,5 @@
 import * as vitest from 'vitest';
-import propertyValue from '../../../infrastructure/property-value.js';
+import propertyValue from '../../../infrastructure/property-value.enum.js';
 
 //================================
 // Tests
@@ -22,6 +22,8 @@ function test_propertyValue_isStrictImmutableDictionary() {
   vitest.expect(propertyValue.space).toBe('space');
   vitest.expect(propertyValue.lf).toBe('lf');
   vitest.expect(propertyValue.crlf).toBe('crlf');
+  vitest.expect(propertyValue.off).toBe('off');
+  vitest.expect(propertyValue.first).toBe('first');
 
-  vitest.expect(Object.keys(propertyValue)).toHaveLength(5);
+  vitest.expect(Object.keys(propertyValue)).toHaveLength(7);
 }

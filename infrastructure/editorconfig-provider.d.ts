@@ -1,5 +1,5 @@
 import { Props } from 'editorconfig';
-import { PropertyValue } from './property-value.js';
+import { PropertyValue } from './property-value.enum.js';
 
 /**
  * Interface representing the EditorConfig data provider and its runtime mocking sub-system.

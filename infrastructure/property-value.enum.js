@@ -1,4 +1,4 @@
-/** @type {import('./property-value.d.ts').PropertyValue} */
+/** @type {import('./property-value.enum.d.ts').PropertyValue} */
 const propertyValue = Object.freeze({
   unset: 'unset',
   tab: 'tab',

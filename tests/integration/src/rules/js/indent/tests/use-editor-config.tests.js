@@ -1,7 +1,7 @@
 import * as vitest from 'vitest';
 import integrationTestsTestHelper from '../../../../../integration-tests-test-helper.js';
 import indentRuleTestHelper from '../indent-rule-test-helper.js';
-import propertyValue from '../../../../../../../infrastructure/property-value.js';
+import propertyValue from '../../../../../../../infrastructure/property-value.enum.js';
 
 //================================
 // Tests

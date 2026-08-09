@@ -1,7 +1,7 @@
 import * as vitest from 'vitest';
 import esmock from 'esmock';
 import editorconfigProvider from '../../../infrastructure/editorconfig-provider.js';
-import propertyValue from '../../../infrastructure/property-value.js';
+import propertyValue from '../../../infrastructure/property-value.enum.js';
 
 //================================
 // Constants
