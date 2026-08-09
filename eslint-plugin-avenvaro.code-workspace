@@ -5,6 +5,9 @@
     }
   ],
   "settings": {
+    "files.exclude": {
+      "**/node_modules/": true
+    },
     "[javascript]": {
       "editor.defaultFormatter": "dbaeumer.vscode-eslint"
     },
