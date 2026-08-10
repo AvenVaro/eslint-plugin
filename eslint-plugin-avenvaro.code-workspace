@@ -8,8 +8,31 @@
     "files.exclude": {
       "**/node_modules/": true,
       "**/.vscode/": true,
-      "**/*.code-workspace": true,
-      "eslint-plugin-avenvaro.code-workspace": false
+      "*/**/*.code-workspace": true,
+      "[!e]*.code-workspace": true,
+      "e[!s]*.code-workspace": true,
+      "es[!l]*.code-workspace": true,
+      "esl[!i]*.code-workspace": true,
+      "esli[!n]*.code-workspace": true,
+      "eslin[!t]*.code-workspace": true,
+      "eslint[!-]*.code-workspace": true,
+      "eslint-[!p]*.code-workspace": true,
+      "eslint-p[!l]*.code-workspace": true,
+      "eslint-pl[!u]*.code-workspace": true,
+      "eslint-plu[!g]*.code-workspace": true,
+      "eslint-plug[!i]*.code-workspace": true,
+      "eslint-plugi[!n]*.code-workspace": true,
+      "eslint-plugin[!-]*.code-workspace": true,
+      "eslint-plugin-[!a]*.code-workspace": true,
+      "eslint-plugin-a[!v]*.code-workspace": true,
+      "eslint-plugin-av[!e]*.code-workspace": true,
+      "eslint-plugin-ave[!n]*.code-workspace": true,
+      "eslint-plugin-aven[!v]*.code-workspace": true,
+      "eslint-plugin-avenv[!a]*.code-workspace": true,
+      "eslint-plugin-avenva[!r]*.code-workspace": true,
+      "eslint-plugin-avenvar[!o]*.code-workspace": true,
+      "eslint-plugin-avenvaro[!.]*.code-workspace": true,
+      "eslint-plugin-avenvaro.*?*.code-workspace": true
     },
     "[javascript]": {
       "editor.defaultFormatter": "dbaeumer.vscode-eslint"
