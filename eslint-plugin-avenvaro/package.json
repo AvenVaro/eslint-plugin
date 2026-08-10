@@ -2,6 +2,7 @@
   "name": "eslint-plugin-avenvaro",
   "version": "1.0.0",
   "description": "Strict structural alignment, operator grid formatting, and syntax delimiter placement rules for ESLint.",
+  "private": false,
   "main": "src/index.js",
   "types": "src/index.d.ts",
   "type": "module",
@@ -12,12 +13,7 @@
     "editorconfig": "editorconfig-checker",
     "lint": "eslint . && editorconfig-checker",
     "lint:fix": "eslint . --fix",
-    "tests": "vitest run",
-    "tests:watch": "vitest",
-    "tests:unit": "vitest run tests/unit",
-    "tests:unit:watch": "vitest tests/unit",
-    "tests:integration": "vitest run tests/integration",
-    "tests:integration:watch": "vitest tests/integration"
+    "prepack": "shx cp ../LICENSE ./ && shx cp ../NOTICE ./"
   },
   "peerDependencies": {
     "@stylistic/eslint-plugin": ">=5.0.0",
@@ -34,8 +30,15 @@
     "style",
     "layout",
     "grid",
+    "editorconfig",
+    "editorconfig-supported",
+    "editorconfig-support",
     "indent",
-    "js-indent"
+    "indent-from-editorconfig",
+    "js-indent",
+    "ts-indent",
+    "json-indent",
+    "yaml-indent"
   ],
   "author": "Aven Varo",
   "license": "Apache-2.0",
@@ -47,16 +50,14 @@
     "eslint": "^10.7.0",
     "eslint-plugin-jsonc": "^3.3.0",
     "eslint-plugin-yml": "^3.6.0",
-    "esmock": "^2.7.6",
     "globals": "^17.7.0",
+    "shx": "^0.3.4",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.64.0",
-    "vitest": "^4.1.10",
     "yaml-eslint-parser": "^2.1.0"
   },
   "files": [
     "src",
-    "infrastructure",
     "LICENSE",
     "NOTICE",
     "README.md"
