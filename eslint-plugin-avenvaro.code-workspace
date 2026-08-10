@@ -7,7 +7,9 @@
   "settings": {
     "files.exclude": {
       "**/node_modules/": true,
-      "**/.vscode/": true
+      "**/.vscode/": true,
+      "**/*.code-workspace": true,
+      "eslint-plugin-avenvaro.code-workspace": false
     },
     "[javascript]": {
       "editor.defaultFormatter": "dbaeumer.vscode-eslint"

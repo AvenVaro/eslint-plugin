@@ -1,5 +1,7 @@
-# IDE
-.vscode/
-
 # npm
-node_modules/
+**/node_modules/
+
+# VSCode
+**/.vscode/
+**/*.code-workspace
+!eslint-plugin-avenvaro.code-workspace
