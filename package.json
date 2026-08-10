@@ -1,18 +1,38 @@
 {
   "name": "eslint-plugin-avenvaro-solution",
   "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20.19.0"
+  },
   "workspaces": [
-    "eslint-plugin-avenvaro",
-    "eslint-plugin-avenvaro.tests.unit",
-    "eslint-plugin-avenvaro.tests.integration"
+    "eslint-plugin-avenvaro"
   ],
   "scripts": {
-    "lint": "npm run lint -w eslint-plugin-avenvaro",
-    "lint:fix": "npm run lint:fix -w eslint-plugin-avenvaro",
-    "tests": "npm run tests -w eslint-plugin-avenvaro.tests",
-    "tests:watch": "npm run tests:watch -w eslint-plugin-avenvaro.tests",
-    "tests:unit": "npm run tests:unit -w eslint-plugin-avenvaro.tests",
-    "tests:integration": "npm run tests:integration -w eslint-plugin-avenvaro.tests",
-    "ready": "npm run lint && npm run tests"
+    "editorconfig": "editorconfig-checker",
+    "lint": "eslint . && editorconfig-checker",
+    "lint:fix": "eslint . --fix",
+    "tests": "vitest run",
+    "tests:watch": "vitest",
+    "tests:unit": "vitest run eslint-plugin-avenvaro.tests.unit",
+    "tests:unit:watch": "vitest eslint-plugin-avenvaro.tests.unit",
+    "tests:integration": "vitest run eslint-plugin-avenvaro.tests.integration",
+    "tests:integration:watch": "vitest eslint-plugin-avenvaro.tests.integration"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@eslint/json": "^2.0.1",
+    "@stylistic/eslint-plugin": "^5.10.0",
+    "editorconfig-checker": "^6.1.1",
+    "eslint": "^10.7.0",
+    "eslint-plugin-jsonc": "^3.3.0",
+    "eslint-plugin-yml": "^3.6.0",
+    "esmock": "^2.7.6",
+    "globals": "^17.7.0",
+    "shx": "^0.3.4",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.64.0",
+    "vitest": "^4.1.10",
+    "yaml-eslint-parser": "^2.1.0"
   }
 }
