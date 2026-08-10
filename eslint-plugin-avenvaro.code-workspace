@@ -32,7 +32,11 @@
       "eslint-plugin-avenva[!r]*.code-workspace": true,
       "eslint-plugin-avenvar[!o]*.code-workspace": true,
       "eslint-plugin-avenvaro[!.]*.code-workspace": true,
-      "eslint-plugin-avenvaro.*?*.code-workspace": true
+      "eslint-plugin-avenvaro.*?*.code-workspace": true,
+      "**/.vs/": true,
+      "**/obj/": true,
+      "**/*.sln": true,
+      "**/*.esproj": true
     },
     "[javascript]": {
       "editor.defaultFormatter": "dbaeumer.vscode-eslint"
