@@ -3,6 +3,3 @@
 
 # npm
 node_modules/
-
-# Tests
-__tmp_integration_editorconfigProvider_tests__/
