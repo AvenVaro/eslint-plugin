@@ -1,0 +1,18 @@
+{
+  "name": "eslint-plugin-avenvaro-solution",
+  "private": true,
+  "workspaces": [
+    "eslint-plugin-avenvaro",
+    "eslint-plugin-avenvaro.tests.unit",
+    "eslint-plugin-avenvaro.tests.integration"
+  ],
+  "scripts": {
+    "lint": "npm run lint -w eslint-plugin-avenvaro",
+    "lint:fix": "npm run lint:fix -w eslint-plugin-avenvaro",
+    "tests": "npm run tests -w eslint-plugin-avenvaro.tests",
+    "tests:watch": "npm run tests:watch -w eslint-plugin-avenvaro.tests",
+    "tests:unit": "npm run tests:unit -w eslint-plugin-avenvaro.tests",
+    "tests:integration": "npm run tests:integration -w eslint-plugin-avenvaro.tests",
+    "ready": "npm run lint && npm run tests"
+  }
+}
