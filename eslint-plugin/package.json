@@ -1,5 +1,5 @@
 {
-  "name": "eslint-plugin-avenvaro",
+  "name": "@avenvaro/eslint-plugin",
   "version": "1.0.0",
   "description": "Strict structural alignment, statement grid formatting, and syntax delimiter placement rules for ESLint. Full integration and support for the .editorconfig file in rules.",
   "private": false,
