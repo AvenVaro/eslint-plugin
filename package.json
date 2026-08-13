@@ -6,7 +6,7 @@
     "node": ">=20.19.0"
   },
   "workspaces": [
-    "@avenvaro/eslint-plugin"
+    "eslint-plugin"
   ],
   "scripts": {
     "editorconfig": "editorconfig-checker",
