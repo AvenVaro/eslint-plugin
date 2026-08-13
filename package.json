@@ -17,7 +17,8 @@
     "tests:unit": "vitest run @avenvaro/eslint-plugin.tests.unit",
     "tests:unit:watch": "vitest @avenvaro/eslint-plugin.tests.unit",
     "tests:integration": "vitest run @avenvaro/eslint-plugin.tests.integration",
-    "tests:integration:watch": "vitest @avenvaro/eslint-plugin.tests.integration"
+    "tests:integration:watch": "vitest @avenvaro/eslint-plugin.tests.integration",
+    "release": "npm publish -w @avenvaro/eslint-plugin --access public"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
