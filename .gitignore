@@ -4,12 +4,12 @@
 # VSCode
 **/.vscode/
 **/*.code-workspace
-!eslint-plugin-avenvaro.code-workspace
+!eslint-plugin.code-workspace
 
 # VisualStudio
 **/.vs/
 **/obj/
 **/*.sln
-!eslint-plugin-avenvaro.sln
+!eslint-plugin.sln
 **/*.esproj
-!eslint-plugin-avenvaro.esproj
+!eslint-plugin.esproj

@@ -2,7 +2,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{13B669BE-BB05-4D11-AE76-4965843E2010}") = "eslint-plugin-avenvaro-root", "eslint-plugin-avenvaro.esproj", "{D4E5F6A7-B8C9-4AD1-BC33-242526272829}"
+Project("{13B669BE-BB05-4D11-AE76-4965843E2010}") = "eslint-plugin", "eslint-plugin.esproj", "{D4E5F6A7-B8C9-4AD1-BC33-242526272829}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
