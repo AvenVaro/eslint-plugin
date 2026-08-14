@@ -1,5 +1,5 @@
 import stylisticPlugin from '@stylistic/eslint-plugin';
-import editorconfigProvider from '../../../infrastructure/editorconfig-provider.js';
+import editorconfigProvider from '../../infrastructure/editorconfig-provider.js';
 
 const coreIndentRule = stylisticPlugin.rules.indent;
 

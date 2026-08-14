@@ -1,6 +1,6 @@
 import { Rule } from 'eslint';
-import { EPropertyValue } from '../../../infrastructure/property-value.enum.js'
-import { EType } from '../../../infrastructure/type.enum.js'
+import { EPropertyValue } from '../../infrastructure/property-value.enum.js'
+import { EType } from '../../infrastructure/type.enum.js'
 
 /**
  * Configuration options for the EditorConfig-integrated JavaScript indentation rule.
