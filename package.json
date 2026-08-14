@@ -14,10 +14,10 @@
     "lint:fix": "eslint . --fix",
     "tests": "vitest run",
     "tests:watch": "vitest",
-    "tests:unit": "vitest run @avenvaro/eslint-plugin.tests.unit",
-    "tests:unit:watch": "vitest @avenvaro/eslint-plugin.tests.unit",
-    "tests:integration": "vitest run @avenvaro/eslint-plugin.tests.integration",
-    "tests:integration:watch": "vitest @avenvaro/eslint-plugin.tests.integration",
+    "tests:unit": "vitest run eslint-plugin.tests.unit",
+    "tests:unit:watch": "vitest eslint-plugin.tests.unit",
+    "tests:integration": "vitest run eslint-plugin.tests.integration",
+    "tests:integration:watch": "vitest eslint-plugin.tests.integration",
     "release": "npm publish -w @avenvaro/eslint-plugin --access public"
   },
   "devDependencies": {
