@@ -173,7 +173,7 @@ function getInsertFinalNewLine(config, defaultValue) {
     return defaultValue;
   }
 
-  if (typeof config.insert_final_newline === eType.string) {
+  if (typeof config.insert_final_newline === eType.boolean) {
     return config.insert_final_newline;
   }
 
