@@ -24,6 +24,7 @@
       "eslint-plugi[!n]*.code-workspace": true,
       "eslint-plugin[!.]*.code-workspace": true,
       "eslint-plugin.*?*.code-workspace": true,
+      "eslint-plugin..code-workspace": true,
       "**/.vs/": true,
       "**/obj/": true,
       "**/*.sln": true,
