@@ -15,7 +15,7 @@ function describe() {
 }
 
 function test_propertyValue_isStrictImmutableDictionary() {
-  vitest.expect(Object.isFrozen(type)).toBe(true);
+  vitest.expect(Object.isFrozen(eType)).toBe(true);
 
   vitest.expect(eType.undefined).toBe('undefined');
   vitest.expect(eType.object).toBe('object');
@@ -26,7 +26,7 @@ function test_propertyValue_isStrictImmutableDictionary() {
   vitest.expect(eType.symbol).toBe('symbol');
   vitest.expect(eType.bigint).toBe('bigint');
 
-  vitest.expect(Object.keys(type)).toHaveLength(8);
+  vitest.expect(Object.keys(eType)).toHaveLength(8);
 
   vitest.expect(typeof undefined === eType.undefined).toBe(true);
   vitest.expect(typeof null === eType.object).toBe(true);
