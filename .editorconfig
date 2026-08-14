@@ -12,5 +12,5 @@ insert_final_newline = true
 trim_trailing_whitespace = false
 indent_size = 2
 
-[*.{js,mjs,ts,json,code-workspace,yml,yaml}]
+[*.{js,mjs,ts,json,code-workspace,yml,yaml,esproj}]
 indent_size = 2
