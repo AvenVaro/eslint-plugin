@@ -1,7 +1,7 @@
 import * as vitest from 'vitest';
 import esmock from 'esmock';
-import editorconfigProvider from '../../../infrastructure/editorconfig-provider.js';
-import ePropertyValue from '../../../infrastructure/property-value.enum.js';
+import editorconfigProvider from '@avenvaro/eslint-plugin/src/infrastructure/editorconfig-provider.js';
+import ePropertyValue from '@avenvaro/eslint-plugin/src/infrastructure/property-value.enum.js';
 
 //================================
 // Typedefs
@@ -9,7 +9,7 @@ import ePropertyValue from '../../../infrastructure/property-value.enum.js';
 
 /**
  * @typedef {import('editorconfig').Props} Props
- * @typedef {import('../infrastructure/editorconfig-provider.d.ts').EditorconfigProvider} EditorconfigProvider
+ * @typedef {import('@avenvaro/eslint-plugin/src/infrastructure/editorconfig-provider.d.ts').EditorconfigProvider} EditorconfigProvider
  */
 
 //================================

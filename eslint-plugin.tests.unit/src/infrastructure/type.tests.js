@@ -1,5 +1,5 @@
 import * as vitest from 'vitest';
-import eType from '../../../infrastructure/type.enum.js';
+import eType from '@avenvaro/eslint-plugin/src/infrastructure/type.enum.js';
 
 //================================
 // Tests
