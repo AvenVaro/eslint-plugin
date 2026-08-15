@@ -8,7 +8,7 @@ import ymlPlugin from 'eslint-plugin-yml';
 
 import * as yamlParser from 'yaml-eslint-parser';
 
-import avenvaro from './src/index.js';
+import avenvaro from '@avenvaro/eslint-plugin';
 
 const jsonc = jsoncPlugin.default || jsoncPlugin;
 const yml = ymlPlugin.default || ymlPlugin;
