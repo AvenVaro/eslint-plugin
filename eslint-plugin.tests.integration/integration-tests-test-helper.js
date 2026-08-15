@@ -9,8 +9,8 @@ import os from 'node:os';
 /**
  * @typedef {import('node:fs').MakeDirectoryOptions} MakeDirectoryOptions
  * @typedef {import('node:fs').RmOptions} RmOptions
- * @typedef {import('./integration-tests-test-helper').IntegrationTestsTestHelper} IntegrationTestsTestHelper
- * @typedef {import('./integration-tests-test-helper').IntegrationTestFilesystemBlueprint} IntegrationTestFilesystemBlueprint
+ * @typedef {import('./integration-tests-test-helper.d.ts').IntegrationTestsTestHelper} IntegrationTestsTestHelper
+ * @typedef {import('./integration-tests-test-helper.d.ts').IntegrationTestFilesystemBlueprint} IntegrationTestFilesystemBlueprint
  */
 
 //================================
