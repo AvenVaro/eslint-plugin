@@ -1,4 +1,4 @@
-import integrationTestsTestHelper from '../../../../integration-tests-test-helper.js';
+import testHelper from '../../../test-helper.js';
 import rulesTestHelper from '../../rules-test-helper.js';
 import jsRulesTestHelper from '../js-rules-test-helper.js';
 
@@ -7,9 +7,9 @@ import jsRulesTestHelper from '../js-rules-test-helper.js';
 //================================
 
 /**
- * @typedef {import('../../../../../../infrastructure/property-value.enum.d.ts').EPropertyValue} EPropertyValue
- * @typedef {import('../../../../../../src/rules/js/indent.d.ts').JsIndentOptions} JsIndentOptions
- * @typedef {import('./indent-rule-test-helper.d.ts').IndentTestHelper} IndentTestHelper
+ * @typedef {import('@avenvaro/eslint-plugin/src/infrastructure/property-value.enum.d.ts').EPropertyValue} EPropertyValue
+ * @typedef {import('@avenvaro/eslint-plugin/src/rules/js/indent.d.ts').JsIndentOptions} JsIndentOptions
+ * @typedef {import('./indent-rule-test-helper.d.ts').IndentRuleTestHelper} IndentRuleTestHelper
  * @typedef {import('eslint').Linter.Config['rules']} Rules
  */
 
@@ -17,7 +17,7 @@ import jsRulesTestHelper from '../js-rules-test-helper.js';
 // Constants
 //================================
 
-/** @type {IndentTestHelper} */
+/** @type {IndentRuleTestHelper} */
 const indentTestHelper = Object.freeze({
   createIndentRule: createIndentRule,
   tryExpectAsync: tryExpectAsync
@@ -72,10 +72,10 @@ function createIndentRule(indent, options) {
  * @returns {Promise<void>} A promise that fully resolves once assertions terminate successfully and cleanup actions conclude.
  */
 async function tryExpectAsync(testTempRootDir, dirName, editorconfig, indent, options, brokenSourceCode, expectedFixedSourceCode) {
-  const paths = integrationTestsTestHelper.createTempPaths(testTempRootDir, dirName, 'index.js');
+  const paths = testHelper.createTempPaths(testTempRootDir, dirName, 'index.js');
 
   try {
-    await integrationTestsTestHelper.createTempFilesAsync(paths, editorconfig);
+    await testHelper.createTempFilesAsync(paths, editorconfig);
 
     const results = await jsRulesTestHelper.executeCodeProcessingWithPathsAsync(
       createIndentRule(indent, options),
@@ -86,6 +86,6 @@ async function tryExpectAsync(testTempRootDir, dirName, editorconfig, indent, op
     rulesTestHelper.expectResults(results, expectedFixedSourceCode, brokenSourceCode);
   }
   finally {
-    await integrationTestsTestHelper.removeAsync(paths.testTmpDir);
+    await testHelper.removeAsync(paths.testTmpDir);
   }
 }

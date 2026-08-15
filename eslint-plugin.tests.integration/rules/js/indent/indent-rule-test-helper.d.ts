@@ -1,11 +1,11 @@
 import { Linter } from 'eslint';
-import { JsIndentOptions } from '../../../../../../src/rules/js/indent.js';
-import { EPropertyValue } from '../../../../../../infrastructure/property-value.enum.js';
+import { JsIndentOptions } from '@avenvaro/eslint-plugin/src/rules/js/indent.js';
+import { EPropertyValue } from '@avenvaro/eslint-plugin/src/infrastructure/property-value.enum.js';
 
 /**
  * Helper for testing the identity rule.
  */
-export interface IndentTestHelper {
+export interface IndentRuleTestHelper {
   /**
    * Constructs a standardized ESLint rules configuration payload block specifically targeting the custom indentation rule.
    *
@@ -42,6 +42,6 @@ export interface IndentTestHelper {
   ): Promise<void>;
 }
 
-declare const indentTestHelper: IndentTestHelper;
+declare const indentTestHelper: IndentRuleTestHelper;
 
 export default indentTestHelper;
