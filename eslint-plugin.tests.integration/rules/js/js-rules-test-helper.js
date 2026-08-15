@@ -10,7 +10,7 @@ import rulesTestHelper from '../rules-test-helper.js';
  * @typedef {import('eslint').ESLint} ESLint
  * @typedef {import('eslint').ESLint.LintResult} LintResult
  * @typedef {import('./rules-test-helper.d.ts').CodeProcessingResult} CodeProcessingResult
- * @typedef {import('../../../integration-tests-test-helper.d.ts').IntegrationTestFilesystemBlueprint} IntegrationTestFilesystemBlueprint
+ * @typedef {import('../../test-helper.d.ts').FilesystemBlueprint} FilesystemBlueprint
  */
 
 //================================
@@ -101,7 +101,7 @@ async function executeCodeProcessingAsync(rules, brokenSourceCode) {
  *
  * @param {Rules} rules - An object containing the configured rules matching the target Linter scheme.
  * @param {string} brokenSourceCode - The raw source text payload containing potential layout variations.
- * @param {IntegrationTestFilesystemBlueprint} paths - The structural blueprint holding resolved absolute filesystem tracks for the active test container pass.
+ * @param {FilesystemBlueprint} paths - The structural blueprint holding resolved absolute filesystem tracks for the active test container pass.
  *
  * @returns {Promise<CodeProcessingResult>} A promise that resolves to the comprehensive metric configuration payload mapping both code execution passes.
  */

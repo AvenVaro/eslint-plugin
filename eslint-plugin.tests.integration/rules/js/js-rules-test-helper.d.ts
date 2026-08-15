@@ -1,6 +1,6 @@
 import { ESLint, Linter } from 'eslint';
 import { CodeProcessingResult } from '../rules-test-helper.js';
-import { IntegrationTestFilesystemBlueprint } from '../../../integration-tests-test-helper.js';
+import { FilesystemBlueprint } from '../../test-helper.js';
 
 /**
  * Helper for testing the JavaScript rules.
@@ -46,7 +46,7 @@ export interface JSRulesTestHelper {
    *
    * @returns A promise that resolves to the comprehensive metric configuration payload mapping both code execution passes.
    */
-  executeCodeProcessingWithPathsAsync(rules: Linter.Config['rules'], brokenSourceCode: string, paths: IntegrationTestFilesystemBlueprint): Promise<CodeProcessingResult>;
+  executeCodeProcessingWithPathsAsync(rules: Linter.Config['rules'], brokenSourceCode: string, paths: FilesystemBlueprint): Promise<CodeProcessingResult>;
 }
 
 declare const jsRulesTestHelper: JSRulesTestHelper;
