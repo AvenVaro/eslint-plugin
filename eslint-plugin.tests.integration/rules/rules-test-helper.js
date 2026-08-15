@@ -1,6 +1,6 @@
 import { ESLint } from 'eslint';
 import { expect } from 'vitest';
-import avenvaro from '../../../../src/index.js';
+import avenvaro from '@avenvaro/eslint-plugin/src/index.js';
 
 //================================
 // Typedefs
@@ -12,7 +12,7 @@ import avenvaro from '../../../../src/index.js';
  * @typedef {import('eslint').Linter.Config['rules']} Rules
  * @typedef {import('eslint').ESLint} ESLint
  * @typedef {import('eslint').ESLint.LintResult} LintResult
- * @typedef {import('../../integration-tests-test-helper.d.ts').IntegrationTestFilesystemBlueprint} IntegrationTestFilesystemBlueprint
+ * @typedef {import('../test-helper.d.ts').FilesystemBlueprint} FilesystemBlueprint
  */
 
 //================================
@@ -103,7 +103,7 @@ async function runESLintEngineAsync(eslintEngine, brokenSourceCode, filePath) {
  * @param {string[]} files - An array of glob patterns defining which source files the configuration block should apply to.
  * @param {Rules} rules - An object containing the configured rules matching the target Linter scheme.
  * @param {string} brokenSourceCode - The raw source text payload containing potential layout variations.
- * @param {IntegrationTestFilesystemBlueprint} paths - The structural blueprint holding resolved absolute filesystem tracks for the active test container pass.
+ * @param {FilesystemBlueprint} paths - The structural blueprint holding resolved absolute filesystem tracks for the active test container pass.
  *
  * @returns {Promise<CodeProcessingResult>} A promise that resolves to the comprehensive metric configuration payload mapping both code execution passes.
  */

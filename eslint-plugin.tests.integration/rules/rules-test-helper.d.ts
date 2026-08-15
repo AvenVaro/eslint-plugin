@@ -1,5 +1,5 @@
 import { ESLint, Linter } from 'eslint';
-import { IntegrationTestFilesystemBlueprint } from '../../integration-tests-test-helper.js';
+import { FilesystemBlueprint } from '../test-helper.js';
 
 /**
  * Linting result.
@@ -49,7 +49,7 @@ export interface RulesTestHelper {
    *
    * @returns A promise that resolves to the comprehensive metric configuration payload mapping both code execution passes.
    */
-  executeCodeProcessingAsync(files: string[], rules: Linter.Config['rules'], brokenSourceCode: string, paths: IntegrationTestFilesystemBlueprint): Promise<CodeProcessingResult>;
+  executeCodeProcessingAsync(files: string[], rules: Linter.Config['rules'], brokenSourceCode: string, paths: FilesystemBlueprint): Promise<CodeProcessingResult>;
 
   /**
    * Assertively validates structural equality between properties of an actual ESLint evaluation result and an expected result blueprint.
