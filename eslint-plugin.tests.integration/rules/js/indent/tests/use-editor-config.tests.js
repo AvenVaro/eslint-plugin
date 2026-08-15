@@ -1,7 +1,7 @@
 import * as vitest from 'vitest';
-import integrationTestsTestHelper from '../../../../../integration-tests-test-helper.js';
+import testHelper from '../../../../test-helper.js';
 import indentRuleTestHelper from '../indent-rule-test-helper.js';
-import ePropertyValue from '../../../../../../../infrastructure/property-value.enum.js';
+import ePropertyValue from '@avenvaro/eslint-plugin/src/infrastructure/property-value.enum.js';
 
 //================================
 // Tests
@@ -10,9 +10,9 @@ import ePropertyValue from '../../../../../../../infrastructure/property-value.e
 vitest.describe.concurrent('JavaScript Indent Rule. Use Editorconfig - Physical Integration Tier', describeAsync);
 
 async function describeAsync() {
-  const testTempRootDir = await integrationTestsTestHelper.createTempRootDirAsync('JS_IndentRule_UseEditorConfig');
+  const testTempRootDir = await testHelper.createTempRootDirAsync('JS_IndentRule_UseEditorConfig');
 
-  vitest.afterAll(async () => await integrationTestsTestHelper.removeAsync(testTempRootDir));
+  vitest.afterAll(async () => await testHelper.removeAsync(testTempRootDir));
 
   vitest.it.concurrent(
     'useEditorconfig is false.',
@@ -31,21 +31,21 @@ async function describeAsync() {
 }
 
 async function test_indentRule_useEditorconfig_false_async(testTempRootDir) {
-  const brokenSourceCode = integrationTestsTestHelper.convertCodeArrayToCodeString([
+  const brokenSourceCode = testHelper.convertCodeArrayToCodeString([
     'const condition = true;',
     'if (condition) {',
     'console.log("broken alignment");',
     '}'
   ]);
 
-  const expectedFixedSourceCode = integrationTestsTestHelper.convertCodeArrayToCodeString([
+  const expectedFixedSourceCode = testHelper.convertCodeArrayToCodeString([
     'const condition = true;',
     'if (condition) {',
     '          console.log("broken alignment");',
     '}'
   ]);
 
-  const editorconfig = integrationTestsTestHelper.convertCodeArrayToCodeString([
+  const editorconfig = testHelper.convertCodeArrayToCodeString([
     'root = true',
     '',
     '[*.js]',
@@ -95,21 +95,21 @@ async function test_indentRule_useEditorconfig_undefined_async(testTempRootDir) 
  * @returns {Promise<void>} A promise that fully resolves once assertions terminate successfully and cleanup actions conclude.
  */
 async function test_indentRule_useEditorconfig_async(testTempRootDir, useEditorconfig, dirName) {
-  const brokenSourceCode = integrationTestsTestHelper.convertCodeArrayToCodeString([
+  const brokenSourceCode = testHelper.convertCodeArrayToCodeString([
     'const condition = true;',
     'if (condition) {',
     'console.log("broken alignment");',
     '}'
   ]);
 
-  const expectedFixedSourceCode = integrationTestsTestHelper.convertCodeArrayToCodeString([
+  const expectedFixedSourceCode = testHelper.convertCodeArrayToCodeString([
     'const condition = true;',
     'if (condition) {',
     '     console.log("broken alignment");',
     '}'
   ]);
 
-  const editorconfig = integrationTestsTestHelper.convertCodeArrayToCodeString([
+  const editorconfig = testHelper.convertCodeArrayToCodeString([
     'root = true',
     '',
     '[*.js]',
