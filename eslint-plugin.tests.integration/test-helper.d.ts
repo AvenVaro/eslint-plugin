@@ -3,7 +3,7 @@ import { MakeDirectoryOptions, RmOptions } from 'node:fs';
 /**
  * Represents the absolute filesystem resolution tracks for a dedicated integration test container block.
  */
-export interface IntegrationTestFilesystemBlueprint {
+export interface FilesystemBlueprint {
   /** The absolute path targeting the isolated sandbox workspace folder assigned to a single test method. */
   readonly testTmpDir: string;
 
@@ -17,7 +17,7 @@ export interface IntegrationTestFilesystemBlueprint {
 /**
  * Declares the structured configuration contract for the frozen integration tests filesystem helper utility.
  */
-export interface IntegrationTestsTestHelper {
+export interface TestHelper {
   /** Baseline recursion options mapping used for standard directory creation workflows. */
   readonly mkdirOptions: MakeDirectoryOptions;
 
@@ -42,7 +42,7 @@ export interface IntegrationTestsTestHelper {
    *
    * @returns A structural blueprint holding resolved path metrics.
    */
-  createTempPaths(rootDirName: string, dirName: string, fileName: string): IntegrationTestFilesystemBlueprint;
+  createTempPaths(rootDirName: string, dirName: string, fileName: string): FilesystemBlueprint;
 
   /**
    * Asynchronously constructs the temporary directory structure and commits the mock `.editorconfig` manifest file to disk.
@@ -52,7 +52,7 @@ export interface IntegrationTestsTestHelper {
    *
    * @returns A promise that resolves once the directories are created and the configuration payload is cleanly written.
    */
-  createTempFilesAsync(paths: IntegrationTestFilesystemBlueprint, editorconfig: string): Promise<void>;
+  createTempFilesAsync(paths: FilesystemBlueprint, editorconfig: string): Promise<void>;
 
   /**
    * Asynchronously extracts the parent folder path from the target file tracking token and constructs the deep nested container directory layout on disk.
@@ -94,6 +94,6 @@ export interface IntegrationTestsTestHelper {
   removeAsync(path: string): Promise<void>;
 }
 
-declare const integrationTestsTestHelper: IntegrationTestsTestHelper;
+declare const testHelper: TestHelper;
 
-export default integrationTestsTestHelper;
+export default testHelper;

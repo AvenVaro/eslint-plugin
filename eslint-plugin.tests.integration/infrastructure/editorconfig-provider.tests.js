@@ -1,7 +1,7 @@
 import * as vitest from 'vitest';
 import editorconfigProvider from '@avenvaro/eslint-plugin/src/infrastructure/editorconfig-provider.js';
 import ePropertyValue from '@avenvaro/eslint-plugin/src/infrastructure/property-value.enum.js';
-import integrationTestsTestHelper from '../integration-tests-test-helper.js';
+import testHelper from '../test-helper.js';
 
 //================================
 // Typedefs
@@ -18,9 +18,9 @@ import integrationTestsTestHelper from '../integration-tests-test-helper.js';
 vitest.describe.concurrent('EditorConfig Provider - Physical Integration Tier', describeAsync);
 
 async function describeAsync() {
-  const testTempRootDir = await integrationTestsTestHelper.createTempRootDirAsync('editorconfigProvider');
+  const testTempRootDir = await testHelper.createTempRootDirAsync('editorconfigProvider');
 
-  vitest.afterAll(async () => await integrationTestsTestHelper.removeAsync(testTempRootDir));
+  vitest.afterAll(async () => await testHelper.removeAsync(testTempRootDir));
 
   vitest.it.concurrent(
     'Should physically read properties from a real .editorconfig file on disk. For js.',
@@ -92,7 +92,7 @@ async function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_js
 
   await tryExpectConfigAsync(
     expectedConfig,
-    integrationTestsTestHelper.convertCodeArrayToCodeString([
+    testHelper.convertCodeArrayToCodeString([
       'root = true',
       '',
       '[*]',
@@ -129,7 +129,7 @@ async function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_md
 
   await tryExpectConfigAsync(
     expectedConfig,
-    integrationTestsTestHelper.convertCodeArrayToCodeString([
+    testHelper.convertCodeArrayToCodeString([
       'root = true',
       '',
       '[*]',
@@ -164,7 +164,7 @@ async function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_ta
 
   await tryExpectConfigAsync(
     expectedConfig,
-    integrationTestsTestHelper.convertCodeArrayToCodeString([
+    testHelper.convertCodeArrayToCodeString([
       'root = true',
       '',
       '[*.js]',
@@ -188,7 +188,7 @@ async function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_ta
 
   await tryExpectConfigAsync(
     expectedConfig,
-    integrationTestsTestHelper.convertCodeArrayToCodeString([
+    testHelper.convertCodeArrayToCodeString([
       'root = true',
       '',
       '[*.js]',
@@ -212,7 +212,7 @@ async function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_ta
 
   await tryExpectConfigAsync(
     expectedConfig,
-    integrationTestsTestHelper.convertCodeArrayToCodeString([
+    testHelper.convertCodeArrayToCodeString([
       'root = true',
       '',
       '[*.js]',
@@ -236,7 +236,7 @@ async function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_ta
 
   await tryExpectConfigAsync(
     expectedConfig,
-    integrationTestsTestHelper.convertCodeArrayToCodeString([
+    testHelper.convertCodeArrayToCodeString([
       'root = true',
       '',
       '[*.js]',
@@ -260,7 +260,7 @@ async function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_sp
 
   await tryExpectConfigAsync(
     expectedConfig,
-    integrationTestsTestHelper.convertCodeArrayToCodeString([
+    testHelper.convertCodeArrayToCodeString([
       'root = true',
       '',
       '[*.js]',
@@ -284,7 +284,7 @@ async function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_sp
 
   await tryExpectConfigAsync(
     expectedConfig,
-    integrationTestsTestHelper.convertCodeArrayToCodeString([
+    testHelper.convertCodeArrayToCodeString([
       'root = true',
       '',
       '[*.js]',
@@ -307,7 +307,7 @@ async function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_sp
 
   await tryExpectConfigAsync(
     expectedConfig,
-    integrationTestsTestHelper.convertCodeArrayToCodeString([
+    testHelper.convertCodeArrayToCodeString([
       'root = true',
       '',
       '[*.js]',
@@ -330,7 +330,7 @@ async function test_loadConfig_editorconfigFileIsFoundedAndSuccessfullyParsed_sp
 
   await tryExpectConfigAsync(
     expectedConfig,
-    integrationTestsTestHelper.convertCodeArrayToCodeString([
+    testHelper.convertCodeArrayToCodeString([
       'root = true',
       '',
       '[*.js]',
@@ -347,11 +347,11 @@ async function test_loadConfig_editorconfigFileIsNotFounded_async() {
   let tmpRootDir;
 
   try {
-    tmpRootDir = await integrationTestsTestHelper.createTempRootDirAsync('editorconfigProvider');
+    tmpRootDir = await testHelper.createTempRootDirAsync('editorconfigProvider');
 
-    const targetFile = integrationTestsTestHelper.createTempTargetFilePath(tmpRootDir, 'app.js');
+    const targetFile = testHelper.createTempTargetFilePath(tmpRootDir, 'app.js');
 
-    await integrationTestsTestHelper.createTempTargetFileDirAsync(targetFile);
+    await testHelper.createTempTargetFileDirAsync(targetFile);
 
     /** @type {Props} */
     const expectedConfig = {};
@@ -360,7 +360,7 @@ async function test_loadConfig_editorconfigFileIsNotFounded_async() {
     expectConfig(actualConfig, expectedConfig);
   }
   finally {
-    await integrationTestsTestHelper.removeAsync(tmpRootDir);
+    await testHelper.removeAsync(tmpRootDir);
   }
 }
 
@@ -406,16 +406,16 @@ function expectConfig(actualConfig, expectedConfig) {
  * @returns {Promise<void>} A promise that resolves when the assertion and cleanup are complete.
  */
 async function tryExpectConfigAsync(expectedConfig, editorconfig, testTempRootDir, dirName, fileName = 'index.js') {
-  const paths = integrationTestsTestHelper.createTempPaths(testTempRootDir, dirName, fileName);
+  const paths = testHelper.createTempPaths(testTempRootDir, dirName, fileName);
 
   try {
-    await integrationTestsTestHelper.createTempFilesAsync(paths, editorconfig);
+    await testHelper.createTempFilesAsync(paths, editorconfig);
 
     const actualConfig = editorconfigProvider.getConfig(true, paths.mockTargetFile);
 
     expectConfig(actualConfig, expectedConfig);
   }
   finally {
-    await integrationTestsTestHelper.removeAsync(paths.testTmpDir);
+    await testHelper.removeAsync(paths.testTmpDir);
   }
 }

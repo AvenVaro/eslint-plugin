@@ -9,8 +9,8 @@ import os from 'node:os';
 /**
  * @typedef {import('node:fs').MakeDirectoryOptions} MakeDirectoryOptions
  * @typedef {import('node:fs').RmOptions} RmOptions
- * @typedef {import('./integration-tests-test-helper.d.ts').IntegrationTestsTestHelper} IntegrationTestsTestHelper
- * @typedef {import('./integration-tests-test-helper.d.ts').IntegrationTestFilesystemBlueprint} IntegrationTestFilesystemBlueprint
+ * @typedef {import('./test-helper.d.ts').TestHelper} TestHelper
+ * @typedef {import('./test-helper.d.ts').FilesystemBlueprint} FilesystemBlueprint
  */
 
 //================================
@@ -28,8 +28,8 @@ const rmOptions = Object.freeze({
   force: true
 });
 
-/** @type {IntegrationTestsTestHelper} */
-const integrationTestsTestHelper = Object.freeze({
+/** @type {TestHelper} */
+const testHelper = Object.freeze({
   mkdirOptions: mkdirOptions,
   rmOptions: rmOptions,
   createTempRootDirAsync: createTempRootDirAsync,
@@ -45,7 +45,7 @@ const integrationTestsTestHelper = Object.freeze({
 // Exports
 //================================
 
-export default integrationTestsTestHelper;
+export default testHelper;
 
 //================================
 // Private Functions
@@ -79,7 +79,7 @@ async function createTempRootDirAsync(partDirName) {
  * @param {string} dirName - The target unique subdirectory name mapping the active test case.
  * @param {string} fileName - The source asset module filename placeholder (e.g., 'index.js').
  *
- * @returns {IntegrationTestFilesystemBlueprint} A structural blueprint holding resolved path metrics.
+ * @returns {FilesystemBlueprint} A structural blueprint holding resolved path metrics.
  */
 function createTempPaths(rootDirName, dirName, fileName) {
   const testTmpDir = path.join(rootDirName, dirName);
@@ -97,7 +97,7 @@ function createTempPaths(rootDirName, dirName, fileName) {
  *
  * Asynchronously constructs the temporary directory structure and commits the mock `.editorconfig` manifest file to disk.
  *
- * @param {IntegrationTestFilesystemBlueprint} paths - The structural blueprint holding resolved absolute filesystem tracks for the active test container pass.
+ * @param {FilesystemBlueprint} paths - The structural blueprint holding resolved absolute filesystem tracks for the active test container pass.
  * @param {string} editorconfig - The raw serialization string payload containing the file layout parameters to be committed to disk.
  *
  * @returns {Promise<void>} A promise that resolves once the directories are created and the configuration payload is cleanly written.
@@ -162,6 +162,6 @@ function convertCodeArrayToCodeString(codeArray, insertEOL = true) {
  */
 async function removeAsync(path) {
   if (path) {
-    await fs.rm(path, integrationTestsTestHelper.rmOptions);
+    await fs.rm(path, testHelper.rmOptions);
   }
 }
