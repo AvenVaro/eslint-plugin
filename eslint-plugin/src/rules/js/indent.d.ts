@@ -159,7 +159,7 @@ export interface JsIndentContext extends Omit<Rule.RuleContext, 'options'> {
 }
 
 /**
- * The core module interface for the indentation rule, extending the standard ESLint rule structure.
+ * The main interface of the module for the indentation rule, extending the standard structure of ESLint and stylistic rules.
  */
 export interface JsIndentRule extends Omit<Rule.RuleModule, 'meta' | 'create'> {
   /**

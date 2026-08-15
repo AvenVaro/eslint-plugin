@@ -12,11 +12,11 @@ import {
   JsFunctionExpressionIndentOptions
 } from './rules/js/indent.js';
 
-declare const plugin: ESLint.Plugin & {
-  rules: {
-    'js/indent': typeof import('./rules/js/indent.js').default;
-  };
-};
+export interface EslintPlugin extends ESLint.Plugin {
+  rules: ESLint.Plugin['rules'];
+}
+
+declare const plugin: EslintPlugin;
 
 export default plugin;
 
