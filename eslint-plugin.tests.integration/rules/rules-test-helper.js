@@ -1,6 +1,6 @@
 import { ESLint } from 'eslint';
 import { expect } from 'vitest';
-import avenvaro from '@avenvaro/eslint-plugin/src/index.js';
+import avenvaro from '@avenvaro/eslint-plugin';
 
 //================================
 // Typedefs

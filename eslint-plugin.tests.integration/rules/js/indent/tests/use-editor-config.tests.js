@@ -1,7 +1,7 @@
 import * as vitest from 'vitest';
 import testHelper from '../../../../test-helper.js';
 import indentRuleTestHelper from '../indent-rule-test-helper.js';
-import ePropertyValue from '@avenvaro/eslint-plugin/src/infrastructure/property-value.enum.js';
+import { ePropertyValue } from '@avenvaro/eslint-plugin';
 
 //================================
 // Tests

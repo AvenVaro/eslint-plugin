@@ -1,6 +1,5 @@
 import { Linter } from 'eslint';
-import { JsIndentOptions } from '@avenvaro/eslint-plugin/src/rules/js/indent.js';
-import { EPropertyValue } from '@avenvaro/eslint-plugin/src/infrastructure/property-value.enum.js';
+import { JsIndentOptions, EPropertyValue } from '@avenvaro/eslint-plugin';
 
 /**
  * Helper for testing the identity rule.

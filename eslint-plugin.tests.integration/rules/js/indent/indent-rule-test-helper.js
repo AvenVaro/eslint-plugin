@@ -7,8 +7,8 @@ import jsRulesTestHelper from '../js-rules-test-helper.js';
 //================================
 
 /**
- * @typedef {import('@avenvaro/eslint-plugin/src/infrastructure/property-value.enum.d.ts').EPropertyValue} EPropertyValue
- * @typedef {import('@avenvaro/eslint-plugin/src/rules/js/indent.d.ts').JsIndentOptions} JsIndentOptions
+ * @typedef {import('@avenvaro/eslint-plugin').EPropertyValue} EPropertyValue
+ * @typedef {import('@avenvaro/eslint-plugin').JsIndentOptions} JsIndentOptions
  * @typedef {import('./indent-rule-test-helper.d.ts').IndentRuleTestHelper} IndentRuleTestHelper
  * @typedef {import('eslint').Linter.Config['rules']} Rules
  */
