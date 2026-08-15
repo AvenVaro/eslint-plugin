@@ -20,9 +20,9 @@ declare const plugin: ESLint.Plugin & {
 
 export default plugin;
 
-export { ePropertyValue, EPropertyValue };
-
 export {
+  ePropertyValue,
+  EPropertyValue,
   JsIndentOptions,
   JsIndentOptionsTuple,
   JsVariableDeclaratorIndentOptions,
