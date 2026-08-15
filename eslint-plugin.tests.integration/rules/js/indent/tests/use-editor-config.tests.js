@@ -58,10 +58,12 @@ async function test_indentRule_useEditorconfig_false_async(testTempRootDir) {
     testTempRootDir,
     'test_indentRule_useEditorconfig_false_async',
     editorconfig,
-    10,
-    {
-      useEditorconfig: false
-    },
+    [
+      10,
+      {
+        useEditorconfig: false
+      }
+    ],
     brokenSourceCode,
     expectedFixedSourceCode
   );
@@ -122,10 +124,12 @@ async function test_indentRule_useEditorconfig_async(testTempRootDir, useEditorc
     testTempRootDir,
     dirName,
     editorconfig,
-    10,
-    {
-      useEditorconfig: useEditorconfig
-    },
+    [
+      10,
+      {
+        useEditorconfig: useEditorconfig
+      }
+    ],
     brokenSourceCode,
     expectedFixedSourceCode
   );

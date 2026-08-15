@@ -1,5 +1,5 @@
 import { Linter } from 'eslint';
-import { JsIndentOptions, EPropertyValue } from '@avenvaro/eslint-plugin';
+import { JsIndentOptionsTuple } from '@avenvaro/eslint-plugin';
 
 /**
  * Helper for testing the identity rule.
@@ -8,12 +8,11 @@ export interface IndentRuleTestHelper {
   /**
    * Constructs a standardized ESLint rules configuration payload block specifically targeting the custom indentation rule.
    *
-   * @param indent - The target indentation step size (number of spaces) or hard tab token filter criteria.
-   * @param options - Additional operational metadata parameter adjustments for the target rule logic.
+   * @param indentOptionsTuple - The configuration array passed to the rule options.
    *
    * @returns A compliant rules dictionary mapping the generated configuration payload to the custom namespace selector.
    */
-  createIndentRule(indent: number | EPropertyValue['tab'] | undefined, options: JsIndentOptions | undefined): Linter.Config['rules'];
+  createIndentRule(indentOptionsTuple: JsIndentOptionsTuple): Linter.Config['rules'];
 
   /**
    * Asynchronously orchestrates an end-to-end integration test execution by provisioning
@@ -23,8 +22,7 @@ export interface IndentRuleTestHelper {
    * @param testTempRootDir - The root directory where the temporary test folders are created.
    * @param dirName - The specific name of the temporary directory for this test case.
    * @param editorconfig - The raw content or configuration string for the .editorconfig file.
-   * @param indent - The target indentation step size (number of spaces) or hard tab token filter criteria.
-   * @param options - Additional operational metadata parameter adjustments for the target rule logic.
+   * @param indentOptionsTuple - The configuration array passed to the rule options.
    * @param brokenSourceCode - The raw source text payload containing potential layout variations.
    * @param expectedFixedSourceCode - The fixed source text payload containing potential layout variations.
    *
@@ -34,8 +32,7 @@ export interface IndentRuleTestHelper {
     testTempRootDir: string,
     dirName: string,
     editorconfig: string,
-    indent: number | EPropertyValue['tab'] | undefined,
-    options: JsIndentOptions | undefined,
+    indentOptionsTuple: JsIndentOptionsTuple,
     brokenSourceCode: string,
     expectedFixedSourceCode: string
   ): Promise<void>;
