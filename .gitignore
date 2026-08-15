@@ -1,5 +1,15 @@
-# IDE
-.vscode/
-
 # npm
-node_modules/
+**/node_modules/
+
+# VSCode
+**/.vscode/
+**/*.code-workspace
+!eslint-plugin.code-workspace
+
+# VisualStudio
+**/.vs/
+**/obj/
+**/*.sln
+!eslint-plugin.sln
+**/*.esproj
+!eslint-plugin.esproj

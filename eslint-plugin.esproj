@@ -1,0 +1,9 @@
+﻿<Project Sdk="Microsoft.VisualStudio.JavaScript.Sdk/1.0.1184077">
+  <PropertyGroup>
+    <DefaultItemExcludes>$(DefaultItemExcludes);**\*.code-workspace</DefaultItemExcludes>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include=".github\**" />
+  </ItemGroup>
+</Project>

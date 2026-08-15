@@ -1,44 +1,25 @@
 {
-  "name": "eslint-plugin-avenvaro",
-  "version": "1.0.0",
-  "description": "Strict structural alignment, operator grid formatting, and syntax delimiter placement rules for ESLint.",
-  "main": "src/index.js",
-  "types": "src/index.d.ts",
+  "name": "eslint-plugin",
+  "private": true,
   "type": "module",
   "engines": {
     "node": ">=20.19.0"
   },
+  "workspaces": [
+    "eslint-plugin"
+  ],
   "scripts": {
     "editorconfig": "editorconfig-checker",
     "lint": "eslint . && editorconfig-checker",
     "lint:fix": "eslint . --fix",
     "tests": "vitest run",
     "tests:watch": "vitest",
-    "tests:unit": "vitest run tests/unit",
-    "tests:unit:watch": "vitest tests/unit",
-    "tests:integration": "vitest run tests/integration",
-    "tests:integration:watch": "vitest tests/integration"
+    "tests:unit": "vitest run eslint-plugin.tests.unit",
+    "tests:unit:watch": "vitest eslint-plugin.tests.unit",
+    "tests:integration": "vitest run eslint-plugin.tests.integration",
+    "tests:integration:watch": "vitest eslint-plugin.tests.integration",
+    "release": "npm publish -w @avenvaro/eslint-plugin --access public"
   },
-  "peerDependencies": {
-    "@stylistic/eslint-plugin": ">=5.0.0",
-    "eslint": ">=9.0.0"
-  },
-  "dependencies": {
-    "editorconfig": "^3.0.2"
-  },
-  "keywords": [
-    "eslint",
-    "eslintplugin",
-    "eslint-plugin",
-    "formatter",
-    "style",
-    "layout",
-    "grid",
-    "indent",
-    "js-indent"
-  ],
-  "author": "Aven Varo",
-  "license": "Apache-2.0",
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@eslint/json": "^2.0.1",
@@ -49,16 +30,10 @@
     "eslint-plugin-yml": "^3.6.0",
     "esmock": "^2.7.6",
     "globals": "^17.7.0",
+    "shx": "^0.3.4",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.64.0",
     "vitest": "^4.1.10",
     "yaml-eslint-parser": "^2.1.0"
-  },
-  "files": [
-    "src",
-    "infrastructure",
-    "LICENSE",
-    "NOTICE",
-    "README.md"
-  ]
+  }
 }

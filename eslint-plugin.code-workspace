@@ -1,0 +1,94 @@
+{
+  "folders": [
+    {
+      "path": "."
+    }
+  ],
+  "settings": {
+    "files.exclude": {
+      "**/node_modules/": true,
+      "**/.vscode/": true,
+      "*/**/*.code-workspace": true,
+      "[!e]*.code-workspace": true,
+      "e[!s]*.code-workspace": true,
+      "es[!l]*.code-workspace": true,
+      "esl[!i]*.code-workspace": true,
+      "esli[!n]*.code-workspace": true,
+      "eslin[!t]*.code-workspace": true,
+      "eslint[!-]*.code-workspace": true,
+      "eslint-[!p]*.code-workspace": true,
+      "eslint-p[!l]*.code-workspace": true,
+      "eslint-pl[!u]*.code-workspace": true,
+      "eslint-plu[!g]*.code-workspace": true,
+      "eslint-plug[!i]*.code-workspace": true,
+      "eslint-plugi[!n]*.code-workspace": true,
+      "eslint-plugin[!.]*.code-workspace": true,
+      "eslint-plugin.*?*.code-workspace": true,
+      "eslint-plugin..code-workspace": true,
+      "**/.vs/": true,
+      "**/obj/": true,
+      "**/*.sln": true,
+      "**/*.esproj": true
+    },
+    "[javascript]": {
+      "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+    },
+    "[javascriptreact]": {
+      "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+    },
+    "[typescript]": {
+      "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+    },
+    "[typescriptreact]": {
+      "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+    },
+    "[json]": {
+      "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+    },
+    "[jsonc]": {
+      "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+    },
+    "[json-workspace]": {
+      "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+    },
+    "[yaml]": {
+      "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+    },
+    "[yml]": {
+      "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+    },
+    "files.associations": {
+      "*.code-workspace": "jsonc"
+    },
+    "eslint.format.enable": true,
+    "js/ts.format.enable": false,
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": "always"
+    },
+    "eslint.validate": [
+      "javascript",
+      "javascriptreact",
+      "typescript",
+      "typescriptreact",
+      "json",
+      "jsonc",
+      "json-workspace",
+      "yaml",
+      "yml"
+    ],
+    "eslint.useFlatConfig": true,
+    "eslint.nodePath": "node_modules",
+    "eslint.workingDirectories": [
+      {
+        "mode": "auto"
+      }
+    ]
+  },
+  "extensions": {
+    "recommendations": [
+      "dbaeumer.vscode-eslint",
+      "editorconfig.editorconfig"
+    ]
+  }
+}
