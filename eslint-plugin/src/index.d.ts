@@ -3,13 +3,15 @@ import { ESLint } from 'eslint';
 import { default as ePropertyValue, EPropertyValue } from './infrastructure/property-value.enum.js';
 
 import {
+  IndentSizeValue,
   JsIndentOptions,
   JsIndentOptionsTuple,
   JsVariableDeclaratorIndentOptions,
   JsStaticBlockIndentOptions,
   JsCallExpressionIndentOptions,
   JsFunctionDeclarationIndentOptions,
-  JsFunctionExpressionIndentOptions
+  JsFunctionExpressionIndentOptions,
+  JsOffsetTernaryExpressionsIndentOptions
 } from './rules/js/indent.js';
 
 export interface EslintPlugin extends ESLint.Plugin {
@@ -23,11 +25,13 @@ export default plugin;
 export {
   ePropertyValue,
   EPropertyValue,
+  IndentSizeValue,
   JsIndentOptions,
   JsIndentOptionsTuple,
   JsVariableDeclaratorIndentOptions,
   JsStaticBlockIndentOptions,
   JsCallExpressionIndentOptions,
   JsFunctionDeclarationIndentOptions,
-  JsFunctionExpressionIndentOptions
+  JsFunctionExpressionIndentOptions,
+  JsOffsetTernaryExpressionsIndentOptions
 };

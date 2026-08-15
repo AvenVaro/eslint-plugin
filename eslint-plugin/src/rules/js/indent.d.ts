@@ -3,6 +3,16 @@ import { EPropertyValue } from '../../infrastructure/property-value.enum.js';
 import { EType } from '../../infrastructure/type.enum.js';
 
 /**
+ * Provides indentation size as a fixed number of spaces/tabs or a special formatting mode (e.g., 'first', 'unset' or 'off').
+ */
+export type IndentSizeValue = number | EPropertyValue['first'] | EPropertyValue['off'] | EPropertyValue['unset'];
+
+/**
+ * Defines a configuration value that can either be a numeric indent size or disabled entirely.
+ */
+export type IndentLevel = number | EPropertyValue['off'] | EPropertyValue['unset'];
+
+/**
  * Configuration options for the EditorConfig-integrated JavaScript indentation rule.
  */
 export interface JsIndentOptions {
@@ -10,13 +20,19 @@ export interface JsIndentOptions {
   switchCase?: number;
 
   /** Enforces indentation level for variable declarators when spanned across multiple lines. */
-  variableDeclarator?: number | JsVariableDeclaratorIndentOptions;
+  variableDeclarator?: IndentSizeValue | JsVariableDeclaratorIndentOptions;
+
+  /**
+   * Specifies the indentation level for the right-hand side of a variable assignment
+   * when it breaks onto a new line. Set to 'off' to disable validation for wrapped assignments.
+   */
+  assignmentOperator?: IndentLevel;
 
   /** Enforces indentation level for the body of an Immediately-Invoked Function Expression (IIFE). */
-  outerIifeBody?: number | EPropertyValue['off'];
+  outerIifeBody?: IndentLevel;
 
   /** Enforces indentation level for multi-line member expressions chained with a dot. */
-  memberExpression?: number | EPropertyValue['off'];
+  memberExpression?: IndentLevel;
 
   /** Enforces indentation level for properties inside a class static block. */
   staticBlock?: JsStaticBlockIndentOptions;
@@ -31,22 +47,31 @@ export interface JsIndentOptions {
   functionExpression?: JsFunctionExpressionIndentOptions;
 
   /** Enforces indentation level for elements inside multi-line array expressions. */
-  arrayExpression?: number | EPropertyValue['first'];
+  arrayExpression?: IndentSizeValue;
 
   /** Enforces indentation level for properties inside multi-line object expressions. */
-  objectExpression?: number | EPropertyValue['first'];
+  objectExpression?: IndentSizeValue;
 
   /** Enforces indentation level for declarations inside multi-line import statements. */
-  importDeclaration?: number | EPropertyValue['first'];
+  importDeclaration?: IndentSizeValue;
 
   /** If true, requires nested ternary expressions to be aligned on the same indentation level. */
   flatTernaryExpressions?: boolean;
 
   /** If true, requires ternary expressions to be indented relative to the parent variable token. */
-  offsetTernaryExpressions?: boolean;
+  offsetTernaryExpressions?: boolean | JsOffsetTernaryExpressionsIndentOptions;
 
   /** If true, completely skips linting indentation checks on lines that contain comments. */
   ignoreComments?: boolean;
+
+  /** Controls whether an additional indent level is applied to function arguments within nested ternary expressions when 'offsetTernaryExpressions' is enabled. */
+  offsetTernaryExpressionsOffsetCallExpressions?: boolean;
+
+  /** An array of AST selector strings. Code nodes matching these selectors will be completely ignored by the indentation validation rules. */
+  ignoredNodes?: string[];
+
+  /** Specifies the equivalent character width of a single tab character (\t). Essential for accurate alignment calculations when tab indentation is used. */
+  tabLength?: number;
 
   /** If true, the rule parses and enforces values from the local `.editorconfig` file configuration. */
   useEditorconfig?: boolean;
@@ -60,13 +85,16 @@ export interface JsIndentOptions {
  */
 export interface JsVariableDeclaratorIndentOptions {
   /** Indentation level for multi-line variables declared with `var`. */
-  var?: number;
+  var?: IndentSizeValue;
 
   /** Indentation level for multi-line variables declared with `let`. */
-  let?: number;
+  let?: IndentSizeValue;
 
   /** Indentation level for multi-line variables declared with `const`. */
-  const?: number;
+  const?: IndentSizeValue;
+
+  /** Indentation level for multi-line variables declared with `using`. */
+  using?: IndentSizeValue;
 }
 
 /**
@@ -82,7 +110,7 @@ export interface JsStaticBlockIndentOptions {
  */
 export interface JsCallExpressionIndentOptions {
   /** Indentation level or `'first'` alignment token for positional function arguments. */
-  arguments?: number | EPropertyValue['first'];
+  arguments?: IndentSizeValue;
 }
 
 /**
@@ -90,10 +118,13 @@ export interface JsCallExpressionIndentOptions {
  */
 export interface JsFunctionDeclarationIndentOptions {
   /** Indentation level or `'first'` alignment token for formal function declaration parameters. */
-  parameters?: number | EPropertyValue['first'];
+  parameters?: IndentSizeValue;
 
   /** Indentation level for statements within the function declaration body block. */
   body?: number;
+
+  /** Specifies the indentation level for the function return type when it is placed on a new line below the parameters. */
+  returnType?: number;
 }
 
 /**
@@ -101,10 +132,28 @@ export interface JsFunctionDeclarationIndentOptions {
  */
 export interface JsFunctionExpressionIndentOptions {
   /** Indentation level or `'first'` alignment token for formal function expression parameters. */
-  parameters?: number | EPropertyValue['first'];
+  parameters?: IndentSizeValue;
 
   /** Indentation level for statements within the function expression body block. */
   body?: number;
+
+  /** Specifies the indentation level for the function return type when it is placed on a new line below the parameters. */
+  returnType?: number;
+}
+
+/**
+ * Configuration options to control whether specific expression types
+ * receive an extra indentation offset when nested inside ternary operations.
+ */
+export interface JsOffsetTernaryExpressionsIndentOptions {
+  /** Enforces an indentation offset for function and method calls inside ternary expressions. */
+  callExpression?: boolean;
+
+  /** Enforces an indentation offset for awaited expressions inside ternary operations. */
+  awaitExpression?: boolean;
+
+  /** Enforces an indentation offset for constructor instances ('new' keyword) inside ternary operations. */
+  newExpression?: boolean;
 }
 
 /**
