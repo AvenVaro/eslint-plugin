@@ -1,5 +1,6 @@
 import stylisticPlugin from '@stylistic/eslint-plugin';
 import editorconfigProvider from '../../infrastructure/editorconfig-provider.js';
+import ePropertyValue from '../../infrastructure/property-value.enum.js';
 
 const coreIndentRule = stylisticPlugin.rules.indent;
 
@@ -119,7 +120,7 @@ function getProcessedJsIndentOptionsTuple(context) {
   const config = editorconfigProvider.getConfig(options.useEditorconfig, context.filename);
   const indentStyle = editorconfigProvider.getIndentStyle(config, undefined);
 
-  if (indentStyle === editorconfigProvider.propertyValue.tab) {
+  if (indentStyle === ePropertyValue.tab) {
     return [ indentStyle, options ];
   }
 
