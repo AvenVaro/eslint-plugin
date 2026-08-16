@@ -13,6 +13,9 @@ export type EType = Readonly<{
   symbol: 'symbol';
   bigint: 'bigint';
   integer: 'integer';
+  array: 'array';
+  null: 'null';
+  any: 'any';
 }>;
 
 declare const eType: EType;

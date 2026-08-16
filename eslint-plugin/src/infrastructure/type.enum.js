@@ -20,7 +20,10 @@ const eType = Object.freeze({
   function: 'function',
   symbol: 'symbol',
   bigint: 'bigint',
-  integer: 'integer'
+  integer: 'integer',
+  array: 'array',
+  null: 'null',
+  any: 'any'
 });
 
 //================================
