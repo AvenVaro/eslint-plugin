@@ -5,15 +5,15 @@ import indentJS from './rules/js/indent.js';
 //================================
 
 /**
- * @typedef {import('eslint').ESLint.Plugin['rules']} Rules
+ * @typedef {import('eslint').ESLint.Plugin['rules']} Ruleset
  */
 
 //================================
 // Constants
 //================================
 
-/** @type {Rules} */
-const rules = Object.freeze({
+/** @type {Ruleset} */
+const ruleset = Object.freeze({
   'js/indent': indentJS
 });
 
@@ -21,4 +21,4 @@ const rules = Object.freeze({
 // Exports
 //================================
 
-export default rules;
+export default ruleset;
