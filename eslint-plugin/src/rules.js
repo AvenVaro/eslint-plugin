@@ -1,4 +1,4 @@
-import indentJS from './js/indent.js';
+import indentJS from './rules/js/indent.js';
 
 //================================
 // Typedefs
