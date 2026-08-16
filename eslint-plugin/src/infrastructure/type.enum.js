@@ -19,7 +19,8 @@ const eType = Object.freeze({
   boolean: 'boolean',
   function: 'function',
   symbol: 'symbol',
-  bigint: 'bigint'
+  bigint: 'bigint',
+  integer: 'integer'
 });
 
 //================================

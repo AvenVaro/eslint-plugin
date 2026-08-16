@@ -12,6 +12,7 @@ export type EType = Readonly<{
   function: 'function';
   symbol: 'symbol';
   bigint: 'bigint';
+  integer: 'integer';
 }>;
 
 declare const eType: EType;
