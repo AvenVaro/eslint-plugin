@@ -2,7 +2,74 @@ import stylisticPlugin from '@stylistic/eslint-plugin';
 import editorconfigProvider from '../../infrastructure/editorconfig-provider.js';
 import ePropertyValue from '../../infrastructure/property-value.enum.js';
 
+//================================
+// Typedefs
+//================================
+
+/**
+ * @typedef {import('./indent.d.ts').JsIndentOptions} JsIndentOptions
+ * @typedef {import('./indent.d.ts').JsStaticBlockIndentOptions} JsStaticBlockIndentOptions
+ * @typedef {import('./indent.d.ts').JsCallExpressionIndentOptions} JsCallExpressionIndentOptions
+ * @typedef {import('./indent.d.ts').JsFunctionDeclarationIndentOptions} JsFunctionDeclarationIndentOptions
+ * @typedef {import('./indent.d.ts').JsFunctionExpressionIndentOptions} JsFunctionExpressionIndentOptions
+ * @typedef {import('./indent.d.ts').JsVariableDeclaratorIndentOptions} JsVariableDeclaratorIndentOptions
+ */
+
+//================================
+// Constants
+//================================
+
 const coreIndentRule = stylisticPlugin.rules.indent;
+
+/** @type {Required<JsVariableDeclaratorIndentOptions>} */
+const defaultJsVariableDeclaratorIndentOptions = Object.freeze({
+  var: 1,
+  let: 1,
+  const: 1,
+  using: 1
+});
+
+/** @type {Required<JsStaticBlockIndentOptions>} */
+const defaultJsStaticBlockIndentOptions = Object.freeze({
+  body: 1
+});
+
+/** @type {Required<JsCallExpressionIndentOptions>} */
+const defaultJsCallExpressionIndentOptions = Object.freeze({
+  arguments: 1
+});
+
+/** @type {Required<JsFunctionDeclarationIndentOptions>} */
+const defaultJsFunctionDeclarationIndentOptions = Object.freeze({
+  parameters: 1,
+  body: 1
+});
+
+/** @type {Required<JsFunctionExpressionIndentOptions>} */
+const defaultJsFunctionExpressionIndentOptions = Object.freeze({
+  parameters: 1,
+  body: 1
+});
+
+/** @type {Required<JsIndentOptions>} */
+const defaultJsIndentOptions = Object.freeze({
+  switchCase: 1,
+  variableDeclarator: 1,
+  outerIifeBody: 1,
+  memberExpression: 1,
+  staticBlock: defaultJsStaticBlockIndentOptions,
+  callExpression: defaultJsCallExpressionIndentOptions,
+  functionDeclaration: defaultJsFunctionDeclarationIndentOptions,
+  functionExpression: defaultJsFunctionExpressionIndentOptions,
+  arrayExpression: 1,
+  objectExpression: 1,
+  importDeclaration: 1,
+  flatTernaryExpressions: false,
+  offsetTernaryExpressions: false,
+  ignoreComments: false,
+  useEditorconfig: true,
+  defaultIndent: 2
+});
 
 //================================
 // Exports
@@ -135,7 +202,7 @@ function getProcessedJsIndentOptionsTuple(context) {
 /**
  * Maps the options block to the configuration structure required by the core @stylistic engine.
  *
- * @param {Required<import('./indent').JsIndentOptions>} option - The complete, processed camelCase options object.
+ * @param {JsIndentOptions>} option - The complete, processed camelCase options object.
  *
  * @returns {Record<string, any>} A structural options block matching the core @stylistic/indent schema format.
  */
@@ -161,9 +228,9 @@ function getCoreIdentOptions(option) {
 /**
  * Processes and normalizes user-provided indentation options, falling back to full defaults if empty.
  *
- * @param {import('./indent').JsIndentOptions | undefined} options - The raw user-defined options object.
+ * @param {JsIndentOptions | undefined} options - The raw user-defined options object.
  *
- * @returns {Required<import('./indent').JsIndentOptions>} A complete, normalized indentation options block.
+ * @returns {Required<JsIndentOptions>} A complete, normalized indentation options block.
  */
 function getProcessedJsIndentOptions(options) {
   if (isUnset(options)) {
@@ -193,9 +260,9 @@ function getProcessedJsIndentOptions(options) {
 /**
  * Normalizes multi-line variable declarator options into either a flat multiplier or a keyword object.
  *
- * @param {import('./indent').JsVariableDeclaratorIndentOptions | number | undefined} options - The variable declarator sub-option.
+ * @param {JsVariableDeclaratorIndentOptions | number | undefined} options - The variable declarator sub-option.
  *
- * @returns {number | Required<import('./indent').JsVariableDeclaratorIndentOptions>} The computed multiplier or explicit declaration configuration.
+ * @returns {number | Required<JsVariableDeclaratorIndentOptions>} The computed multiplier or explicit declaration configuration.
  */
 function getProcessedJsVariableDeclaratorIndentOptions(options) {
   if (isUnset(options)) {
@@ -216,9 +283,9 @@ function getProcessedJsVariableDeclaratorIndentOptions(options) {
 /**
  * Processes and sanitizes indentation configuration specifically for class static blocks.
  *
- * @param {import('./indent').JsStaticBlockIndentOptions | undefined} options - The raw static block options payload.
+ * @param {JsStaticBlockIndentOptions | undefined} options - The raw static block options payload.
  *
- * @returns {Required<import('./indent').JsStaticBlockIndentOptions>} A normalized static block options block.
+ * @returns {Required<JsStaticBlockIndentOptions>} A normalized static block options block.
  */
 function getProcessedJsStaticBlockIndentOptions(options) {
   if (isUnset(options)) {
@@ -233,9 +300,9 @@ function getProcessedJsStaticBlockIndentOptions(options) {
 /**
  * Processes and sanitizes indentation configuration specifically for function call arguments.
  *
- * @param {import('./indent').JsCallExpressionIndentOptions | undefined} options - The raw call expression options payload.
+ * @param {JsCallExpressionIndentOptions | undefined} options - The raw call expression options payload.
  *
- * @returns {Required<import('./indent').JsCallExpressionIndentOptions>} A normalized call expression options block.
+ * @returns {Required<JsCallExpressionIndentOptions>} A normalized call expression options block.
  */
 function getProcessedJsCallExpressionIndentOptions(options) {
   if (isUnset(options)) {
@@ -250,9 +317,9 @@ function getProcessedJsCallExpressionIndentOptions(options) {
 /**
  * Processes and sanitizes indentation configuration properties for multi-line function declarations.
  *
- * @param {import('./indent').JsFunctionDeclarationIndentOptions | undefined} options - The raw function declaration options payload.
+ * @param {JsFunctionDeclarationIndentOptions | undefined} options - The raw function declaration options payload.
  *
- * @returns {Required<import('./indent').JsFunctionDeclarationIndentOptions>} A normalized function declaration options block.
+ * @returns {Required<JsFunctionDeclarationIndentOptions>} A normalized function declaration options block.
  */
 function getProcessedJsFunctionDeclarationIndentOptions(options) {
   if (isUnset(options)) {
@@ -268,9 +335,9 @@ function getProcessedJsFunctionDeclarationIndentOptions(options) {
 /**
  * Processes and sanitizes indentation configuration properties for multi-line function expressions.
  *
- * @param {import('./indent').JsFunctionExpressionIndentOptions | undefined} options - The raw function expression options payload.
+ * @param {JsFunctionExpressionIndentOptions | undefined} options - The raw function expression options payload.
  *
- * @returns {Required<import('./indent').JsFunctionExpressionIndentOptions>} A normalized function expression options block.
+ * @returns {Required<JsFunctionExpressionIndentOptions>} A normalized function expression options block.
  */
 function getProcessedJsFunctionExpressionIndentOptions(options) {
   if (isUnset(options)) {
@@ -314,263 +381,3 @@ function isUnset(value) {
   ;
 }
 
-/**
- * Generates the full default configuration object for the JavaScript indentation rule.
- *
- * @returns {import('./indent').JsIndentOptions} The default indentation options blueprint.
- */
-function getDefaultJsIndentOptions() {
-  return {
-    switchCase: getSwitchCaseDefaultValue(),
-    variableDeclarator: getVariableDeclaratorDefaultValue(),
-    outerIifeBody: getOuterIifeBodyDefaultValue(),
-    memberExpression: getMemberExpressionDefaultValue(),
-    staticBlock: getDefaultJsStaticBlockIndentOptions(),
-    callExpression: getDefaultJsCallExpressionIndentOptions(),
-    functionDeclaration: getDefaultJsFunctionDeclarationIndentOptions(),
-    functionExpression: getDefaultJsFunctionExpressionIndentOptions(),
-    arrayExpression: getDefaultArrayExpressionOption(),
-    objectExpression: getDefaultObjectExpressionOption(),
-    importDeclaration: getDefaultImportDeclarationOption(),
-    flatTernaryExpressions: getDefaultFlatTernaryExpressionsOption(),
-    offsetTernaryExpressions: getDefaultOffsetTernaryExpressionsOption(),
-    ignoreComments: getDefaultIgnoreCommentsOption(),
-    useEditorconfig: getDefaultUseEditorconfigOption(),
-    defaultIndent: getDefaultDefaultIndentOption()
-  };
-}
-
-/**
- * Returns the default indentation multiplier for case clauses in switch statements.
- *
- * @returns {number} Default value of 1.
- */
-function getSwitchCaseDefaultValue() {
-  return 1;
-}
-
-/**
- * Returns the default indentation multiplier for multi-line variable declarators.
- *
- * @returns {number} Default value of 1.
- */
-function getVariableDeclaratorDefaultValue() {
-  return 1;
-}
-
-/**
- * Returns the default indentation multiplier for the body of Immediately-Invoked Function Expressions.
- *
- * @returns {number} Default value of 1.
- */
-function getOuterIifeBodyDefaultValue() {
-  return 1;
-}
-
-/**
- * Returns the default indentation multiplier for multi-line chained member expressions.
- *
- * @returns {number} Default value of 1.
- */
-function getMemberExpressionDefaultValue() {
-  return 1;
-}
-
-/**
- * Generates the default nested options block for class static initialization blocks.
- *
- * @returns {import('./indent').JsStaticBlockIndentOptions} Default configuration object for static blocks.
- */
-function getDefaultJsStaticBlockIndentOptions() {
-  return {
-    body: getBodyDefaultValueForJsStaticBlockIndentOptions()
-  };
-}
-
-/**
- * Returns the default indentation multiplier for statements within class static blocks.
- *
- * @returns {number} Default value of 1.
- */
-function getBodyDefaultValueForJsStaticBlockIndentOptions() {
-  return 1;
-}
-
-/**
- * Generates the default nested options block for function call arguments.
- *
- * @returns {import('./indent').JsCallExpressionIndentOptions} Default configuration object for call expressions.
- */
-function getDefaultJsCallExpressionIndentOptions() {
-  return {
-    arguments: getArgumentsDefaultValueForJsCallExpressionIndentOptions()
-  };
-}
-
-/**
- * Returns the default indentation multiplier or alignment token for function call arguments.
- *
- * @returns {number} Default value of 1.
- */
-function getArgumentsDefaultValueForJsCallExpressionIndentOptions() {
-  return 1;
-}
-
-/**
- * Generates the default nested options block for function declarations.
- *
- * @returns {import('./indent').JsFunctionDeclarationIndentOptions} Default configuration object for function declarations.
- */
-function getDefaultJsFunctionDeclarationIndentOptions() {
-  return {
-    parameters: getParametersDefaultValueForJsFunctionDeclarationIndentOptions(),
-    body: getBodyDefaultValueForJsFunctionDeclarationIndentOptions()
-  };
-}
-
-/**
- * Returns the default indentation multiplier or alignment token for formal declaration parameters.
- *
- * @returns {number} Default value of 1.
- */
-function getParametersDefaultValueForJsFunctionDeclarationIndentOptions() {
-  return 1;
-}
-
-/**
- * Returns the default indentation multiplier for statements within function declaration bodies.
- *
- * @returns {number} Default value of 1.
- */
-function getBodyDefaultValueForJsFunctionDeclarationIndentOptions() {
-  return 1;
-}
-
-/**
- * Generates the default nested options block for function expressions.
- *
- * @returns {import('./indent').JsFunctionExpressionIndentOptions} Default configuration object for function expressions.
- */
-function getDefaultJsFunctionExpressionIndentOptions() {
-  return {
-    parameters: getParametersDefaultValueForJsFunctionExpressionIndentOptions(),
-    body: getBodyDefaultValueForJsFunctionExpressionIndentOptions()
-  };
-}
-
-/**
- * Returns the default indentation multiplier or alignment token for formal expression parameters.
- *
- * @returns {number} Default value of 1.
- */
-function getParametersDefaultValueForJsFunctionExpressionIndentOptions() {
-  return 1;
-}
-
-/**
- * Returns the default indentation multiplier for statements within function expression bodies.
- *
- * @returns {number} Default value of 1.
- */
-function getBodyDefaultValueForJsFunctionExpressionIndentOptions() {
-  return 1;
-}
-
-/**
- * Returns the default indentation multiplier or alignment token for multi-line array elements.
- *
- * @returns {number} Default value of 1.
- */
-function getDefaultArrayExpressionOption() {
-  return 1;
-}
-
-/**
- * Returns the default indentation multiplier or alignment token for multi-line object properties.
- *
- * @returns {number} Default value of 1.
- */
-function getDefaultObjectExpressionOption() {
-  return 1;
-}
-
-/**
- * Returns the default indentation multiplier or alignment token for multi-line import declarations.
- *
- * @returns {number} Default value of 1.
- */
-function getDefaultImportDeclarationOption() {
-  return 1;
-}
-
-/**
- * Returns the default alignment behavior for nested multi-line ternary expressions.
- *
- * @returns {boolean} Default value of false.
- */
-function getDefaultFlatTernaryExpressionsOption() {
-  return false;
-}
-
-/**
- * Returns the default configuration for offsetting multi-line ternary expressions from variables.
- *
- * @returns {boolean} Default value of false.
- */
-function getDefaultOffsetTernaryExpressionsOption() {
-  return false;
-}
-
-/**
- * Returns the default behavior for linting indentation on lines containing comments.
- *
- * @returns {boolean} Default value of false.
- */
-function getDefaultIgnoreCommentsOption() {
-  return false;
-}
-
-/**
- * Returns whether the system should look up local EditorConfig configurations by default.
- *
- * @returns {boolean} Default value of true.
- */
-function getDefaultUseEditorconfigOption() {
-  return true;
-}
-
-/**
- * Returns the default fallback indentation size applied when configuration files are missing.
- *
- * @returns {number} Default value of 2.
- */
-function getDefaultDefaultIndentOption() {
-  return 2;
-}
-
-/**
- * Returns the default indentation multiplier for multi-line variables declared with `var`.
- *
- * @returns {number} Default value of 1.
- */
-function getVarDefaultValueForJsVariableDeclaratorIndentOptions() {
-  return 1;
-}
-
-/**
- * Returns the default indentation multiplier for multi-line variables declared with `let`.
- *
- * @returns {number} Default value of 1.
- */
-function getLetDefaultValueForJsVariableDeclaratorIndentOptions() {
-  return 1;
-}
-
-/**
- * Returns the default indentation multiplier for multi-line variables declared with `const`.
- *
- * @returns {number} Default value of 1.
- */
-function getConstDefaultValueForJsVariableDeclaratorIndentOptions() {
-  return 1;
-}
