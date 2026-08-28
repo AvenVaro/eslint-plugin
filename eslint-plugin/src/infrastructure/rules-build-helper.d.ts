@@ -4,7 +4,7 @@ import { EPropertyValue } from './property-value.enum.js';
 /**
  * Specifies the value of the disabled property, which can be either 'unset' or 'off'.
  */
-export type DisableProperty = EPropertyValue['off'] | EPropertyValue['unset'];
+export type DisableProperty = EPropertyValue['off'] | EPropertyValue['unset'] | null;
 
 /**
  * A utility helper interface designed to simplify the construction and type generation
