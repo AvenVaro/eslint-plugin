@@ -1,4 +1,5 @@
 import { Rule } from 'eslint';
+import { JSONSchema4 } from 'json-schema';
 import { EPropertyValue } from '../../infrastructure/property-value.enum.js';
 import { EType } from '../../infrastructure/type.enum.js';
 
@@ -157,13 +158,6 @@ export interface JsOffsetTernaryExpressionsIndentOptions {
 }
 
 /**
- * Represents the structure of a single property inside the ESLint schema validation object.
- */
-export interface JsonSchemaProperty {
-  type: EType['string'] | EType['number'] | EType['boolean'] | EType['object'];
-}
-
-/**
  * Extended rule metadata interface explicitly mapped to custom JsIndentOptions.
  */
 export interface JsIndentRuleMeta extends Omit<Rule.RuleModule['meta'], 'schema'> {
@@ -173,9 +167,7 @@ export interface JsIndentRuleMeta extends Omit<Rule.RuleModule['meta'], 'schema'
     },
     {
       type: EType['object'];
-      properties: {
-        [K in keyof JsIndentOptions]: Record<string, unknown> | JsonSchemaProperty;
-      };
+      properties: JSONSchema4;
     }
   ];
 }
