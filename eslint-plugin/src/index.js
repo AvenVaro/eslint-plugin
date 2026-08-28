@@ -1,4 +1,4 @@
-import rules from './rules/rules.js';
+import ruleset from './ruleset.js';
 import ePropertyValue from './infrastructure/property-value.enum.js';
 
 //================================
@@ -15,7 +15,7 @@ import ePropertyValue from './infrastructure/property-value.enum.js';
 
 /** @type {EslintPlugin} */
 const plugin = Object.freeze({
-  rules: rules
+  rules: ruleset
 });
 
 //================================
