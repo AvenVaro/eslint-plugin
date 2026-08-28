@@ -65,7 +65,7 @@ async function createTempRootDirAsync(partDirName) {
   return await fs.mkdtemp(
     path.join(
       os.tmpdir(),
-      `eslint-plugin-avenvaro-${partDirName}-integraation-tests-`
+      `eslint-plugin-${partDirName}-integraation-tests-`
     )
   );
 }
