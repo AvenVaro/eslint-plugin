@@ -125,12 +125,21 @@ function createNullPropertySchema() {
  *
  * This helper creates a Draft-4 compliant schema object that restricts acceptable values to an object structure matching the provided property definitions map.
  *
+ * @param {JSONSchema4 | undefined} property - The base property schema object to extend.
  * @param {Record<string, JSONSchema4>} properties - A map of property keys to their respective JSON Schema definitions.
  *
  * @returns {JSONSchema4} A valid JSON Schema object representing the object structure constraint.
  */
-function createObjectPropertySchema(properties) {
+function createObjectPropertySchema(property, properties) {
+  if (property === undefined) {
+    return {
+      type: eType.object,
+      properties: properties
+    };
+  }
+
   return {
+    ...property,
     type: eType.object,
     properties: properties
   };

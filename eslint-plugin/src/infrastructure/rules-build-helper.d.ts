@@ -61,11 +61,12 @@ export interface RulesBuildHelper {
    *
    * This helper creates a Draft-4 compliant schema object that restricts acceptable values to an object structure matching the provided property definitions map.
    *
+   * @param property The base property schema object to extend.
    * @param properties A map of property keys to their respective JSON Schema definitions.
    *
    * @returns A strictly formatted JSON Schema object representing the object structure constraint.
    */
-  createObjectPropertySchema(properties: Record<string, JSONSchema4>): JSONSchema4;
+  createObjectPropertySchema(property: JSONSchema4 | undefined, properties: Record<string, JSONSchema4>): JSONSchema4;
 
   /**
    * Retrieves the list of property values that signify a disabled state.
