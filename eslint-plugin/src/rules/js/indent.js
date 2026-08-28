@@ -233,27 +233,27 @@ function getCoreIdentOptions(option) {
  * @returns {Required<JsIndentOptions>} A complete, normalized indentation options block.
  */
 function getProcessedJsIndentOptions(options) {
-  if (isUnset(options)) {
-    return getDefaultJsIndentOptions();
+  if (rulesBuildHelper.isUnset(options)) {
+    return defaultJsIndentOptions;
   }
 
   return {
-    switchCase: getValueOrDefault(options.switchCase, getSwitchCaseDefaultValue),
+    switchCase: rulesBuildHelper.getValueOrDefault(options.switchCase, defaultJsIndentOptions.switchCase),
     variableDeclarator: getProcessedJsVariableDeclaratorIndentOptions(options.variableDeclarator),
-    outerIifeBody: getValueOrDefault(options.outerIifeBody, getOuterIifeBodyDefaultValue),
-    memberExpression: getValueOrDefault(options.memberExpression, getMemberExpressionDefaultValue),
+    outerIifeBody: rulesBuildHelper.getValueOrDefault(options.outerIifeBody, defaultJsIndentOptions.outerIifeBody),
+    memberExpression: rulesBuildHelper.getValueOrDefault(options.memberExpression, defaultJsIndentOptions.memberExpression),
     staticBlock: getProcessedJsStaticBlockIndentOptions(options.staticBlock),
     callExpression: getProcessedJsCallExpressionIndentOptions(options.callExpression),
     functionDeclaration: getProcessedJsFunctionDeclarationIndentOptions(options.functionDeclaration),
     functionExpression: getProcessedJsFunctionExpressionIndentOptions(options.functionExpression),
-    arrayExpression: getValueOrDefault(options.arrayExpression, getDefaultArrayExpressionOption),
-    objectExpression: getValueOrDefault(options.objectExpression, getDefaultObjectExpressionOption),
-    importDeclaration: getValueOrDefault(options.importDeclaration, getDefaultImportDeclarationOption),
-    flatTernaryExpressions: getValueOrDefault(options.flatTernaryExpressions, getDefaultFlatTernaryExpressionsOption),
-    offsetTernaryExpressions: getValueOrDefault(options.offsetTernaryExpressions, getDefaultOffsetTernaryExpressionsOption),
-    ignoreComments: getValueOrDefault(options.ignoreComments, getDefaultIgnoreCommentsOption),
-    useEditorconfig: getValueOrDefault(options.useEditorconfig, getDefaultUseEditorconfigOption),
-    defaultIndent: getValueOrDefault(options.defaultIndent, getDefaultDefaultIndentOption)
+    arrayExpression: rulesBuildHelper.getValueOrDefault(options.arrayExpression, defaultJsIndentOptions.arrayExpression),
+    objectExpression: rulesBuildHelper.getValueOrDefault(options.objectExpression, defaultJsIndentOptions.objectExpression),
+    importDeclaration: rulesBuildHelper.getValueOrDefault(options.importDeclaration, defaultJsIndentOptions.importDeclaration),
+    flatTernaryExpressions: rulesBuildHelper.getValueOrDefault(options.flatTernaryExpressions, defaultJsIndentOptions.flatTernaryExpressions),
+    offsetTernaryExpressions: rulesBuildHelper.getValueOrDefault(options.offsetTernaryExpressions, defaultJsIndentOptions.offsetTernaryExpressions),
+    ignoreComments: rulesBuildHelper.getValueOrDefault(options.ignoreComments, defaultJsIndentOptions.ignoreComments),
+    useEditorconfig: rulesBuildHelper.getValueOrDefault(options.useEditorconfig, defaultJsIndentOptions.useEditorconfig),
+    defaultIndent: rulesBuildHelper.getValueOrDefault(options.defaultIndent, defaultJsIndentOptions.defaultIndent)
   };
 }
 
@@ -265,7 +265,7 @@ function getProcessedJsIndentOptions(options) {
  * @returns {number | Required<JsVariableDeclaratorIndentOptions>} The computed multiplier or explicit declaration configuration.
  */
 function getProcessedJsVariableDeclaratorIndentOptions(options) {
-  if (isUnset(options)) {
+  if (rulesBuildHelper.isUnset(options)) {
     return getVariableDeclaratorDefaultValue();
   }
 
@@ -274,9 +274,10 @@ function getProcessedJsVariableDeclaratorIndentOptions(options) {
   }
 
   return {
-    var: getValueOrDefault(options.var, getVarDefaultValueForJsVariableDeclaratorIndentOptions),
-    let: getValueOrDefault(options.let, getLetDefaultValueForJsVariableDeclaratorIndentOptions),
-    const: getValueOrDefault(options.const, getConstDefaultValueForJsVariableDeclaratorIndentOptions)
+    var: rulesBuildHelper.getValueOrDefault(options.var, defaultJsVariableDeclaratorIndentOptions.var),
+    let: rulesBuildHelper.getValueOrDefault(options.let, defaultJsVariableDeclaratorIndentOptions.let),
+    const: rulesBuildHelper.getValueOrDefault(options.const, defaultJsVariableDeclaratorIndentOptions.const),
+    using: rulesBuildHelper.getValueOrDefault(options.const, defaultJsVariableDeclaratorIndentOptions.using)
   };
 }
 
@@ -288,12 +289,12 @@ function getProcessedJsVariableDeclaratorIndentOptions(options) {
  * @returns {Required<JsStaticBlockIndentOptions>} A normalized static block options block.
  */
 function getProcessedJsStaticBlockIndentOptions(options) {
-  if (isUnset(options)) {
-    return getDefaultJsStaticBlockIndentOptions();
+  if (rulesBuildHelper.isUnset(options)) {
+    return defaultJsStaticBlockIndentOptions;
   }
 
   return {
-    body: getValueOrDefault(options.body, getBodyDefaultValueForJsStaticBlockIndentOptions)
+    body: rulesBuildHelper.getValueOrDefault(options.body, defaultJsStaticBlockIndentOptions.body)
   };
 }
 
@@ -305,12 +306,12 @@ function getProcessedJsStaticBlockIndentOptions(options) {
  * @returns {Required<JsCallExpressionIndentOptions>} A normalized call expression options block.
  */
 function getProcessedJsCallExpressionIndentOptions(options) {
-  if (isUnset(options)) {
-    return getDefaultJsCallExpressionIndentOptions();
+  if (rulesBuildHelper.isUnset(options)) {
+    return defaultJsCallExpressionIndentOptions;
   }
 
   return {
-    arguments: getValueOrDefault(options.arguments, getArgumentsDefaultValueForJsCallExpressionIndentOptions)
+    arguments: rulesBuildHelper.getValueOrDefault(options.arguments, defaultJsCallExpressionIndentOptions.arguments)
   };
 }
 
@@ -322,13 +323,13 @@ function getProcessedJsCallExpressionIndentOptions(options) {
  * @returns {Required<JsFunctionDeclarationIndentOptions>} A normalized function declaration options block.
  */
 function getProcessedJsFunctionDeclarationIndentOptions(options) {
-  if (isUnset(options)) {
-    return getDefaultJsFunctionDeclarationIndentOptions();
+  if (rulesBuildHelper.isUnset(options)) {
+    return defaultJsFunctionDeclarationIndentOptions;
   }
 
   return {
-    parameters: getValueOrDefault(options.parameters, getParametersDefaultValueForJsFunctionDeclarationIndentOptions),
-    body: getValueOrDefault(options.body, getBodyDefaultValueForJsFunctionDeclarationIndentOptions)
+    parameters: rulesBuildHelper.getValueOrDefault(options.parameters, defaultJsFunctionDeclarationIndentOptions.parameters),
+    body: rulesBuildHelper.getValueOrDefault(options.body, defaultJsFunctionDeclarationIndentOptions.body)
   };
 }
 
@@ -340,44 +341,13 @@ function getProcessedJsFunctionDeclarationIndentOptions(options) {
  * @returns {Required<JsFunctionExpressionIndentOptions>} A normalized function expression options block.
  */
 function getProcessedJsFunctionExpressionIndentOptions(options) {
-  if (isUnset(options)) {
-    return getDefaultJsFunctionExpressionIndentOptions();
+  if (rulesBuildHelper.isUnset(options)) {
+    return defaultJsFunctionExpressionIndentOptions;
   }
 
   return {
-    parameters: getValueOrDefault(options.parameters, getParametersDefaultValueForJsFunctionExpressionIndentOptions),
-    body: getValueOrDefault(options.body, getBodyDefaultValueForJsFunctionExpressionIndentOptions)
+    parameters: rulesBuildHelper.getValueOrDefault(options.parameters, defaultJsFunctionExpressionIndentOptions.parameters),
+    body: rulesBuildHelper.getValueOrDefault(options.body, defaultJsFunctionExpressionIndentOptions.body)
   };
-}
-
-/**
- * Resolves a configuration value or falls back to a lazy-evaluated default producer.
- *
- * @template T
- *
- * @param {T | undefined} value - The target configuration property to evaluate.
- * @param {function(): T} getDefaultValue - Factory function producing the fallback default value.
- *
- * @returns {T} The provided value if defined, otherwise the resolved default payload.
- */
-function getValueOrDefault(value, getDefaultValue) {
-  if (value === undefined) {
-    return getDefaultValue();
-  }
-
-  return value;
-}
-
-/**
- * Evaluates whether a configuration value is unassigned, null, or represents an empty structural block.
- *
- * @param {any} value - The runtime configuration asset or property to check.
- *
- * @returns {boolean} True if the value represents an empty or unassigned state, otherwise false.
- */
-function isUnset(value) {
-  return value === undefined
-    || (typeof value === 'object' && (value === null || Object.keys(value).length === 0))
-  ;
 }
 

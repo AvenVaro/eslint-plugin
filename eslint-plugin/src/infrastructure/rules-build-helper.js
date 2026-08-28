@@ -20,7 +20,9 @@ const rulesBuildHelper = Object.freeze({
   createEnumType: createEnumType,
   createIntegerType: createIntegerType,
   createNullType: createNullType,
-  getPropertyValuesToDisable: getPropertyValuesToDisable
+  getPropertyValuesToDisable: getPropertyValuesToDisable,
+  getValueOrDefault: getValueOrDefault,
+  isUnset: isUnset
 });
 
 //================================
@@ -100,4 +102,41 @@ function getPropertyValuesToDisable() {
     ePropertyValue.off,
     ePropertyValue.unset
   ];
+}
+
+/**
+ * Resolves a configuration value, falling back to a default value if the target is unset.
+ *
+ * This utility acts as a safety layer to guarantee a non-nullable or fully initialized
+ * value is returned when working with optional or unconfigured rule properties.
+ *
+ * @template TValue - The type of the configuration value.
+ *
+ * @param {TValue | undefined} value - The input configuration value to check.
+ * @param {TValue} defaultValue - The fallback value to return if the input is unset.
+ *
+ * @returns {TValue} The original value if it is set; otherwise, the default value.
+ */
+function getValueOrDefault(value, defaultValue) {
+  if (isUnset(value)) {
+    return defaultValue;
+  }
+
+  return value;
+}
+
+/**
+ * @private
+ *
+ * Evaluates whether a configuration value is unassigned, null, or represents an empty structural block, or value is equals 'off' or 'unset'.
+ *
+ * @param {any} value - The runtime configuration asset or property to check.
+ *
+ * @returns {boolean} True if the value represents an empty or unassigned state, otherwise false.
+ */
+function isUnset(value) {
+  return value === undefined
+    || (typeof value === eType.object && (value === null || Object.keys(value).length === 0))
+    || (typeof value === eType.string && (value === ePropertyValue.off || value === ePropertyValue.unset))
+  ;
 }

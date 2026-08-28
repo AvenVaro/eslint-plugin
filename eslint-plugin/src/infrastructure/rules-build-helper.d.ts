@@ -48,6 +48,27 @@ export interface RulesBuildHelper {
    * @returns An array of disabled configuration values.
    */
   getPropertyValuesToDisable(): EPropertyValue[];
+
+  /**
+   * Resolves a configuration value, falling back to a default value if the target is unset.
+   *
+   * This utility acts as a safety layer to guarantee a non-nullable or fully initialized value is returned when working with optional or unconfigured rule properties.
+   *
+   * @param value The input configuration value to check.
+   * @param defaultValue The fallback value to return if the input is unset.
+   *
+   * @returns The original value if it is set; otherwise, the default value.
+   */
+  getValueOrDefault<TValue>(value: TValue | undefined, defaultValue: TValue): TValue;
+
+  /**
+   * Evaluates whether a configuration value is unassigned, null, or represents an empty structural block, or value is equals 'off' or 'unset'.
+   *
+   * @param value The runtime configuration asset or property to check.
+   *
+   * @returns True if the value represents an empty or unassigned state, otherwise false.
+   */
+  isUnset(value: any): boolean;
 }
 
 declare const rulesBuildHelper: RulesBuildHelper;
