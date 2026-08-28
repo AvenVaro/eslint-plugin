@@ -17,6 +17,7 @@ import eType from './type.enum.js';
 
 /** @type {RulesBuildHelper} */
 const rulesBuildHelper = Object.freeze({
+  createDisablePropertySchema: createDisablePropertySchema,
   createEnumPropertySchema: createEnumPropertySchema,
   createIntegerPropertySchema: createIntegerPropertySchema,
   createNullPropertySchema: createNullPropertySchema,
@@ -34,6 +35,36 @@ export default rulesBuildHelper;
 //================================
 // Private Functions
 //================================
+
+/**
+ * @private
+ *
+ * Generates a JSON Schema definition that restricts values to disabled configuration states.
+ *
+ * This internal helper constructs a Draft-4 compliant schema object allowing only enumeration values that signify a deactivated or unset rule feature.
+ *
+ * @param {JSONSchema4 | undefined} property - The base property schema object to extend.
+ *
+ * @returns {JSONSchema4} A valid JSON Schema object representing the disabled state constraint.
+ */
+function createDisablePropertySchema(property) {
+  if (property === undefined) {
+    return {
+      oneOf: [
+        rulesBuildHelper.createNullPropertySchema(),
+        rulesBuildHelper.createEnumPropertySchema(...rulesBuildHelper.getPropertyValuesToDisable())
+      ]
+    };
+  }
+
+  return {
+    ...property,
+    oneOf: [
+      rulesBuildHelper.createNullPropertySchema(),
+      rulesBuildHelper.createEnumPropertySchema(...rulesBuildHelper.getPropertyValuesToDisable())
+    ]
+  };
+}
 
 /**
  * @private
