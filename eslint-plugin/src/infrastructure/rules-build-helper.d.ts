@@ -15,6 +15,17 @@ export type DisableProperty = EPropertyValue['off'] | EPropertyValue['unset'] | 
  */
 export interface RulesBuildHelper {
   /**
+   * Generates a JSON Schema definition for a boolean-based type, optionally extending a base property.
+   *
+   * This helper creates a Draft-4 compliant schema object that restricts acceptable values to true or false, merging any additional structural constraints if a base property is provided.
+   *
+   * @param property The optional base property schema object to extend.
+   *
+   * @returns A strictly formatted JSON Schema object representing the boolean constraint.
+   */
+  createBooleanPropertySchema(property?: JSONSchema4): JSONSchema4;
+
+  /**
    * Generates a JSON Schema definition that restricts values to disabled configuration states.
    *
    * This helper constructs a Draft-4 compliant schema object allowing only enumeration values that signify a deactivated or unset rule feature.

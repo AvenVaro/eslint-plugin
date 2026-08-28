@@ -17,6 +17,7 @@ import eType from './type.enum.js';
 
 /** @type {RulesBuildHelper} */
 const rulesBuildHelper = Object.freeze({
+  createBooleanPropertySchema: createBooleanPropertySchema,
   createDisablePropertySchema: createDisablePropertySchema,
   createEnumPropertySchema: createEnumPropertySchema,
   createIntegerPropertySchema: createIntegerPropertySchema,
@@ -36,6 +37,30 @@ export default rulesBuildHelper;
 //================================
 // Private Functions
 //================================
+
+/**
+ * @private
+ *
+ * Generates a JSON Schema definition for a boolean-based type, optionally extending a base property.
+ *
+ * This helper creates a Draft-4 compliant schema object that restricts acceptable values
+ * to true or false, merging any additional structural constraints if a base property is provided.
+ *
+ * @param {import('json-schema').JSONSchema4} [property] - The optional base property schema object to extend.
+ * @returns {import('json-schema').JSONSchema4} A valid JSON Schema object representing the boolean constraint.
+ */
+function createBooleanPropertySchema(property) {
+  if (property === undefined) {
+    return {
+      type: eType.boolean
+    };
+  }
+
+  return {
+    ...property,
+    type: eType.boolean
+  };
+}
 
 /**
  * @private
@@ -162,6 +187,8 @@ function getPropertyValuesToDisable() {
 }
 
 /**
+ * @private
+ *
  * Resolves a configuration value, falling back to a default value if the target is unset.
  *
  * This utility acts as a safety layer to guarantee a non-nullable or fully initialized
