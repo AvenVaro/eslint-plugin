@@ -1,6 +1,6 @@
 import * as vitest from 'vitest';
+import { ePropertyValue } from '@avenvaro/eslint-plugin';
 import editorconfigProvider from '@avenvaro/eslint-plugin/src/infrastructure/editorconfig-provider.js';
-import ePropertyValue from '@avenvaro/eslint-plugin/src/infrastructure/property-value.enum.js';
 import testHelper from '../test-helper.js';
 
 //================================

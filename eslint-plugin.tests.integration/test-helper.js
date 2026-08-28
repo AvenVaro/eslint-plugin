@@ -1,7 +1,7 @@
 import path from 'node:path';
 import fs from 'node:fs/promises';
 import os from 'node:os';
-import ePropertyValue from '@avenvaro/eslint-plugin/src/infrastructure/property-value.enum.js';
+import { ePropertyValue } from '@avenvaro/eslint-plugin';
 
 //================================
 // Typedefs
@@ -12,7 +12,7 @@ import ePropertyValue from '@avenvaro/eslint-plugin/src/infrastructure/property-
  * @typedef {import('node:fs').RmOptions} RmOptions
  * @typedef {import('./test-helper.d.ts').TestHelper} TestHelper
  * @typedef {import('./test-helper.d.ts').FilesystemBlueprint} FilesystemBlueprint
- * @typedef {import('@avenvaro/eslint-plugin/src/infrastructure/property-value.enum.d.ts').EPropertyValue} EPropertyValue
+ * @typedef {import('@avenvaro/eslint-plugin').EPropertyValue} EPropertyValue
  */
 
 //================================
