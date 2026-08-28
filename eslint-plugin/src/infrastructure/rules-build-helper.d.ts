@@ -2,6 +2,11 @@ import { JSONSchema4 } from 'json-schema';
 import { EPropertyValue } from './property-value.enum.js';
 
 /**
+ * Specifies the value of the disabled property, which can be either 'unset' or 'off'.
+ */
+export type DisableProperty = EPropertyValue['off'] | EPropertyValue['unset'];
+
+/**
  * A utility helper interface designed to simplify the construction and type generation
  * of Draft-4 compliant JSON Schema objects within ESLint rule definitions.
  *
@@ -18,7 +23,7 @@ export interface RulesBuildHelper {
    *
    * @returns A valid JSON Schema object representing the enum constraint.
    */
-  createEnumType(...enumValues: EPropertyValue[]): JSONSchema4;
+  createEnumPropertySchema(...enumValues: EPropertyValue[]): JSONSchema4;
 
   /**
    * Generates a JSON Schema definition for an integer-based type with a lower bound.
@@ -29,7 +34,7 @@ export interface RulesBuildHelper {
    *
    * @returns A strictly formatted JSON Schema object representing the integer constraints.
    */
-  createIntegerType(minValue: number): JSONSchema4;
+  createIntegerPropertySchema(minValue: number): JSONSchema4;
 
   /**
    * Generates a JSON Schema definition for a null type constraint.
@@ -38,7 +43,7 @@ export interface RulesBuildHelper {
    *
    * @returns A strictly formatted JSON Schema object representing the null constraint.
    */
-  createNullType(): JSONSchema4;
+  createNullPropertySchema(): JSONSchema4;
 
   /**
    * Retrieves the list of property values that signify a disabled state.
