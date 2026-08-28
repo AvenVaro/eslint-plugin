@@ -4,7 +4,6 @@ import ePropertyValue from '../../infrastructure/property-value.enum.js';
 import eType from '../../infrastructure/type.enum.js';
 import rulesBuildHelper from '../../infrastructure/rules-build-helper.js';
 
-
 //================================
 // Typedefs
 //================================
@@ -214,12 +213,14 @@ function getProcessedJsIndentOptionsTuple(context) {
   const indentStyle = editorconfigProvider.getIndentStyle(config, undefined);
 
   if (indentStyle === ePropertyValue.tab) {
+    options.tabLength = rulesBuildHelper.getValueOrDefault(options.tabLength, options.defaultIndent);
+
     return [ indentStyle, options ];
   }
 
   const indentSize = editorconfigProvider.getIndentSize(
     config,
-    getValueOrDefault(context.options[0], options.defaultIndent)
+    rulesBuildHelper.getValueOrDefault(context.options[0], options.defaultIndent)
   );
 
   return [ indentSize, options ];
