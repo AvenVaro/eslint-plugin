@@ -84,7 +84,7 @@ const defaultJsIndentOptions = Object.freeze({
   offsetTernaryExpressions: false,
   ignoreComments: false,
   offsetTernaryExpressionsOffsetCallExpressions: undefined,
-  ignoredNodes: undefined,
+  ignoredNodes: [],
   tabLength: undefined,
   useEditorconfig: true,
   defaultIndent: 2
