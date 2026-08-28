@@ -1,18 +1,27 @@
 import stylisticPlugin from '@stylistic/eslint-plugin';
 import editorconfigProvider from '../../infrastructure/editorconfig-provider.js';
 import ePropertyValue from '../../infrastructure/property-value.enum.js';
+import eType from '../../infrastructure/type.enum.js';
+import rulesBuildHelper from '../../infrastructure/rules-build-helper.js';
+
 
 //================================
 // Typedefs
 //================================
 
 /**
+ * @typedef {import('./indent.d.ts').JsIndentRule} JsIndentRule
+ * @typedef {import('./indent.d.ts').JsIndentContext} JsIndentContext
  * @typedef {import('./indent.d.ts').JsIndentOptions} JsIndentOptions
+ * @typedef {import('./indent.d.ts').JsIndentOptionsTuple} JsIndentOptionsTuple
  * @typedef {import('./indent.d.ts').JsStaticBlockIndentOptions} JsStaticBlockIndentOptions
  * @typedef {import('./indent.d.ts').JsCallExpressionIndentOptions} JsCallExpressionIndentOptions
  * @typedef {import('./indent.d.ts').JsFunctionDeclarationIndentOptions} JsFunctionDeclarationIndentOptions
  * @typedef {import('./indent.d.ts').JsFunctionExpressionIndentOptions} JsFunctionExpressionIndentOptions
  * @typedef {import('./indent.d.ts').JsVariableDeclaratorIndentOptions} JsVariableDeclaratorIndentOptions
+ * @typedef {import('./indent.d.ts').JsOffsetTernaryExpressionsIndentOptions} JsOffsetTernaryExpressionsIndentOptions
+ * @typedef {import('eslint').Rule.RuleListener} RuleListener
+ * @typedef {import('json-schema').JSONSchema4} JSONSchema4
  */
 
 //================================
@@ -51,10 +60,18 @@ const defaultJsFunctionExpressionIndentOptions = Object.freeze({
   body: 1
 });
 
-/** @type {Required<JsIndentOptions>} */
+/** @type {Required<JsOffsetTernaryExpressionsIndentOptions>} */
+const defaultJsOffsetTernaryExpressionsIndentOptions = Object.freeze({
+  callExpression: false,
+  awaitExpression: false,
+  newExpression: false
+});
+
+/** @type {JsIndentOptions} */
 const defaultJsIndentOptions = Object.freeze({
   switchCase: 1,
   variableDeclarator: 1,
+  assignmentOperator: undefined,
   outerIifeBody: 1,
   memberExpression: 1,
   staticBlock: defaultJsStaticBlockIndentOptions,
@@ -67,6 +84,9 @@ const defaultJsIndentOptions = Object.freeze({
   flatTernaryExpressions: false,
   offsetTernaryExpressions: false,
   ignoreComments: false,
+  offsetTernaryExpressionsOffsetCallExpressions: undefined,
+  ignoredNodes: undefined,
+  tabLength: undefined,
   useEditorconfig: true,
   defaultIndent: 2
 });
@@ -132,15 +152,17 @@ export default {
 //================================
 
 /**
+ * @private
+ *
  * Factory method initialized by ESLint to orchestrate AST traversal and inject custom configurations.
  *
  * This hook resolves the local configuration format from `.editorconfig`, computes the runtime
  * indentation token size, maps the camelCase user options, and delegates the node evaluation
  * to the underlying core layout rules listener.
  *
- * @param {import('./indent').JsIndentContext} context - The runtime wrapper interface providing access to the current file scope and options tuple.
+ * @param {JsIndentContext} context - The runtime wrapper interface providing access to the current file scope and options tuple.
  *
- * @returns {import('eslint').Rule.RuleListener} A collection of selector methods mapping AST node types to validation hooks.
+ * @returns {RuleListener} A collection of selector methods mapping AST node types to validation hooks.
  */
 function create(context) {
   const modifiedContext = Object.create(context, getCoreIdentProperties(context));
@@ -150,12 +172,14 @@ function create(context) {
 }
 
 /**
+ * @private
+ *
  * Constructs a descriptors dictionary for Object.create to patch the ESLint context options tuple.
  *
  * This method pipes the calculated indent size and mapped PascalCase options required by the core
  * engine into a modified properties blueprint.
  *
- * @param {import('./indent.d.ts').JsIndentContext} context - The active runtime ESLint rule context interface.
+ * @param {JsIndentContext} context - The active runtime ESLint rule context interface.
  *
  * @returns {PropertyDescriptorMap} A configured property descriptor map containing the modified options array.
  */
@@ -176,11 +200,13 @@ function getCoreIdentProperties(context) {
 }
 
 /**
+ * @private
+ *
  * Resolves the final indentation runtime configuration tuple by harmonizing raw rules parameters with EditorConfig metadata.
  *
- * @param {import('./indent.d.ts').JsIndentContext} context - The active runtime ESLint rule context interface.
+ * @param {JsIndentContext} context - The active runtime ESLint rule context interface.
  *
- * @returns {import('./indent.d.ts').JsIndentOptionsTuple} A normalized internal pair containing the explicit target size and normalized options block.
+ * @returns {JsIndentOptionsTuple} A normalized internal pair containing the explicit target size and normalized options block.
  */
 function getProcessedJsIndentOptionsTuple(context) {
   const options = getProcessedJsIndentOptions(context.options[1]);
@@ -232,11 +258,13 @@ function getCoreIdentOptions(option) {
 }
 
 /**
+ * @private
+ *
  * Processes and normalizes user-provided indentation options, falling back to full defaults if empty.
  *
  * @param {JsIndentOptions | undefined} options - The raw user-defined options object.
  *
- * @returns {Required<JsIndentOptions>} A complete, normalized indentation options block.
+ * @returns {JsIndentOptions} A complete, normalized indentation options block.
  */
 function getProcessedJsIndentOptions(options) {
   if (rulesBuildHelper.isUnset(options)) {
@@ -246,6 +274,7 @@ function getProcessedJsIndentOptions(options) {
   return {
     switchCase: rulesBuildHelper.getValueOrDefault(options.switchCase, defaultJsIndentOptions.switchCase),
     variableDeclarator: getProcessedJsVariableDeclaratorIndentOptions(options.variableDeclarator),
+    assignmentOperator: rulesBuildHelper.getValueOrDefault(options.assignmentOperator, defaultJsIndentOptions.assignmentOperator),
     outerIifeBody: rulesBuildHelper.getValueOrDefault(options.outerIifeBody, defaultJsIndentOptions.outerIifeBody),
     memberExpression: rulesBuildHelper.getValueOrDefault(options.memberExpression, defaultJsIndentOptions.memberExpression),
     staticBlock: getProcessedJsStaticBlockIndentOptions(options.staticBlock),
@@ -256,14 +285,18 @@ function getProcessedJsIndentOptions(options) {
     objectExpression: rulesBuildHelper.getValueOrDefault(options.objectExpression, defaultJsIndentOptions.objectExpression),
     importDeclaration: rulesBuildHelper.getValueOrDefault(options.importDeclaration, defaultJsIndentOptions.importDeclaration),
     flatTernaryExpressions: rulesBuildHelper.getValueOrDefault(options.flatTernaryExpressions, defaultJsIndentOptions.flatTernaryExpressions),
-    offsetTernaryExpressions: rulesBuildHelper.getValueOrDefault(options.offsetTernaryExpressions, defaultJsIndentOptions.offsetTernaryExpressions),
+    offsetTernaryExpressions: getProcessedJsOffsetTernaryExpressionsIndentOptions(options.offsetTernaryExpressions),
     ignoreComments: rulesBuildHelper.getValueOrDefault(options.ignoreComments, defaultJsIndentOptions.ignoreComments),
+    ignoredNodes: rulesBuildHelper.getValueOrDefault(options.ignoredNodes, defaultJsIndentOptions.ignoredNodes),
+    tabLength: rulesBuildHelper.getValueOrDefault(options.tabLength, defaultJsIndentOptions.tabLength),
     useEditorconfig: rulesBuildHelper.getValueOrDefault(options.useEditorconfig, defaultJsIndentOptions.useEditorconfig),
     defaultIndent: rulesBuildHelper.getValueOrDefault(options.defaultIndent, defaultJsIndentOptions.defaultIndent)
   };
 }
 
 /**
+ * @private
+ *
  * Normalizes multi-line variable declarator options into either a flat multiplier or a keyword object.
  *
  * @param {JsVariableDeclaratorIndentOptions | number | undefined} options - The variable declarator sub-option.
@@ -272,10 +305,10 @@ function getProcessedJsIndentOptions(options) {
  */
 function getProcessedJsVariableDeclaratorIndentOptions(options) {
   if (rulesBuildHelper.isUnset(options)) {
-    return getVariableDeclaratorDefaultValue();
+    return defaultJsIndentOptions.variableDeclarator;
   }
 
-  if (typeof options === 'number') {
+  if (typeof options === eType.number) {
     return options;
   }
 
@@ -288,6 +321,33 @@ function getProcessedJsVariableDeclaratorIndentOptions(options) {
 }
 
 /**
+ * @private
+ *
+ * Normalizes multi-line ternary declarator options into either a flat multiplier or a keyword object.
+ *
+ * @param {JsOffsetTernaryExpressionsIndentOptions | boolean | undefined} options - The variable declarator sub-option.
+ *
+ * @returns {boolean | Required<JsOffsetTernaryExpressionsIndentOptions>} The computed multiplier or explicit declaration configuration.
+ */
+function getProcessedJsOffsetTernaryExpressionsIndentOptions(options) {
+  if (rulesBuildHelper.isUnset(options)) {
+    return defaultJsIndentOptions.offsetTernaryExpressions;
+  }
+
+  if (typeof options === eType.boolean) {
+    return options;
+  }
+
+  return {
+    callExpression: rulesBuildHelper.getValueOrDefault(options.callExpression, defaultJsOffsetTernaryExpressionsIndentOptions.callExpression),
+    awaitExpression: rulesBuildHelper.getValueOrDefault(options.awaitExpression, defaultJsOffsetTernaryExpressionsIndentOptions.awaitExpression),
+    newExpression: rulesBuildHelper.getValueOrDefault(options.newExpression, defaultJsOffsetTernaryExpressionsIndentOptions.newExpression)
+  };
+}
+
+/**
+ * @private
+ *
  * Processes and sanitizes indentation configuration specifically for class static blocks.
  *
  * @param {JsStaticBlockIndentOptions | undefined} options - The raw static block options payload.
@@ -296,7 +356,7 @@ function getProcessedJsVariableDeclaratorIndentOptions(options) {
  */
 function getProcessedJsStaticBlockIndentOptions(options) {
   if (rulesBuildHelper.isUnset(options)) {
-    return defaultJsStaticBlockIndentOptions;
+    return defaultJsIndentOptions.staticBlock;
   }
 
   return {
@@ -305,6 +365,8 @@ function getProcessedJsStaticBlockIndentOptions(options) {
 }
 
 /**
+ * @private
+ *
  * Processes and sanitizes indentation configuration specifically for function call arguments.
  *
  * @param {JsCallExpressionIndentOptions | undefined} options - The raw call expression options payload.
@@ -313,7 +375,7 @@ function getProcessedJsStaticBlockIndentOptions(options) {
  */
 function getProcessedJsCallExpressionIndentOptions(options) {
   if (rulesBuildHelper.isUnset(options)) {
-    return defaultJsCallExpressionIndentOptions;
+    return defaultJsIndentOptions.callExpression;
   }
 
   return {
@@ -322,6 +384,8 @@ function getProcessedJsCallExpressionIndentOptions(options) {
 }
 
 /**
+ * @private
+ *
  * Processes and sanitizes indentation configuration properties for multi-line function declarations.
  *
  * @param {JsFunctionDeclarationIndentOptions | undefined} options - The raw function declaration options payload.
@@ -330,7 +394,7 @@ function getProcessedJsCallExpressionIndentOptions(options) {
  */
 function getProcessedJsFunctionDeclarationIndentOptions(options) {
   if (rulesBuildHelper.isUnset(options)) {
-    return defaultJsFunctionDeclarationIndentOptions;
+    return defaultJsIndentOptions.functionDeclaration;
   }
 
   return {
@@ -340,6 +404,8 @@ function getProcessedJsFunctionDeclarationIndentOptions(options) {
 }
 
 /**
+ * @private
+ *
  * Processes and sanitizes indentation configuration properties for multi-line function expressions.
  *
  * @param {JsFunctionExpressionIndentOptions | undefined} options - The raw function expression options payload.
@@ -348,7 +414,7 @@ function getProcessedJsFunctionDeclarationIndentOptions(options) {
  */
 function getProcessedJsFunctionExpressionIndentOptions(options) {
   if (rulesBuildHelper.isUnset(options)) {
-    return defaultJsFunctionExpressionIndentOptions;
+    return defaultJsIndentOptions.functionExpression;
   }
 
   return {
