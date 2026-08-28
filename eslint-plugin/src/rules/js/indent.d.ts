@@ -29,10 +29,7 @@ export interface JsIndentOptions {
   /** Enforces indentation level for variable declarators when spanned across multiple lines. */
   variableDeclarator?: IndentSizeValue | JsVariableDeclaratorIndentOptions;
 
-  /**
-   * Specifies the indentation level for the right-hand side of a variable assignment
-   * when it breaks onto a new line. Set to 'off' to disable validation for wrapped assignments.
-   */
+  /** Specifies the indentation level for the right-hand side of a variable assignment when it breaks onto a new line. Set to 'off' to disable validation for wrapped assignments. */
   assignmentOperator?: IndentLevel;
 
   /** Enforces indentation level for the body of an Immediately-Invoked Function Expression (IIFE). */

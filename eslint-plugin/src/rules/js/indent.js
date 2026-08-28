@@ -200,16 +200,19 @@ function getProcessedJsIndentOptionsTuple(context) {
 }
 
 /**
- * Maps the options block to the configuration structure required by the core @stylistic engine.
+ * @private
+ *
+ * Maps the options block to the configuration structure required by the core stylistic engine.
  *
  * @param {JsIndentOptions>} option - The complete, processed camelCase options object.
  *
- * @returns {Record<string, any>} A structural options block matching the core @stylistic/indent schema format.
+ * @returns {Record<string, any>} A structural options block matching the core stylistic/indent schema format.
  */
 function getCoreIdentOptions(option) {
   return {
     SwitchCase: option.switchCase,
     VariableDeclarator: option.variableDeclarator,
+    assignmentOperator: option.assignmentOperator,
     outerIIFEBody: option.outerIifeBody,
     MemberExpression: option.memberExpression,
     FunctionDeclaration: option.functionDeclaration,
@@ -221,7 +224,10 @@ function getCoreIdentOptions(option) {
     ImportDeclaration: option.importDeclaration,
     flatTernaryExpressions: option.flatTernaryExpressions,
     offsetTernaryExpressions: option.offsetTernaryExpressions,
-    ignoreComments: option.ignoreComments
+    ignoreComments: option.ignoreComments,
+    offsetTernaryExpressionsOffsetCallExpressions: option.offsetTernaryExpressionsOffsetCallExpressions,
+    ignoredNodes: option.ignoredNodes,
+    tabLength: option.tabLength
   };
 }
 
