@@ -40,7 +40,8 @@ const testHelper = Object.freeze({
   createTempTargetFileDirAsync: createTempTargetFileDirAsync,
   createTempTargetFilePath: createTempTargetFilePath,
   convertCodeArrayToCodeString: convertCodeArrayToCodeString,
-  removeAsync: removeAsync
+  removeAsync: removeAsync,
+  createIndentString: createIndentString
 });
 
 //================================

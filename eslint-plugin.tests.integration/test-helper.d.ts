@@ -103,7 +103,7 @@ export interface TestHelper {
    * @param type The type of indentation character to use (space or tab).
    *
    * @returns A string sequence composed entirely of the requested indentation characters.
-   * 
+   *
    * @throws TypeError If the provided indentation type is neither a space nor a tab configuration.
    */
   createIndentString(indent: number, type: EPropertyValue): string;
