@@ -1,6 +1,7 @@
 import path from 'node:path';
 import fs from 'node:fs/promises';
 import os from 'node:os';
+import ePropertyValue from '@avenvaro/eslint-plugin/src/infrastructure/property-value.enum.js';
 
 //================================
 // Typedefs
@@ -11,6 +12,7 @@ import os from 'node:os';
  * @typedef {import('node:fs').RmOptions} RmOptions
  * @typedef {import('./test-helper.d.ts').TestHelper} TestHelper
  * @typedef {import('./test-helper.d.ts').FilesystemBlueprint} FilesystemBlueprint
+ * @typedef {import('@avenvaro/eslint-plugin/src/infrastructure/property-value.enum.d.ts').EPropertyValue} EPropertyValue
  */
 
 //================================
@@ -164,4 +166,29 @@ async function removeAsync(path) {
   if (path) {
     await fs.rm(path, testHelper.rmOptions);
   }
+}
+
+/**
+ * Generates an indentation string consisting of repeated space or tab characters.
+ *
+ * This utility constructs a concrete whitespace indentation sequence based on the
+ * requested length and character type, throwing a TypeError if an unsupported format is provided.
+ *
+ * @param {number} indent - The number of times the indentation character should be repeated.
+ * @param {EPropertyValue} type - The type of indentation character to use (space or tab).
+ *
+ * @returns {string} A string sequence composed entirely of the requested indentation characters.
+ *
+ * @throws {TypeError} If the provided indentation type is neither a space nor a tab configuration.
+ */
+function createIndentString(indent, type) {
+  if (type === ePropertyValue.space) {
+    return ' '.repeat(indent);
+  }
+
+  if (type === ePropertyValue.tab) {
+    return '\t'.repeat(indent);
+  }
+
+  throw new TypeError(`The type must be '${ePropertyValue.space}' or '${ePropertyValue.tab}'.`);
 }

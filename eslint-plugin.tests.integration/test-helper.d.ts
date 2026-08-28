@@ -1,4 +1,5 @@
 import { MakeDirectoryOptions, RmOptions } from 'node:fs';
+import { EPropertyValue } from '@avenvaro/eslint-plugin/src/infrastructure/property-value.enum.js';
 
 /**
  * Represents the absolute filesystem resolution tracks for a dedicated integration test container block.
@@ -92,6 +93,20 @@ export interface TestHelper {
    * @returns A promise that resolves when the removal operation is complete.
    */
   removeAsync(path: string): Promise<void>;
+
+  /**
+   * Generates an indentation string consisting of repeated space or tab characters.
+   *
+   * This utility constructs a concrete whitespace indentation sequence based on the requested length and character type, throwing a TypeError if an unsupported format is provided.
+   *
+   * @param indent The number of times the indentation character should be repeated.
+   * @param type The type of indentation character to use (space or tab).
+   *
+   * @returns A string sequence composed entirely of the requested indentation characters.
+   * 
+   * @throws TypeError If the provided indentation type is neither a space nor a tab configuration.
+   */
+  createIndentString(indent: number, type: EPropertyValue): string;
 }
 
 declare const testHelper: TestHelper;
