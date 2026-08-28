@@ -21,6 +21,7 @@ const rulesBuildHelper = Object.freeze({
   createEnumPropertySchema: createEnumPropertySchema,
   createIntegerPropertySchema: createIntegerPropertySchema,
   createNullPropertySchema: createNullPropertySchema,
+  createObjectPropertySchema: createObjectPropertySchema,
   getPropertyValuesToDisable: getPropertyValuesToDisable,
   getValueOrDefault: getValueOrDefault,
   isUnset: isUnset
