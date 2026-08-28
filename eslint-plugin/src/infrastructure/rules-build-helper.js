@@ -17,9 +17,9 @@ import eType from './type.enum.js';
 
 /** @type {RulesBuildHelper} */
 const rulesBuildHelper = Object.freeze({
-  createEnumType: createEnumType,
-  createIntegerType: createIntegerType,
-  createNullType: createNullType,
+  createEnumPropertySchema: createEnumPropertySchema,
+  createIntegerPropertySchema: createIntegerPropertySchema,
+  createNullPropertySchema: createNullPropertySchema,
   getPropertyValuesToDisable: getPropertyValuesToDisable,
   getValueOrDefault: getValueOrDefault,
   isUnset: isUnset
@@ -46,7 +46,7 @@ export default rulesBuildHelper;
  *
  * @returns {JSONSchema4} A valid JSON Schema object representing the enum constraint.
  */
-function createEnumType(...enumValues) {
+function createEnumPropertySchema(...enumValues) {
   return {
     type: eType.string,
     enum: enumValues
@@ -65,7 +65,7 @@ function createEnumType(...enumValues) {
  *
  * @returns {JSONSchema4} A valid JSON Schema object representing the integer constraint.
  */
-function createIntegerType(minValue) {
+function createIntegerPropertySchema(minValue) {
   return {
     type: eType.integer,
     minimum: minValue
@@ -82,7 +82,7 @@ function createIntegerType(minValue) {
  *
  * @returns {JSONSchema4} A valid JSON Schema object representing the null constraint.
  */
-function createNullType() {
+function createNullPropertySchema() {
   return {
     type: eType.null
   };
