@@ -1,9 +1,12 @@
 import { ESLint } from 'eslint';
 
 import { default as ePropertyValue, EPropertyValue } from './infrastructure/property-value.enum.js';
+import { DisableProperty } from './infrastructure/rules-build-helper.js';
 
 import {
+  IndentLevel,
   IndentSizeValue,
+  IndentValue,
   JsIndentOptions,
   JsIndentOptionsTuple,
   JsVariableDeclaratorIndentOptions,
@@ -25,7 +28,10 @@ export default plugin;
 export {
   ePropertyValue,
   EPropertyValue,
+  DisableProperty,
+  IndentLevel,
   IndentSizeValue,
+  IndentValue,
   JsIndentOptions,
   JsIndentOptionsTuple,
   JsVariableDeclaratorIndentOptions,
