@@ -28,6 +28,7 @@ import rulesBuildHelper from '../../infrastructure/rules-build-helper.js';
 //================================
 
 const coreIndentRule = stylisticPlugin.rules.indent;
+const coreIndentRuleOptionsSchema = coreIndentRule.meta.schema[1];
 
 /** @type {Required<JsVariableDeclaratorIndentOptions>} */
 const defaultJsVariableDeclaratorIndentOptions = Object.freeze({
@@ -94,51 +95,93 @@ const defaultJsIndentOptions = Object.freeze({
 // Exports
 //================================
 
-/** @type {import('./indent').default} */
+/** @type {JsIndentRule} */
 export default {
   meta: {
     ...coreIndentRule.meta,
+    defaultOptions: [
+      ePropertyValue.unset,
+      {}
+    ],
     docs: {
       ...coreIndentRule.meta.docs,
       description: 'Native EditorConfig-driven indentation patch by AvenVaro.'
     },
     schema: [
-      coreIndentRule.meta.schema[0],
+      createIndentValuePropertySchema(coreIndentRule.meta.schema[0]),
       {
-        ...coreIndentRule.meta.schema[1],
-        additionalProperties: false,
+        ...coreIndentRuleOptionsSchema,
         properties: {
-          ...coreIndentRule.meta.schema[1].properties,
-          switchCase: coreIndentRule.meta.schema[1].properties.SwitchCase,
-          variableDeclarator: coreIndentRule.meta.schema[1].properties.VariableDeclarator,
-          outerIifeBody: coreIndentRule.meta.schema[1].properties.outerIIFEBody,
-          memberExpression: coreIndentRule.meta.schema[1].properties.MemberExpression,
-          staticBlock: coreIndentRule.meta.schema[1].properties.StaticBlock,
-          callExpression: coreIndentRule.meta.schema[1].properties.CallExpression,
-          functionDeclaration: coreIndentRule.meta.schema[1].properties.FunctionDeclaration,
-          functionExpression: coreIndentRule.meta.schema[1].properties.FunctionExpression,
-          arrayExpression: coreIndentRule.meta.schema[1].properties.ArrayExpression,
-          objectExpression: coreIndentRule.meta.schema[1].properties.ObjectExpression,
-          importDeclaration: coreIndentRule.meta.schema[1].properties.ImportDeclaration,
-          flatTernaryExpressions: coreIndentRule.meta.schema[1].properties.flatTernaryExpressions,
-          offsetTernaryExpressions: coreIndentRule.meta.schema[1].properties.offsetTernaryExpressions,
-          ignoreComments: coreIndentRule.meta.schema[1].properties.ignoreComments,
-          useEditorconfig: {
-            type: 'boolean',
-            description: 'If true, values are resolved from the local .editorconfig file.'
-          },
-          defaultIndent: {
-            description: 'Fallback indentation size when .editorconfig is missing.',
+          switchCase: coreIndentRuleOptionsSchema.properties.SwitchCase,
+          variableDeclarator: coreIndentRuleOptionsSchema.properties.VariableDeclarator,
+          variableDeclarator: {
+            ...coreIndentRuleOptionsSchema.properties.VariableDeclarator,
             oneOf: [
-              {
-                type: 'integer',
-                minimum: 0
-              },
-              {
-                enum: [ 'tab' ]
-              }
+              createIndentSizeValuePropertySchema(undefined),
+              rulesBuildHelper.createObjectPropertySchema(
+                undefined,
+                {
+                  var: createIndentSizeValuePropertySchema(undefined),
+                  let: createIndentSizeValuePropertySchema(undefined),
+                  const: createIndentSizeValuePropertySchema(undefined),
+                  using: createIndentSizeValuePropertySchema(undefined)
+                }
+              )
             ]
-          }
+          },
+          assignmentOperator: createIndentLevelPropertySchema(coreIndentRuleOptionsSchema.properties.assignmentOperator),
+          outerIifeBody: createIndentLevelPropertySchema(coreIndentRuleOptionsSchema.properties.outerIIFEBody),
+          memberExpression: createIndentLevelPropertySchema(coreIndentRuleOptionsSchema.properties.memberExpression),
+          staticBlock: coreIndentRuleOptionsSchema.properties.StaticBlock,
+          callExpression: coreIndentRuleOptionsSchema.properties.CallExpression,
+          callExpression: rulesBuildHelper.createObjectPropertySchema(
+            coreIndentRuleOptionsSchema.properties.CallExpression,
+            {
+              arguments: createIndentSizeValuePropertySchema(undefined)
+            }
+          ),
+          functionDeclaration: rulesBuildHelper.createObjectPropertySchema(
+            coreIndentRuleOptionsSchema.properties.FunctionDeclaration,
+            {
+              parameters: createIndentSizeValuePropertySchema(undefined),
+              body: rulesBuildHelper.createIntegerPropertySchema(0),
+              returnType: rulesBuildHelper.createIntegerPropertySchema(0)
+            }
+          ),
+          functionExpression: coreIndentRuleOptionsSchema.properties.FunctionExpression,
+          functionExpression: rulesBuildHelper.createObjectPropertySchema(
+            coreIndentRuleOptionsSchema.properties.FunctionExpression,
+            {
+              parameters: createIndentSizeValuePropertySchema(undefined),
+              body: rulesBuildHelper.createIntegerPropertySchema(0),
+              returnType: rulesBuildHelper.createIntegerPropertySchema(0)
+            }
+          ),
+          arrayExpression: coreIndentRuleOptionsSchema.properties.ArrayExpression,
+          objectExpression: coreIndentRuleOptionsSchema.properties.ObjectExpression,
+          importDeclaration: coreIndentRuleOptionsSchema.properties.ImportDeclaration,
+          flatTernaryExpressions: coreIndentRuleOptionsSchema.properties.flatTernaryExpressions,
+          offsetTernaryExpressions: coreIndentRuleOptionsSchema.properties.offsetTernaryExpressions,
+          offsetTernaryExpressions: {
+            ...coreIndentRuleOptionsSchema.properties.offsetTernaryExpressions,
+            oneOf: [
+              rulesBuildHelper.createBooleanPropertySchema(undefined),
+              rulesBuildHelper.createObjectPropertySchema(
+                undefined,
+                {
+                  callExpression: rulesBuildHelper.createBooleanPropertySchema(undefined),
+                  awaitExpression: rulesBuildHelper.createBooleanPropertySchema(undefined),
+                  returnType: rulesBuildHelper.createBooleanPropertySchema(undefined)
+                }
+              )
+            ]
+          },
+          ignoreComments: coreIndentRuleOptionsSchema.properties.ignoreComments,
+          offsetTernaryExpressionsOffsetCallExpressions: coreIndentRuleOptionsSchema.properties.offsetTernaryExpressionsOffsetCallExpressions,
+          ignoredNodes: coreIndentRuleOptionsSchema.properties.ignoredNodes,
+          tabLength: coreIndentRuleOptionsSchema.properties.tabLength,
+          useEditorconfig: rulesBuildHelper.createBooleanPropertySchema({ description: 'If true, values are resolved from the local .editorconfig file.' }),
+          defaultIndent: createIndentValuePropertySchema({ description: 'Fallback indentation size when .editorconfig is missing.' })
         }
       }
     ]
@@ -424,3 +467,62 @@ function getProcessedJsFunctionExpressionIndentOptions(options) {
   };
 }
 
+/**
+ * @private
+ *
+ * Extends a base property schema to accept valid indentation level configurations.
+ *
+ * This helper injects a 'oneOf' constraint into the provided schema, allowing the property
+ * to accept either a disabled state enum value (like 'off' or 'unset'), null or a non-negative integer.
+ *
+ * @param {JSONSchema4} property - The base property schema object to extend.
+ *
+ * @returns {JSONSchema4} A new JSON Schema object with the indentation constraints applied.
+ */
+function createIndentLevelPropertySchema(property) {
+  const disablePropertySchema = rulesBuildHelper.createDisablePropertySchema(property);
+
+  disablePropertySchema.oneOf.push(rulesBuildHelper.createIntegerPropertySchema(0));
+
+  return disablePropertySchema;
+}
+
+/**
+ * @private
+ *
+ * Extends a base property schema to accept valid indentation level configurations.
+ *
+ * This helper injects a 'oneOf' constraint into the provided schema, allowing the property
+ * to accept either a disabled state enum value (like 'tab', 'off' or 'unset'), null or a non-negative integer.
+ *
+ * @param {JSONSchema4} property - The base property schema object to extend.
+ *
+ * @returns {JSONSchema4} A new JSON Schema object with the indentation constraints applied.
+ */
+function createIndentValuePropertySchema(property) {
+  const indentLevelSchema = createIndentLevelPropertySchema(property);
+
+  indentLevelSchema.oneOf.push(rulesBuildHelper.createEnumPropertySchema(ePropertyValue.tab));
+
+  return indentLevelSchema;
+}
+
+/**
+ * @private
+ *
+ * Extends a base property schema to accept valid indentation level configurations.
+ *
+ * This helper injects a 'oneOf' constraint into the provided schema, allowing the property
+ * to accept either a disabled state enum value (like 'first', 'off' or 'unset'), null or a non-negative integer.
+ *
+ * @param {JSONSchema4} property - The base property schema object to extend.
+ *
+ * @returns {JSONSchema4} A new JSON Schema object with the indentation constraints applied.
+ */
+function createIndentSizeValuePropertySchema(property) {
+  const indentLevelSchema = createIndentLevelPropertySchema(property);
+
+  indentLevelSchema.oneOf.push(rulesBuildHelper.createEnumPropertySchema(ePropertyValue.first));
+
+  return indentLevelSchema;
+}
