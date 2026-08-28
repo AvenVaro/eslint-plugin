@@ -89,8 +89,7 @@ function createEnumPropertySchema(...enumValues) {
  *
  * Generates a JSON Schema definition for an integer-based type with a lower bound.
  *
- * This helper creates a Draft-4 compliant schema object that restricts
- * acceptable values to whole numbers greater than or equal to the specified minimum value.
+ * This helper creates a Draft-4 compliant schema object that restricts acceptable values to whole numbers greater than or equal to the specified minimum value.
  *
  * @param {number} minValue - The minimum allowed integer value.
  *
@@ -108,14 +107,31 @@ function createIntegerPropertySchema(minValue) {
  *
  * Generates a JSON Schema definition for a null type constraint.
  *
- * This helper creates a Draft-4 compliant schema object that restricts
- * the acceptable value strictly to null, commonly used to clear or disable configurations.
+ * This helper creates a Draft-4 compliant schema object that restricts the acceptable value strictly to null, commonly used to clear or disable configurations.
  *
  * @returns {JSONSchema4} A valid JSON Schema object representing the null constraint.
  */
 function createNullPropertySchema() {
   return {
     type: eType.null
+  };
+}
+
+/**
+ * @private
+ *
+ * Generates a JSON Schema definition for an object-based type with defined properties.
+ *
+ * This helper creates a Draft-4 compliant schema object that restricts acceptable values to an object structure matching the provided property definitions map.
+ *
+ * @param {Record<string, JSONSchema4>} properties - A map of property keys to their respective JSON Schema definitions.
+ *
+ * @returns {JSONSchema4} A valid JSON Schema object representing the object structure constraint.
+ */
+function createObjectPropertySchema(properties) {
+  return {
+    type: eType.object,
+    properties: properties
   };
 }
 
