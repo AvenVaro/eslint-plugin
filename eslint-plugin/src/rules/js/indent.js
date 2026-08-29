@@ -113,7 +113,6 @@ export default {
         ...coreIndentRuleOptionsSchema,
         properties: {
           switchCase: coreIndentRuleOptionsSchema.properties.SwitchCase,
-          variableDeclarator: coreIndentRuleOptionsSchema.properties.VariableDeclarator,
           variableDeclarator: {
             ...coreIndentRuleOptionsSchema.properties.VariableDeclarator,
             oneOf: [
@@ -133,7 +132,6 @@ export default {
           outerIifeBody: createIndentLevelPropertySchema(coreIndentRuleOptionsSchema.properties.outerIIFEBody),
           memberExpression: createIndentLevelPropertySchema(coreIndentRuleOptionsSchema.properties.memberExpression),
           staticBlock: coreIndentRuleOptionsSchema.properties.StaticBlock,
-          callExpression: coreIndentRuleOptionsSchema.properties.CallExpression,
           callExpression: rulesBuildHelper.createObjectPropertySchema(
             coreIndentRuleOptionsSchema.properties.CallExpression,
             {
@@ -148,7 +146,6 @@ export default {
               returnType: rulesBuildHelper.createIntegerPropertySchema(0)
             }
           ),
-          functionExpression: coreIndentRuleOptionsSchema.properties.FunctionExpression,
           functionExpression: rulesBuildHelper.createObjectPropertySchema(
             coreIndentRuleOptionsSchema.properties.FunctionExpression,
             {
@@ -161,7 +158,6 @@ export default {
           objectExpression: coreIndentRuleOptionsSchema.properties.ObjectExpression,
           importDeclaration: coreIndentRuleOptionsSchema.properties.ImportDeclaration,
           flatTernaryExpressions: coreIndentRuleOptionsSchema.properties.flatTernaryExpressions,
-          offsetTernaryExpressions: coreIndentRuleOptionsSchema.properties.offsetTernaryExpressions,
           offsetTernaryExpressions: {
             ...coreIndentRuleOptionsSchema.properties.offsetTernaryExpressions,
             oneOf: [
