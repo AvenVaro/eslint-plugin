@@ -86,7 +86,7 @@ async function test_indentRule_useEditorconfig_async(testTempRootDir, useEditorc
     `end_of_line = ${ePropertyValue.lf}`
   ]);
 
-  await indentRuleTestHelper.tryExpectAsync(
+  await indentRuleTestHelper.expectAsync(
     testTempRootDir,
     dirName,
     editorconfig,

@@ -19,7 +19,7 @@ import jsRulesTestHelper from '../js-rules-test-helper.js';
 /** @type {IndentRuleTestHelper} */
 const indentTestHelper = Object.freeze({
   createIndentRule: createIndentRule,
-  tryExpectAsync: tryExpectAsync
+  expectAsync: expectAsync
 });
 
 //================================
@@ -68,7 +68,7 @@ function createIndentRule(indentOptionsTuple) {
  *
  * @returns {Promise<void>} A promise that fully resolves once assertions terminate successfully and cleanup actions conclude.
  */
-async function tryExpectAsync(testTempRootDir, dirName, editorconfig, indentOptionsTuple, brokenSourceCode, expectedFixedSourceCode) {
+async function expectAsync(testTempRootDir, dirName, editorconfig, indentOptionsTuple, brokenSourceCode, expectedFixedSourceCode) {
   const paths = testHelper.createTempPaths(testTempRootDir, dirName, 'index.js');
 
   try {

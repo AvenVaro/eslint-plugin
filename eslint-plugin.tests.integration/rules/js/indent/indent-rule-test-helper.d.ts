@@ -28,7 +28,7 @@ export interface IndentRuleTestHelper {
    *
    * @returns A promise that fully resolves once assertions terminate successfully and cleanup actions conclude.
    */
-  tryExpectAsync(
+  expectAsync(
     testTempRootDir: string,
     dirName: string,
     editorconfig: string,
