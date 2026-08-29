@@ -178,11 +178,15 @@ async function removeAsync(path) {
  * @param {number} indent - The number of times the indentation character should be repeated.
  * @param {EPropertyValue} type - The type of indentation character to use (space or tab).
  *
- * @returns {string} A string sequence composed entirely of the requested indentation characters.
+ * @returns {string} A string sequence composed entirely of the requested indentation characters. Or an empty string if the inden is less than or equal to zero.
  *
  * @throws {TypeError} If the provided indentation type is neither a space nor a tab configuration.
  */
 function createIndentString(indent, type) {
+  if (indent <= 0) {
+    return '';
+  }
+
   if (type === ePropertyValue.space) {
     return ' '.repeat(indent);
   }
