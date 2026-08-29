@@ -25,7 +25,9 @@ const rulesTestHelper = Object.freeze({
   runESLintEngineAsync: runESLintEngineAsync,
   executeCodeProcessingAsync: executeCodeProcessingAsync,
   expectResult: expectResult,
-  expectResults: expectResults
+  expectResultError: expectResultError,
+  expectResults: expectResults,
+  expectResultsError: expectResultsError
 });
 
 //================================
@@ -134,6 +136,24 @@ function expectResult(actualResult, expectedResult) {
 }
 
 /**
+ * Assertively validates that structural equality verification between actual and expected ESLint evaluation results fails with an error.
+ *
+ * @param {LintResult} actualResult - The live evaluation metric record returned from the active execution pipeline block.
+ * @param {LintResult} expectedResult - The baseline expectation blueprint object mapping reference layout values.
+ * @param {string | RegExp} [expectedErrorMessage] - Optional expected error message substring or regular expression to match against.
+ *
+ * @returns {void}
+ */
+function expectResultError(actualResult, expectedResult, expectedErrorMessage) {
+  if (expectedErrorMessage === undefined) {
+    expect(() => expectResult(actualResult, expectedResult)).toThrow();
+  }
+  else {
+    expect(() => expectResult(actualResult, expectedResult)).toThrow(expectedErrorMessage);
+  }
+}
+
+/**
  * @private
  *
  * Assertively validates structural equality between properties of an actual ESLint evaluation result and an expected result blueprint.
@@ -163,4 +183,26 @@ function expectResults(results, expectedFixedSourceCode, brokenSourceCode, error
       source: brokenSourceCode
     }
   );
+}
+
+/**
+ * @private
+ *
+ * Assertively validates structural equality between properties of an actual ESLint evaluation results fails with an error.
+ *
+ * @param {CodeProcessingResult} results - The comprehensive metric configuration payload mapping both code execution passes.
+ * @param {string} expectedFixedSourceCode - The fixed source text payload containing potential layout variations.
+ * @param {string} brokenSourceCode - The raw source text payload containing potential layout variations.
+ * @param {number} [errorCount=1] - The optional number of errors for the result.
+ * @param {string | RegExp} [expectedErrorMessage] - Optional expected error message substring or regular expression to match against.
+ *
+ * @returns {void}
+ */
+function expectResultsError(results, expectedFixedSourceCode, brokenSourceCode, errorCount = 1, expectedErrorMessage) {
+  if (expectedErrorMessage === undefined) {
+    expect(() => expectResults(results, expectedFixedSourceCode, brokenSourceCode, errorCount)).toThrow();
+  }
+  else {
+    expect(() => expectResults(results, expectedFixedSourceCode, brokenSourceCode, errorCount)).toThrow(expectedErrorMessage);
+  }
 }
