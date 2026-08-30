@@ -62,17 +62,6 @@ export interface RulesTestHelper {
   expectResult(actualResult: ESLint.LintResult, expectedResult: ESLint.LintResult): void;
 
   /**
-   * Assertively validates structural equality between properties of an actual ESLint evaluation results fails with an error.
-   *
-   * @param actualResult - The live evaluation metric record returned from the active execution pipeline block.
-   * @param expectedResult - The baseline expectation blueprint object mapping reference layout values.
-   * @param expectedErrorMessage - Optional expected error message substring or regular expression to match against.
-   *
-   * @returns void
-   */
-  expectResultError(actualResult: ESLint.LintResult, expectedResult: ESLint.LintResult, expectedErrorMessage?: string | RegExp): void;
-
-  /**
    * Assertively validates structural equality between properties of an actual ESLint evaluation result and an expected result blueprint.
    *
    * @param results - The comprehensive metric configuration payload mapping both code execution passes.
@@ -83,19 +72,6 @@ export interface RulesTestHelper {
    * @returns void
    */
   expectResults(results: CodeProcessingResult, expectedFixedSourceCode: string, brokenSourceCode: string, errorCount?: number): void;
-
-  /**
-   * Assertively validates structural equality between properties of an actual ESLint evaluation results fails with an error.
-   *
-   * @param results - The comprehensive metric configuration payload mapping both code execution passes.
-   * @param expectedFixedSourceCode - The fixed source text payload containing potential layout variations.
-   * @param brokenSourceCode - The raw source text payload containing potential layout variations.
-   * @param errorCount - The optional number of errors for the result.
-   * @param expectedErrorMessage - Optional expected error message substring or regular expression to match against.
-   *
-   * @returns void
-   */
-  expectResultsError(results: CodeProcessingResult, expectedFixedSourceCode: string, brokenSourceCode: string, errorCount?: number, expectedErrorMessage?: string | RegExp): void;
 }
 
 declare const rulesTestHelper: RulesTestHelper;
