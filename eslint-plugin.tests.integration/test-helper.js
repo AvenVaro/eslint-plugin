@@ -139,6 +139,8 @@ function createTempTargetFilePath(testTmpDir, fileName) {
 }
 
 /**
+ * @private
+ *
  * Assembles a structured multi-line source text file template string from a sequential token line array block.
  * **Warning:** Passing a mutable reference to the `codeArray` parameter will mutate the source array if `insertEOL` evaluates to true.
  *
@@ -156,6 +158,8 @@ function convertCodeArrayToCodeString(codeArray, insertEOL = true) {
 }
 
 /**
+ * @private
+ *
  * Asynchronously removes a file or directory at the specified path if it is provided.
  * Uses the predefined integration test options for the filesystem removal operation.
  *
@@ -170,6 +174,8 @@ async function removeAsync(path) {
 }
 
 /**
+ * @private
+ *
  * Generates an indentation string consisting of repeated space or tab characters.
  *
  * This utility constructs a concrete whitespace indentation sequence based on the
