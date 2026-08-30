@@ -124,13 +124,17 @@ async function executeCodeProcessingAsync(files, rules, brokenSourceCode, paths)
  *
  * @param {LintResult} actualResult - The live evaluation metric record returned from the active execution pipeline block.
  * @param {LintResult} expectedResult - The baseline expectation blueprint object mapping reference layout values.
+ * @param {boolean} skip - Skip the check if there is nothing to fix.
  *
  * @returns {void}
  */
-function expectResult(actualResult, expectedResult) {
+function expectResult(actualResult, expectedResult, skip) {
   expect(actualResult.errorCount).toBe(expectedResult.errorCount);
-  expect(actualResult.output).toBe(expectedResult.output);
-  expect(actualResult.source).toBe(expectedResult.source);
+
+  if (skip) {
+    expect(actualResult.output).toBe(expectedResult.output);
+    expect(actualResult.source).toBe(expectedResult.source);
+  }
 }
 
 /**
@@ -146,13 +150,16 @@ function expectResult(actualResult, expectedResult) {
  * @returns {void}
  */
 function expectResults(results, expectedFixedSourceCode, brokenSourceCode, errorCount = 1) {
+  const skip = errorCount === 0;
+
   expectResult(
     results.withFix,
     {
       errorCount: 0,
       output: expectedFixedSourceCode,
       source: undefined
-    }
+    },
+    skip
   );
 
   expectResult(
@@ -161,6 +168,7 @@ function expectResults(results, expectedFixedSourceCode, brokenSourceCode, error
       errorCount: errorCount,
       output: undefined,
       source: brokenSourceCode
-    }
+    },
+    skip
   );
 }

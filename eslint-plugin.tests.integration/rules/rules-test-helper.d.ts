@@ -56,10 +56,11 @@ export interface RulesTestHelper {
    *
    * @param actualResult - The live evaluation metric record returned from the active execution pipeline block.
    * @param expectedResult - The baseline expectation blueprint object mapping reference layout values.
+   * @param skip - Skip the check if there is nothing to fix.
    *
    * @returns void
    */
-  expectResult(actualResult: ESLint.LintResult, expectedResult: ESLint.LintResult): void;
+  expectResult(actualResult: ESLint.LintResult, expectedResult: ESLint.LintResult, skip: boolean): void;
 
   /**
    * Assertively validates structural equality between properties of an actual ESLint evaluation result and an expected result blueprint.

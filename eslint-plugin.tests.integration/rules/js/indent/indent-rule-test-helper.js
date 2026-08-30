@@ -65,10 +65,11 @@ function createIndentRule(indentOptionsTuple) {
  * @param {JsIndentOptionsTuple} indentOptionsTuple - The configuration array passed to the rule options.
  * @param {string} brokenSourceCode - The raw source text payload containing potential layout variations.
  * @param {string} expectedFixedSourceCode - The fixed source text payload containing potential layout variations.
+ * @param {number} [errorCount=1] - The optional number of errors for the result.
  *
  * @returns {Promise<void>} A promise that fully resolves once assertions terminate successfully and cleanup actions conclude.
  */
-async function expectAsync(testTempRootDir, dirName, editorconfig, indentOptionsTuple, brokenSourceCode, expectedFixedSourceCode) {
+async function expectAsync(testTempRootDir, dirName, editorconfig, indentOptionsTuple, brokenSourceCode, expectedFixedSourceCode, errorCount = 1) {
   const paths = testHelper.createTempPaths(testTempRootDir, dirName, 'index.js');
 
   try {
@@ -80,7 +81,7 @@ async function expectAsync(testTempRootDir, dirName, editorconfig, indentOptions
       paths
     );
 
-    rulesTestHelper.expectResults(results, expectedFixedSourceCode, brokenSourceCode);
+    rulesTestHelper.expectResults(results, expectedFixedSourceCode, brokenSourceCode, errorCount);
   }
   finally {
     await testHelper.removeAsync(paths.testTmpDir);

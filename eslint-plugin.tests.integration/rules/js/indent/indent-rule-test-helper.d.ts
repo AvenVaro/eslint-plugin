@@ -25,6 +25,7 @@ export interface IndentRuleTestHelper {
    * @param indentOptionsTuple - The configuration array passed to the rule options.
    * @param brokenSourceCode - The raw source text payload containing potential layout variations.
    * @param expectedFixedSourceCode - The fixed source text payload containing potential layout variations.
+   * @param errorCount - The optional number of errors for the result.
    *
    * @returns A promise that fully resolves once assertions terminate successfully and cleanup actions conclude.
    */
@@ -34,7 +35,8 @@ export interface IndentRuleTestHelper {
     editorconfig: string,
     indentOptionsTuple: JsIndentOptionsTuple,
     brokenSourceCode: string,
-    expectedFixedSourceCode: string
+    expectedFixedSourceCode: string,
+    errorCount?: number
   ): Promise<void>;
 }
 
