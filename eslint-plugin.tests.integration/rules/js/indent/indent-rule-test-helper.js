@@ -19,8 +19,7 @@ import jsRulesTestHelper from '../js-rules-test-helper.js';
 /** @type {IndentRuleTestHelper} */
 const indentTestHelper = Object.freeze({
   createIndentRule: createIndentRule,
-  expectAsync: expectAsync,
-  expectErrorAsync: expectErrorAsync
+  expectAsync: expectAsync
 });
 
 //================================
@@ -82,42 +81,6 @@ async function expectAsync(testTempRootDir, dirName, editorconfig, indentOptions
     );
 
     rulesTestHelper.expectResults(results, expectedFixedSourceCode, brokenSourceCode);
-  }
-  finally {
-    await testHelper.removeAsync(paths.testTmpDir);
-  }
-}
-
-/**
- * @private
- * @async
- *
- * Asynchronously orchestrates an end-to-end integration test execution by provisioning
- * transient filesystem configurations, parsing evaluation rule variants, and asserting
- * compliance results before triggering automated environmental cleanup.
- *
- * @param {string} testTempRootDir - The root directory where the temporary test folders are created.
- * @param {string} dirName - The specific name of the temporary directory for this test case.
- * @param {string} editorconfig - The raw content or configuration string for the .editorconfig file.
- * @param {JsIndentOptionsTuple} indentOptionsTuple - The configuration array passed to the rule options.
- * @param {string} brokenSourceCode - The raw source text payload containing potential layout variations.
- * @param {string} expectedFixedSourceCode - The fixed source text payload containing potential layout variations.
- *
- * @returns {Promise<void>} A promise that fully resolves once assertions terminate successfully and cleanup actions conclude.
- */
-async function expectErrorAsync(testTempRootDir, dirName, editorconfig, indentOptionsTuple, brokenSourceCode, expectedFixedSourceCode) {
-  const paths = testHelper.createTempPaths(testTempRootDir, dirName, 'index.js');
-
-  try {
-    await testHelper.createTempFilesAsync(paths, editorconfig);
-
-    const results = await jsRulesTestHelper.executeCodeProcessingWithPathsAsync(
-      createIndentRule(indentOptionsTuple),
-      brokenSourceCode,
-      paths
-    );
-
-    rulesTestHelper.expectResultsError(results, expectedFixedSourceCode, brokenSourceCode);
   }
   finally {
     await testHelper.removeAsync(paths.testTmpDir);
