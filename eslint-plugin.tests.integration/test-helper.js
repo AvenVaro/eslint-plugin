@@ -182,7 +182,7 @@ async function removeAsync(path) {
  * requested length and character type, throwing a TypeError if an unsupported format is provided.
  *
  * @param {number} indent - The number of times the indentation character should be repeated.
- * @param {EPropertyValue} type - The type of indentation character to use (space or tab).
+ * @param {EPropertyValue['space'] | EPropertyValue['tab']} type - The type of indentation character to use (space or tab).
  *
  * @returns {string} A string sequence composed entirely of the requested indentation characters. Or an empty string if the inden is less than or equal to zero.
  *

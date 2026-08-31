@@ -106,7 +106,7 @@ export interface TestHelper {
    *
    * @throws TypeError If the provided indentation type is neither a space nor a tab configuration.
    */
-  createIndentString(indent: number, type: EPropertyValue): string;
+  createIndentString(indent: number, type: EPropertyValue['space'] | EPropertyValue['tab']): string;
 }
 
 declare const testHelper: TestHelper;
