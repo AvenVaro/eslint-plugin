@@ -1,6 +1,8 @@
 import ruleset from './ruleset.js';
 import ePropertyValue from './infrastructure/property-value.enum.js';
 
+import { jsIndentRuleDefaultValues } from './rules/js/indent.js';
+
 //================================
 // Typedefs
 //================================
@@ -24,4 +26,7 @@ const plugin = Object.freeze({
 
 export default plugin;
 
-export { ePropertyValue };
+export {
+  ePropertyValue,
+  jsIndentRuleDefaultValues
+};

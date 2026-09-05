@@ -221,6 +221,72 @@ export interface JsIndentRule extends Omit<Rule.RuleModule, 'meta' | 'create'> {
   create(context: JsIndentContext): Rule.RuleListener;
 }
 
+export declare const defaultJsVariableDeclaratorIndentOptions: Required<JsVariableDeclaratorIndentOptions> & Readonly<{
+  readonly var: 1;
+  readonly let: 1;
+  readonly const: 1;
+  readonly using: 1;
+}>;
+
+export declare const defaultJsStaticBlockIndentOptions: Required<JsStaticBlockIndentOptions> & Readonly<{
+  readonly body: 1;
+}>;
+
+export declare const defaultJsCallExpressionIndentOptions: Required<JsCallExpressionIndentOptions> & Readonly<{
+  readonly arguments: 1;
+}>;
+
+export declare const defaultJsFunctionDeclarationIndentOptions: Required<JsFunctionDeclarationIndentOptions> & Readonly<{
+  readonly parameters: 1;
+  readonly body: 1;
+}>;
+
+export declare const defaultJsFunctionExpressionIndentOptions: Required<JsFunctionExpressionIndentOptions> & Readonly<{
+  readonly parameters: 1;
+  readonly body: 1;
+}>;
+
+export declare const defaultJsOffsetTernaryExpressionsIndentOptions: Required<JsOffsetTernaryExpressionsIndentOptions> & Readonly<{
+  readonly callExpression: false;
+  readonly awaitExpression: false;
+  readonly newExpression: false;
+}>;
+
+export declare const defaultJsIndentOptions: JsIndentOptions & Readonly<{
+  readonly switchCase: 1;
+  readonly variableDeclarator: 1;
+  readonly assignmentOperator: undefined;
+  readonly outerIifeBody: 1;
+  readonly memberExpression: 1;
+  readonly staticBlock: typeof defaultJsStaticBlockIndentOptions;
+  readonly callExpression: typeof defaultJsCallExpressionIndentOptions;
+  readonly functionDeclaration: typeof defaultJsFunctionDeclarationIndentOptions;
+  readonly functionExpression: typeof defaultJsFunctionExpressionIndentOptions;
+  readonly arrayExpression: 1;
+  readonly objectExpression: 1;
+  readonly importDeclaration: 1;
+  readonly flatTernaryExpressions: false;
+  readonly offsetTernaryExpressions: false;
+  readonly ignoreComments: false;
+  readonly offsetTernaryExpressionsOffsetCallExpressions: undefined;
+  readonly ignoredNodes: readonly [];
+  readonly tabLength: undefined;
+  readonly useEditorconfig: true;
+  readonly defaultIndent: 2;
+}>;
+
+export type JsIndentRuleDefaultValues = Readonly<{
+  readonly defaultJsVariableDeclaratorIndentOptions: typeof defaultJsVariableDeclaratorIndentOptions;
+  readonly defaultJsStaticBlockIndentOptions: typeof defaultJsStaticBlockIndentOptions;
+  readonly defaultJsCallExpressionIndentOptions: typeof defaultJsCallExpressionIndentOptions;
+  readonly defaultJsFunctionDeclarationIndentOptions: typeof defaultJsFunctionDeclarationIndentOptions;
+  readonly defaultJsFunctionExpressionIndentOptions: typeof defaultJsFunctionExpressionIndentOptions;
+  readonly defaultJsOffsetTernaryExpressionsIndentOptions: typeof defaultJsOffsetTernaryExpressionsIndentOptions;
+  readonly defaultJsIndentOptions: typeof defaultJsIndentOptions;
+}>;
+
+export declare const jsIndentRuleDefaultValues: JsIndentRuleDefaultValues;
+
 declare const rule: JsIndentRule;
 
 export default rule;

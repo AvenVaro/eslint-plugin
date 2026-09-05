@@ -19,6 +19,7 @@ import rulesBuildHelper from '../../infrastructure/rules-build-helper.js';
  * @typedef {import('./indent.d.ts').JsFunctionExpressionIndentOptions} JsFunctionExpressionIndentOptions
  * @typedef {import('./indent.d.ts').JsVariableDeclaratorIndentOptions} JsVariableDeclaratorIndentOptions
  * @typedef {import('./indent.d.ts').JsOffsetTernaryExpressionsIndentOptions} JsOffsetTernaryExpressionsIndentOptions
+ * @typedef {import('./indent.d.ts').JsIndentRuleDefaultValues} JsIndentRuleDefaultValues
  * @typedef {import('eslint').Rule.RuleListener} RuleListener
  * @typedef {import('json-schema').JSONSchema4} JSONSchema4
  */
@@ -91,9 +92,31 @@ const defaultJsIndentOptions = Object.freeze({
   defaultIndent: 2
 });
 
+/** @type {JsIndentRuleDefaultValues} */
+const jsIndentRuleDefaultValues = Object.freeze({
+  defaultJsVariableDeclaratorIndentOptions: defaultJsVariableDeclaratorIndentOptions,
+  defaultJsStaticBlockIndentOptions: defaultJsStaticBlockIndentOptions,
+  defaultJsCallExpressionIndentOptions: defaultJsCallExpressionIndentOptions,
+  defaultJsFunctionDeclarationIndentOptions: defaultJsFunctionDeclarationIndentOptions,
+  defaultJsFunctionExpressionIndentOptions: defaultJsFunctionExpressionIndentOptions,
+  defaultJsOffsetTernaryExpressionsIndentOptions: defaultJsOffsetTernaryExpressionsIndentOptions,
+  defaultJsIndentOptions: defaultJsIndentOptions
+});
+
 //================================
 // Exports
 //================================
+
+export {
+  defaultJsVariableDeclaratorIndentOptions,
+  defaultJsStaticBlockIndentOptions,
+  defaultJsCallExpressionIndentOptions,
+  defaultJsFunctionDeclarationIndentOptions,
+  defaultJsFunctionExpressionIndentOptions,
+  defaultJsOffsetTernaryExpressionsIndentOptions,
+  defaultJsIndentOptions,
+  jsIndentRuleDefaultValues
+};
 
 /** @type {JsIndentRule} */
 export default {

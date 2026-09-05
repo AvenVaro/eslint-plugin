@@ -14,7 +14,9 @@ import {
   JsCallExpressionIndentOptions,
   JsFunctionDeclarationIndentOptions,
   JsFunctionExpressionIndentOptions,
-  JsOffsetTernaryExpressionsIndentOptions
+  JsOffsetTernaryExpressionsIndentOptions,
+  jsIndentRuleDefaultValues,
+  JsIndentRuleDefaultValues
 } from './rules/js/indent.js';
 
 export interface EslintPlugin extends ESLint.Plugin {
@@ -39,5 +41,7 @@ export {
   JsCallExpressionIndentOptions,
   JsFunctionDeclarationIndentOptions,
   JsFunctionExpressionIndentOptions,
-  JsOffsetTernaryExpressionsIndentOptions
+  JsOffsetTernaryExpressionsIndentOptions,
+  jsIndentRuleDefaultValues,
+  JsIndentRuleDefaultValues
 };
