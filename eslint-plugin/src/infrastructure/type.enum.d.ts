@@ -4,18 +4,18 @@
  * Provides structural type-safety and auto-completion when assessing variable primitives, references, and executable functions.
  */
 export type EType = Readonly<{
-  undefined: 'undefined';
-  object: 'object';
-  number: 'number';
-  string: 'string';
-  boolean: 'boolean';
-  function: 'function';
-  symbol: 'symbol';
-  bigint: 'bigint';
-  integer: 'integer';
-  array: 'array';
-  null: 'null';
-  any: 'any';
+  readonly undefined: 'undefined';
+  readonly object: 'object';
+  readonly number: 'number';
+  readonly string: 'string';
+  readonly boolean: 'boolean';
+  readonly function: 'function';
+  readonly symbol: 'symbol';
+  readonly bigint: 'bigint';
+  readonly integer: 'integer';
+  readonly array: 'array';
+  readonly null: 'null';
+  readonly any: 'any';
 }>;
 
 declare const eType: EType;
