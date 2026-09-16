@@ -1,5 +1,21 @@
 import { Props } from 'editorconfig';
 import { EPropertyValue } from './property-value.enum.js';
+import { DisableProperty } from './rules-build-helper.js';
+
+/**
+ * Provides indentation size as a fixed number of spaces/tabs or a special formatting mode (e.g., 'first', 'unset' or 'off').
+ */
+export type IndentSize = number | EPropertyValue['tab'] | DisableProperty;
+
+/**
+ * Defines a configuration value that can either be a numeric indent size or disabled entirely.
+ */
+export type IndentStyle = EPropertyValue['space'] | EPropertyValue['tab'] | DisableProperty;
+
+/**
+ * Specifies a configuration value that controls line endings, or disables it entirely.
+ */
+export type EndOfLine = EPropertyValue['lf'] | EPropertyValue['crlf'] | DisableProperty;
 
 /**
  * Interface representing the EditorConfig data provider.
@@ -32,10 +48,7 @@ export interface EditorconfigProvider {
    *
    * @returns A validated indentation count or the literal string layout token.
    */
-  getIndentSize(
-    config: Props | undefined,
-    defaultValue: number | EPropertyValue['tab'] | undefined
-  ): number | EPropertyValue['tab'] | undefined;
+  getIndentSize(config: Props | undefined, defaultValue: IndentSize): IndentSize;
 
   /**
    * Validates and extracts the indentation formatting layout token style from configuration.
@@ -45,10 +58,7 @@ export interface EditorconfigProvider {
    *
    * @returns A validated style layout keyword token.
    */
-  getIndentStyle(
-    config: Props | undefined,
-    defaultValue: EPropertyValue['space'] | EPropertyValue['tab'] | undefined
-  ): EPropertyValue['space'] | EPropertyValue['tab'] | undefined;
+  getIndentStyle(config: Props | undefined, defaultValue: IndentStyle): IndentStyle;
 
   /**
    * Validates and extracts the targeted line-ending sequence token from configuration metadata.
@@ -58,10 +68,7 @@ export interface EditorconfigProvider {
    *
    * @returns A validated line termination style keyword token.
    */
-  getEndOfLine(
-    config: Props | undefined,
-    defaultValue: EPropertyValue['lf'] | EPropertyValue['crlf'] | undefined
-  ): EPropertyValue['lf'] | EPropertyValue['crlf'] | undefined;
+  getEndOfLine(config: Props | undefined, defaultValue: EndOfLine): EndOfLine;
 
   /**
    * Validates and extracts the active validation state flag for final newline injections.

@@ -1,6 +1,7 @@
 import { ESLint } from 'eslint';
 
 import { default as ePropertyValue, EPropertyValue } from './infrastructure/property-value.enum.js';
+import { IndentSize, IndentStyle, EndOfLine } from './infrastructure/editorconfig-provider.js';
 import { DisableProperty } from './infrastructure/rules-build-helper.js';
 
 import {
@@ -31,6 +32,9 @@ export {
   ePropertyValue,
   EPropertyValue,
   DisableProperty,
+  IndentSize,
+  IndentStyle,
+  EndOfLine,
   IndentLevel,
   IndentSizeValue,
   IndentValue,
