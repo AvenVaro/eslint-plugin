@@ -7,7 +7,6 @@ import { DisableProperty } from './infrastructure/rules-build-helper.js';
 import {
   IndentLevel,
   IndentSizeValue,
-  IndentValue,
   JsIndentOptions,
   JsIndentOptionsTuple,
   JsVariableDeclaratorIndentOptions,
@@ -37,7 +36,6 @@ export {
   EndOfLine,
   IndentLevel,
   IndentSizeValue,
-  IndentValue,
   JsIndentOptions,
   JsIndentOptionsTuple,
   JsVariableDeclaratorIndentOptions,

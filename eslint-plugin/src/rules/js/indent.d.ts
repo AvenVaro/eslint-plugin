@@ -2,6 +2,7 @@ import { Rule } from 'eslint';
 import { JSONSchema4 } from 'json-schema';
 import { EPropertyValue } from '../../infrastructure/property-value.enum.js';
 import { EType } from '../../infrastructure/type.enum.js';
+import { IndentSize } from '../../infrastructure/editorconfig-provider.js';
 import { DisableProperty } from '../../infrastructure/rules-build-helper.js';
 
 /**
@@ -13,11 +14,6 @@ export type IndentLevel = number | DisableProperty;
  * Provides indentation size as a fixed number of spaces/tabs or a special formatting mode (e.g., 'first', 'unset' or 'off').
  */
 export type IndentSizeValue = IndentLevel | EPropertyValue['first'];
-
-/**
- * Provides indentation size as a fixed number of spaces/tabs or a special formatting mode (e.g., 'first', 'unset' or 'off').
- */
-export type IndentValue = IndentLevel | EPropertyValue['tab'];
 
 /**
  * Configuration options for the EditorConfig-integrated JavaScript indentation rule.
@@ -81,7 +77,7 @@ export interface JsIndentOptions {
   useEditorconfig?: boolean;
 
   /** Fallback indentation size used when `.editorconfig` is unavailable or configuration keys are missing. */
-  defaultIndent?: IndentValue;
+  defaultIndent?: IndentSize;
 }
 
 /**
@@ -183,7 +179,7 @@ export type JsIndentOptionsTuple = [
    * Dynamic indentation size resolved from the .editorconfig file,
    * or 'tab' for hard-tabbed layouts.
    */
-  indentSize?: IndentValue,
+  indentSize?: IndentSize,
 
   /**
    * An object containing user-defined camelCase formatting overrides
