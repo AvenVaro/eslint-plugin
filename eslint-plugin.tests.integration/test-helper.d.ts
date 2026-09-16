@@ -1,5 +1,5 @@
 import { MakeDirectoryOptions, RmOptions } from 'node:fs';
-import { EPropertyValue } from '@avenvaro/eslint-plugin/src/infrastructure/property-value.enum.js';
+import { IndentStyle } from '@avenvaro/eslint-plugin';
 
 /**
  * Represents the absolute filesystem resolution tracks for a dedicated integration test container block.
@@ -100,13 +100,13 @@ export interface TestHelper {
    * This utility constructs a concrete whitespace indentation sequence based on the requested length and character type, throwing a TypeError if an unsupported format is provided.
    *
    * @param indent The number of times the indentation character should be repeated.
-   * @param type The type of indentation character to use (space or tab).
+   * @param indentStyle The type of indentation character to use (space or tab).
    *
    * @returns A string sequence composed entirely of the requested indentation characters.
    *
    * @throws TypeError If the provided indentation type is neither a space nor a tab configuration.
    */
-  createIndentString(indent: number, type: EPropertyValue['space'] | EPropertyValue['tab']): string;
+  createIndentString(indent: number, indentStyle: IndentStyle): string;
 }
 
 declare const testHelper: TestHelper;
