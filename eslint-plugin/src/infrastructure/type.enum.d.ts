@@ -16,6 +16,7 @@ export type EType = Readonly<{
   readonly array: 'array';
   readonly null: 'null';
   readonly any: 'any';
+  readonly ConditionalExpression: 'ConditionalExpression';
 }>;
 
 declare const eType: EType;

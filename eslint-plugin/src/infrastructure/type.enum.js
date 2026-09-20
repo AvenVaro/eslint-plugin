@@ -23,7 +23,8 @@ const eType = Object.freeze({
   integer: 'integer',
   array: 'array',
   null: 'null',
-  any: 'any'
+  any: 'any',
+  ConditionalExpression: 'ConditionalExpression'
 });
 
 //================================

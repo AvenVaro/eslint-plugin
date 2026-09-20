@@ -29,8 +29,9 @@ function test_propertyValue_isStrictImmutableDictionary() {
   vitest.expect(eType.array).toBe('array');
   vitest.expect(eType.null).toBe('null');
   vitest.expect(eType.any).toBe('any');
+  vitest.expect(eType.ConditionalExpression).toBe('ConditionalExpression');
 
-  vitest.expect(Object.keys(eType)).toHaveLength(12);
+  vitest.expect(Object.keys(eType)).toHaveLength(13);
 
   vitest.expect(typeof undefined === eType.undefined).toBe(true);
   vitest.expect(typeof null === eType.object).toBe(true);
