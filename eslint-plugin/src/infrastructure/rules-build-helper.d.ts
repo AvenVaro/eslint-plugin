@@ -107,7 +107,7 @@ export interface RulesBuildHelper {
    *
    * @returns True if the value represents an empty or unassigned state, otherwise false.
    */
-  isUnset(value: any): boolean;
+  isUnset(value: any): boolean; // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
 declare const rulesBuildHelper: RulesBuildHelper;
