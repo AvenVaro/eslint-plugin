@@ -24,7 +24,8 @@ const eType = Object.freeze({
   array: 'array',
   null: 'null',
   any: 'any',
-  ConditionalExpression: 'ConditionalExpression'
+  ConditionalExpression: 'ConditionalExpression',
+  Punctuator: 'Punctuator'
 });
 
 //================================
