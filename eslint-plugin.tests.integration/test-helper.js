@@ -2,6 +2,7 @@ import path from 'node:path';
 import fs from 'node:fs/promises';
 import os from 'node:os';
 import { ePropertyValue } from '@avenvaro/eslint-plugin';
+import rulesBuildHelper from '@avenvaro/eslint-plugin/src/infrastructure/rules-build-helper.js';
 
 //================================
 // Typedefs
@@ -12,7 +13,9 @@ import { ePropertyValue } from '@avenvaro/eslint-plugin';
  * @typedef {import('node:fs').RmOptions} RmOptions
  * @typedef {import('./test-helper.d.ts').TestHelper} TestHelper
  * @typedef {import('./test-helper.d.ts').FilesystemBlueprint} FilesystemBlueprint
+ * @typedef {import('./test-helper.d.ts').MaskPropsPair} MaskPropsPair
  * @typedef {import('@avenvaro/eslint-plugin').IndentStyle} IndentStyle
+ * @typedef {import('editorconfig').Props} Props
  */
 
 //================================
@@ -41,7 +44,8 @@ const testHelper = Object.freeze({
   createTempTargetFilePath: createTempTargetFilePath,
   convertCodeArrayToCodeString: convertCodeArrayToCodeString,
   removeAsync: removeAsync,
-  createIndentString: createIndentString
+  createIndentString: createIndentString,
+  createEditorConfig: createEditorConfig
 });
 
 //================================
@@ -202,4 +206,96 @@ function createIndentString(indent, indentStyle) {
   }
 
   throw new TypeError(`The 'indentStyle' must be '${ePropertyValue.space}' or '${ePropertyValue.tab}'.`);
+}
+
+/**
+ * @private
+ *
+ * Synthesizes a complete `.editorconfig` file payload from an array of pattern-property pairs.
+ *
+ * This generator builds the initialization baseline by appending the declarative `root` scope directive. It then iterates sequentially through the provided collection of mask configurations,
+ * mapping each scoped pair to its respective formatted block section, and outputs a uniform configuration file string.
+ *
+ * @param {boolean} isRoot - Structural flag indicating whether this represents the topmost, terminating EditorConfig boundary.
+ * @param {MaskPropsPair[]} maskPropsPairs - An ordered sequence of file pattern targets bound to their respective configuration settings blocks.
+ *
+ * @returns {string} A normalized, engine-ready `.editorconfig` configuration payload code string.
+ */
+function createEditorConfig(isRoot, maskPropsPairs) {
+  const editorconfig = [
+    `root = ${isRoot ? 'true' : 'false'}`,
+    ''
+  ];
+
+  for (let maskPropsPair of maskPropsPairs) {
+    editorconfig.push(createEditorConfigBlock(maskPropsPair.props, maskPropsPair.mask));
+  }
+
+  return testHelper.convertCodeArrayToCodeString(editorconfig);
+}
+
+/**
+ * @private
+ *
+ * Generates a formatted `.editorconfig` section block for a specified file pattern mask.
+ *
+ * This utility orchestrates the programmatic rendering of active formatting settings, filtering out unset options. It maps layout parameters like charsets, line endings, newline expectations,
+ * and trims. Additionally, it dynamically harmonizes indentation logic by handling fallback assignments between `indent_style`, `indent_size`, and `tab_width` based on specification guidelines.
+ *
+ * @param {Props} props - The configuration object mapping active formatting rules properties.
+ * @param {string} mask - The file matcher pattern or file glob mask (e.g., "*.js", "*.ts") initializing the section.
+ *
+ * @returns {string} A normalized, newline-separated string representing the generated EditorConfig block.
+ */
+function createEditorConfigBlock(props, mask) {
+  const editorconfig = [
+    `[${mask}]`
+  ];
+
+  if (!rulesBuildHelper.isUnset(props.charset)) {
+    editorconfig.push(`charset = ${props.charset}`);
+  }
+
+  if (!rulesBuildHelper.isUnset(props.end_of_line)) {
+    editorconfig.push(`end_of_line = ${props.end_of_line}`);
+  }
+
+  if (rulesBuildHelper.isUnset(props.indent_style)) {
+    if (!rulesBuildHelper.isUnset(props.indent_size)) {
+      editorconfig.push(`indent_size = ${props.indent_size}`);
+    }
+
+    if (!rulesBuildHelper.isUnset(props.tab_width)) {
+      editorconfig.push(`tab_width = ${props.tab_width}`);
+    }
+  }
+  else {
+    editorconfig.push(`indent_style = ${props.indent_style}`);
+
+    if (!rulesBuildHelper.isUnset(props.indent_size)) {
+      editorconfig.push(`indent_size = ${props.indent_size}`);
+
+      if (rulesBuildHelper.isUnset(props.tab_width)) {
+        editorconfig.push(`tab_width = ${props.indent_size}`);
+      }
+      else {
+        editorconfig.push(`tab_width = ${props.tab_width}`);
+      }
+    }
+    else if (!rulesBuildHelper.isUnset(props.tab_width)) {
+      editorconfig.push(`tab_width = ${props.tab_width}`);
+    }
+  }
+
+  if (!rulesBuildHelper.isUnset(props.insert_final_newline)) {
+    editorconfig.push(`insert_final_newline = ${props.insert_final_newline}`);
+  }
+
+  if (!rulesBuildHelper.isUnset(props.trim_trailing_whitespace)) {
+    editorconfig.push(`trim_trailing_whitespace = ${props.trim_trailing_whitespace}`);
+  }
+
+  editorconfig.push('');
+
+  return testHelper.convertCodeArrayToCodeString(editorconfig);
 }

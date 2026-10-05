@@ -1,5 +1,17 @@
 import { MakeDirectoryOptions, RmOptions } from 'node:fs';
+import { Props } from 'editorconfig';
 import { IndentStyle } from '@avenvaro/eslint-plugin';
+
+/**
+ * Represents a paired mapping between a file pattern filter and its associated EditorConfig properties.
+ */
+export interface MaskPropsPair {
+  /** he file matcher pattern or file glob mask initializing the configuration scope. */
+  readonly mask: string;
+
+  /** The active formatting layout configurations applicable to files covered by the associated mask. */
+  readonly props: Props;
+}
 
 /**
  * Represents the absolute filesystem resolution tracks for a dedicated integration test container block.
@@ -107,6 +119,19 @@ export interface TestHelper {
    * @throws TypeError If the provided indentation type is neither a space nor a tab configuration.
    */
   createIndentString(indent: number, indentStyle: IndentStyle): string;
+
+  /**
+   * Synthesizes a complete `.editorconfig` file payload from an array of pattern-property pairs.
+   *
+   * This generator builds the initialization baseline by appending the declarative `root` scope directive. It then iterates sequentially through the provided collection of mask configurations,
+   * mapping each scoped pair to its respective formatted block section, and outputs a uniform configuration file string.
+   *
+   * @param isRoot - Structural flag indicating whether this represents the topmost, terminating EditorConfig boundary.
+   * @param maskPropsPairs - An ordered sequence of file pattern targets bound to their respective configuration settings blocks.
+   *
+   * @returns A normalized, engine-ready `.editorconfig` configuration payload code string.
+   */
+  createEditorConfig(isRoot: boolean, maskPropsPairs: MaskPropsPair[]): string;
 }
 
 declare const testHelper: TestHelper;
