@@ -9,6 +9,11 @@ export type EPropertyValue = Readonly<{
   readonly crlf: 'crlf';
   readonly off: 'off';
   readonly first: 'first';
+  readonly latin1: 'latin1';
+  readonly utf8: 'utf-8';
+  readonly utf8bom: 'utf-8-bom';
+  readonly utf16be: 'utf-16be';
+  readonly utf16le: 'utf-16le';
 }>;
 
 declare const ePropertyValue: EPropertyValue;

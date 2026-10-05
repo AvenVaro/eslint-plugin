@@ -24,6 +24,12 @@ function test_propertyValue_isStrictImmutableDictionary() {
   vitest.expect(ePropertyValue.crlf).toBe('crlf');
   vitest.expect(ePropertyValue.off).toBe('off');
   vitest.expect(ePropertyValue.first).toBe('first');
+  vitest.expect(ePropertyValue.first).toBe('first');
+  vitest.expect(ePropertyValue.latin1).toBe('latin1');
+  vitest.expect(ePropertyValue.utf8).toBe('utf-8');
+  vitest.expect(ePropertyValue.utf8bom).toBe('utf-8-bom');
+  vitest.expect(ePropertyValue.utf16be).toBe('utf-16be');
+  vitest.expect(ePropertyValue.utf16le).toBe('utf-16le');
 
-  vitest.expect(Object.keys(ePropertyValue)).toHaveLength(7);
+  vitest.expect(Object.keys(ePropertyValue)).toHaveLength(12);
 }

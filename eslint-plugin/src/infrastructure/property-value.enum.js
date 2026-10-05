@@ -18,7 +18,12 @@ const ePropertyValue = Object.freeze({
   lf: 'lf',
   crlf: 'crlf',
   off: 'off',
-  first: 'first'
+  first: 'first',
+  latin1: 'latin1',
+  utf8: 'utf-8',
+  utf8bom: 'utf-8-bom',
+  utf16be: 'utf-16be',
+  utf16le: 'utf-16le'
 });
 
 //================================
