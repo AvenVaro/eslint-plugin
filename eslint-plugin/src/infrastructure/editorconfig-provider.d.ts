@@ -3,6 +3,16 @@ import { EPropertyValue } from './property-value.enum.js';
 import { DisableProperty } from './rules-build-helper.js';
 
 /**
+ * Specifies a configuration value that controls line endings, or disables it entirely.
+ */
+export type Charset = EPropertyValue['latin1'] | EPropertyValue['utf8'] | EPropertyValue['utf8bom'] | EPropertyValue['utf16be'] | EPropertyValue['utf16le'] | DisableProperty;
+
+/**
+ * Specifies a configuration value that controls line endings, or disables it entirely.
+ */
+export type EndOfLine = EPropertyValue['lf'] | EPropertyValue['crlf'] | DisableProperty;
+
+/**
  * Provides indentation size as a fixed number of spaces/tabs or a special formatting mode (e.g., 'first', 'unset' or 'off').
  */
 export type IndentSize = number | EPropertyValue['tab'] | DisableProperty;
@@ -13,9 +23,19 @@ export type IndentSize = number | EPropertyValue['tab'] | DisableProperty;
 export type IndentStyle = EPropertyValue['space'] | EPropertyValue['tab'] | DisableProperty;
 
 /**
- * Specifies a configuration value that controls line endings, or disables it entirely.
+ * Specifies whether a file must end with a single trailing newline character, or disables the check entirely.
  */
-export type EndOfLine = EPropertyValue['lf'] | EPropertyValue['crlf'] | DisableProperty;
+export type InsertFinalNewLine = true | false | DisableProperty;
+
+/**
+ * Defines the visual width of a single tab character in spaces, or disables the configuration entirely.
+ */
+export type TabWidth = number | DisableProperty;
+
+/**
+ * Specifies whether any whitespace characters preceding a newline should be stripped, or disables the check entirely.
+ */
+export type TrimTrailingWhitespace = true | false | DisableProperty;
 
 /**
  * Interface representing the EditorConfig data provider.

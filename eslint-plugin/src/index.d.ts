@@ -1,7 +1,17 @@
 import { ESLint } from 'eslint';
 
 import { default as ePropertyValue, EPropertyValue } from './infrastructure/property-value.enum.js';
-import { IndentSize, IndentStyle, EndOfLine } from './infrastructure/editorconfig-provider.js';
+
+import {
+  Charset,
+  EndOfLine,
+  IndentSize,
+  IndentStyle,
+  InsertFinalNewLine,
+  TabWidth,
+  TrimTrailingWhitespace
+} from './infrastructure/editorconfig-provider.js';
+
 import { DisableProperty } from './infrastructure/rules-build-helper.js';
 
 import {
@@ -31,9 +41,13 @@ export {
   ePropertyValue,
   EPropertyValue,
   DisableProperty,
+  Charset,
+  EndOfLine,
   IndentSize,
   IndentStyle,
-  EndOfLine,
+  InsertFinalNewLine,
+  TabWidth,
+  TrimTrailingWhitespace,
   IndentLevel,
   IndentSizeValue,
   JsIndentOptions,
