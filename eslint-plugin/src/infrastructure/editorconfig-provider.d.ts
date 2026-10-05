@@ -98,7 +98,7 @@ export interface EditorconfigProvider {
    *
    * @returns The active verification boolean identifier.
    */
-  getInsertFinalNewLine(config: Props | undefined, defaultValue: boolean | undefined): boolean | undefined;
+  getInsertFinalNewLine(config: Props | undefined, defaultValue: InsertFinalNewLine): InsertFinalNewLine;
 
   /**
    * Validates and extracts the explicit horizontal layout tab width boundary configuration integer.
@@ -108,7 +108,7 @@ export interface EditorconfigProvider {
    *
    * @returns A non-negative layout step size metric.
    */
-  geTabWidth(config: Props | undefined, defaultValue: number | undefined): number | undefined;
+  geTabWidth(config: Props | undefined, defaultValue: TabWidth): TabWidth;
 
   /**
    * Validates and extracts the active structural optimization switch state for removing trailing whitespace tokens.
@@ -118,7 +118,7 @@ export interface EditorconfigProvider {
    *
    * @returns The active content cleaner operation state flag.
    */
-  getTrimTrailingWhitespace(config: Props | undefined, defaultValue: boolean | undefined): boolean | undefined;
+  getTrimTrailingWhitespace(config: Props | undefined, defaultValue: TrimTrailingWhitespace): TrimTrailingWhitespace;
 
   /**
    * Validates, cleans, and extracts the target character encryption identifier string token.
@@ -128,7 +128,7 @@ export interface EditorconfigProvider {
    *
    * @returns A sanitized configuration layout metadata text string.
    */
-  getCharset(config: Props | undefined, defaultValue: string | undefined): string | undefined;
+  getCharset(config: Props | undefined, defaultValue: Charset): Charset;
 }
 
 declare const editorconfigProvider: EditorconfigProvider;

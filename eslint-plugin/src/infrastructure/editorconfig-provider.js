@@ -7,9 +7,13 @@ import eType from './type.enum.js';
 //================================
 
 /**
+ * @typedef {import('./editorconfig-provider.d.ts').Charset} Charset
  * @typedef {import('./editorconfig-provider.d.ts').IndentSize} IndentSize
  * @typedef {import('./editorconfig-provider.d.ts').IndentStyle} IndentStyle
  * @typedef {import('./editorconfig-provider.d.ts').EndOfLine} EndOfLine
+ * @typedef {import('./editorconfig-provider.d.ts').InsertFinalNewLine} InsertFinalNewLine
+ * @typedef {import('./editorconfig-provider.d.ts').TrimTrailingWhitespace} TrimTrailingWhitespace
+ * @typedef {import('./editorconfig-provider.d.ts').TabWidth} TabWidth
  * @typedef {import('./editorconfig-provider.d.ts').EditorconfigProvider} EditorconfigProvider
  * @typedef {import('editorconfig').Props} Props
  */
@@ -166,9 +170,9 @@ function getEndOfLine(config, defaultValue) {
  * Resolves whether files should enforce trailing line-termination characters at EOF locations.
  *
  * @param {Props | undefined} config - Raw EditorConfig properties block read from disk.
- * @param {boolean | undefined} defaultValue - Fallback validation logic switch state used when the target property is invalid or missing.
+ * @param {InsertFinalNewLine} defaultValue - Fallback validation logic switch state used when the target property is invalid or missing.
  *
- * @returns {boolean | undefined} Valid active state flag identifier or the provided fallback.
+ * @returns {InsertFinalNewLine} Valid active state flag identifier or the provided fallback.
  */
 function getInsertFinalNewLine(config, defaultValue) {
   if (isUnset(config?.insert_final_newline)) {
@@ -186,9 +190,9 @@ function getInsertFinalNewLine(config, defaultValue) {
  * Resolves the hard-coded width token representing tab spaces, enforcing non-negative restrictions.
  *
  * @param {Props | undefined} config - Raw EditorConfig properties block read from disk.
- * @param {number | undefined} defaultValue - Fallback integer scale boundary metric used when the target property is invalid or missing.
+ * @param {TabWidth} defaultValue - Fallback integer scale boundary metric used when the target property is invalid or missing.
  *
- * @returns {number | undefined} Valid fallback layout scale value or the provided boundary multiplier.
+ * @returns {TabWidth} Valid fallback layout scale value or the provided boundary multiplier.
  */
 function geTabWidth(config, defaultValue) {
   if (isUnset(config?.tab_width)) {
@@ -206,9 +210,9 @@ function geTabWidth(config, defaultValue) {
  * Resolves whether trailing whitespaces must be stripped from source line contents during asset evaluations.
  *
  * @param {Props | undefined} config - Raw EditorConfig properties block read from disk.
- * @param {boolean | undefined} defaultValue - Fallback execution state switcher token used when the target property is invalid or missing.
+ * @param {TrimTrailingWhitespace} defaultValue - Fallback execution state switcher token used when the target property is invalid or missing.
  *
- * @returns {boolean | undefined} Valid active modification configuration value or the provided fallback.
+ * @returns {TrimTrailingWhitespace} Valid active modification configuration value or the provided fallback.
  */
 function getTrimTrailingWhitespace(config, defaultValue) {
   if (isUnset(config?.trim_trailing_whitespace)) {
@@ -226,9 +230,9 @@ function getTrimTrailingWhitespace(config, defaultValue) {
  * Resolves the active string layout token representing file character encoding schemas.
  *
  * @param {Props | undefined} config - Raw EditorConfig properties block read from disk.
- * @param {string | undefined} defaultValue - Fallback file encoding schema text identifier used when the target property is invalid or missing.
+ * @param {Charset} defaultValue - Fallback file encoding schema text identifier used when the target property is invalid or missing.
  *
- * @returns {string | undefined} Clean non-empty configuration string asset block or the provided fallback.
+ * @returns {Charset} Clean non-empty configuration string asset block or the provided fallback.
  */
 function getCharset(config, defaultValue) {
   if (isUnset(config?.charset)) {
