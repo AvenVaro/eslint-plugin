@@ -239,12 +239,16 @@ function getCharset(config, defaultValue) {
     return defaultValue;
   }
 
-  if (typeof config.charset === eType.string) {
-    const charset = config.charset.trim();
-
-    if (charset) {
-      return charset;
-    }
+  if (typeof config.charset === eType.string
+    && (
+      config.charset === ePropertyValue.latin1
+      || config.charset === ePropertyValue.utf8
+      || config.charset === ePropertyValue.utf8bom
+      || config.charset === ePropertyValue.utf16be
+      || config.charset === ePropertyValue.utf16le
+    )
+  ) {
+    return config.charset;
   }
 
   return defaultValue;
