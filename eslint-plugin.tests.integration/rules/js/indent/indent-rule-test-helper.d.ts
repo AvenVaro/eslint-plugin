@@ -3,21 +3,6 @@ import { Props } from 'editorconfig';
 import { JsIndentOptionsTuple, IndentSize } from '@avenvaro/eslint-plugin';
 
 /**
- * Represents a high-level comparative snapshot of expected versus actual formatting configurations.
- *
- * This contract isolates the completely resolved target settings blocks directly from the live,
- * parsed workspace payload environments, allowing validation modules to compare full EditorConfig
- * property records side by side.
- */
-export interface IndentSettings {
-  /** The complete set of targeted formatting layout properties dictated by configuration baselines. */
-  readonly expectedIndentSettings: Props;
-
-  /** The live formatting layout properties actively detected or evaluated from the code block snapshot. */
-  readonly actualIndentSettings: Props;
-}
-
-/**
  * Helper for testing the identity rule.
  */
 export interface IndentRuleTestHelper {
