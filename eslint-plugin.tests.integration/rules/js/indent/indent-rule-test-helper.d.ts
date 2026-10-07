@@ -49,6 +49,20 @@ export interface IndentRuleTestHelper {
     expectedFixedSourceCode: string,
     errorCount?: number
   ): Promise<void>;
+
+  /**
+   * Evaluates indentation parameters to determine the resulting violation count.
+   *
+   * This utility acts as a conditional counter validator for rule assertions. If the expected indentation layout matches the actual parsed layout, it returns zero violations. Otherwise,
+   * it reports the registered error block count, supporting either a standard single violation or a customized multi-error evaluation scale.
+   *
+   * @param expectedIndent - The targeted, calculated indentation layout configuration block.
+   * @param actualIndent - The live, parsed indentation layout tracked from the code environment.
+   * @param errorCount - An optional fallback multiplier specifying the number of violation blocks to charge if mismatch occurs.
+   *
+   * @returns The evaluated number of indentation error counts (either `0` or the active `errorCount`).
+   */
+  calculateErrorCount(expectedIndent: IndentSize, actualIndent: IndentSize, errorCount?: number): number;
 }
 
 declare const indentTestHelper: IndentRuleTestHelper;

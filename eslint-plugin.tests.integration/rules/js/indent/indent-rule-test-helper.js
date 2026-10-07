@@ -8,6 +8,7 @@ import jsRulesTestHelper from '../js-rules-test-helper.js';
 
 /**
  * @typedef {import('@avenvaro/eslint-plugin').JsIndentOptionsTuple} JsIndentOptionsTuple
+ * @typedef {import('@avenvaro/eslint-plugin').IndentSize} IndentSize
  * @typedef {import('./indent-rule-test-helper.d.ts').IndentRuleTestHelper} IndentRuleTestHelper
  * @typedef {import('eslint').Linter.Config['rules']} Rules
  */
@@ -19,7 +20,8 @@ import jsRulesTestHelper from '../js-rules-test-helper.js';
 /** @type {IndentRuleTestHelper} */
 const indentTestHelper = Object.freeze({
   createIndentRule: createIndentRule,
-  expectAsync: expectAsync
+  expectAsync: expectAsync,
+  calculateErrorCount: calculateErrorCount
 });
 
 //================================
@@ -86,4 +88,26 @@ async function expectAsync(testTempRootDir, dirName, editorconfig, indentOptions
   finally {
     await testHelper.removeAsync(paths.testTmpDir);
   }
+}
+
+/**
+ * @private
+ *
+ * Evaluates indentation parameters to determine the resulting violation count.
+ *
+ * This utility acts as a conditional counter validator for rule assertions. If the expected indentation layout matches the actual parsed layout, it returns zero violations. Otherwise,
+ * it reports the registered error block count, supporting either a standard single violation or a customized multi-error evaluation scale.
+ *
+ * @param {IndentSize} expectedIndent - The targeted, calculated indentation layout configuration block.
+ * @param {IndentSize} actualIndent - The live, parsed indentation layout tracked from the code environment.
+ * @param {number} [errorCount=1] - An optional fallback multiplier specifying the number of violation blocks to charge if mismatch occurs.
+ *
+ * @returns {number}
+ */
+function calculateErrorCount(expectedIndent, actualIndent, errorCount = 1) {
+  if (expectedIndent === actualIndent) {
+    return 0;
+  }
+
+  return errorCount;
 }
