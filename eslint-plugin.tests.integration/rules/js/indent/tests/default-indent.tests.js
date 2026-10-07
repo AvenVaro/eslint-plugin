@@ -1,5 +1,6 @@
 import * as vitest from 'vitest';
 import testHelper from '../../../../test-helper.js';
+import jsRuleTestHelper from '../../js-rules-test-helper.js';
 import indentRuleTestHelper from '../indent-rule-test-helper.js';
 import { ePropertyValue } from '@avenvaro/eslint-plugin';
 
@@ -287,13 +288,10 @@ async function test_indentRule_defaultIndent_async(testTempRootDir, useEditorcon
     '}'
   ]);
 
-  const editorconfig = testHelper.convertCodeArrayToCodeString([
-    'root = true',
-    '',
-    '[*.js]',
-    `indent_style = ${type}`,
-    `end_of_line = ${ePropertyValue.lf}`
-  ]);
+  const editorconfig = jsRuleTestHelper.createEditorConfig({
+    indent_style: indentStyle,
+    end_of_line: ePropertyValue.lf
+  });
 
   await indentRuleTestHelper.expectAsync(
     testTempRootDir,
