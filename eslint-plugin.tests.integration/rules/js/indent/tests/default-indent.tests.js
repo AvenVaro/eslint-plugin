@@ -251,43 +251,26 @@ async function test_indentRule_defaultIndentIsTab_ignore_async(testTempRootDir, 
  * @returns {Promise<void>} A promise that fully resolves once assertions terminate successfully and cleanup actions conclude.
  */
 async function test_indentRule_defaultIndent_async(testTempRootDir, useEditorconfig, dirName, indent, defaultIndent) {
-  /** @type {IndentStyle} */
-  let indentStyle;
-
-  /** @type {IndentSize} */
-  let dIndent;
-
   const errorCount = indentRuleTestHelper.calculateErrorCount(defaultIndent, indent);
-
-  if (defaultIndent === ePropertyValue.tab) {
-    indentStyle = ePropertyValue.tab;
-    dIndent = 1;
-  }
-  else {
-    indentStyle = ePropertyValue.space;
-    dIndent = defaultIndent;
-  }
-
-  if (indent === ePropertyValue.tab) {
-    indent = 1;
-  }
+  const expectedIndentSettings = indentRuleTestHelper.createIndentSettings(defaultIndent);
+  const actualIndentSettings = indentRuleTestHelper.createIndentSettings(indent);
 
   const brokenSourceCode = testHelper.convertCodeArrayToCodeString([
     'const condition = true;',
     'if (condition) {',
-    `${testHelper.createIndentString(indent, indentStyle)}console.log("broken alignment");`,
+    `${testHelper.createIndentString(actualIndentSettings.indent_size, actualIndentSettings.indent_style)}console.log("broken alignment");`,
     '}'
   ]);
 
   const expectedFixedSourceCode = testHelper.convertCodeArrayToCodeString([
     'const condition = true;',
     'if (condition) {',
-    `${testHelper.createIndentString(dIndent, indentStyle)}console.log("broken alignment");`,
+    `${testHelper.createIndentString(expectedIndentSettings.indent_size, expectedIndentSettings.indent_style)}console.log("broken alignment");`,
     '}'
   ]);
 
   const editorconfig = jsRuleTestHelper.createEditorConfig({
-    indent_style: indentStyle,
+    indent_style: expectedIndentSettings.indent_style,
     end_of_line: ePropertyValue.lf
   });
 
