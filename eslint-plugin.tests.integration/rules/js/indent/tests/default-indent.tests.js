@@ -257,10 +257,7 @@ async function test_indentRule_defaultIndent_async(testTempRootDir, useEditorcon
   /** @type {IndentSize} */
   let dIndent;
 
-  const errorCount = defaultIndent === indent
-    ? 0
-    : 1
-  ;
+  const errorCount = indentRuleTestHelper.calculateErrorCount(defaultIndent, indent);
 
   if (defaultIndent === ePropertyValue.tab) {
     indentStyle = ePropertyValue.tab;
