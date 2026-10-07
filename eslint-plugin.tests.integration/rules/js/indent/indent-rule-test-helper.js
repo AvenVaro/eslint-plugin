@@ -1,6 +1,7 @@
 import testHelper from '../../../test-helper.js';
 import rulesTestHelper from '../../rules-test-helper.js';
 import jsRulesTestHelper from '../js-rules-test-helper.js';
+import { ePropertyValue } from '@avenvaro/eslint-plugin';
 
 //================================
 // Typedefs
@@ -11,6 +12,7 @@ import jsRulesTestHelper from '../js-rules-test-helper.js';
  * @typedef {import('@avenvaro/eslint-plugin').IndentSize} IndentSize
  * @typedef {import('./indent-rule-test-helper.d.ts').IndentRuleTestHelper} IndentRuleTestHelper
  * @typedef {import('eslint').Linter.Config['rules']} Rules
+ * @typedef {import('editorconfig').Props} Props
  */
 
 //================================
@@ -21,7 +23,8 @@ import jsRulesTestHelper from '../js-rules-test-helper.js';
 const indentTestHelper = Object.freeze({
   createIndentRule: createIndentRule,
   expectAsync: expectAsync,
-  calculateErrorCount: calculateErrorCount
+  calculateErrorCount: calculateErrorCount,
+  createIndentSettings: createIndentSettings
 });
 
 //================================
@@ -102,7 +105,7 @@ async function expectAsync(testTempRootDir, dirName, editorconfig, indentOptions
  * @param {IndentSize} actualIndent - The live, parsed indentation layout tracked from the code environment.
  * @param {number} [errorCount=1] - An optional fallback multiplier specifying the number of violation blocks to charge if mismatch occurs.
  *
- * @returns {number}
+ * @returns {number} The evaluated number of indentation error counts (either `0` or the active `errorCount`)
  */
 function calculateErrorCount(expectedIndent, actualIndent, errorCount = 1) {
   if (expectedIndent === actualIndent) {
@@ -110,4 +113,34 @@ function calculateErrorCount(expectedIndent, actualIndent, errorCount = 1) {
   }
 
   return errorCount;
+}
+
+/**
+ * @private
+ *
+ * Normalizes base indentation properties into a structured formatting record.
+ *
+ * This factory function evaluates the requested indentation identifier to synthesize a standardized `Props` configuration instance. When configured to use tabs, it aligns both
+ * the indentation size metric and visual block scale to match the provided tab width value. For explicit space configurations, it enforces space-based constraints paired with
+ * the target indentation dimension.
+ *
+ * @param {IndentSize} indent - The raw target indentation size value or style identifier (e.g., a specific number of spaces or a tab flag).
+ * @param {number} [tabWidth=1] - The fallback visual spacing width allocated per single tab character token.
+ *
+ * @returns {Props} A fully populated, normalized properties configuration record representing the resolved indentation state.
+ */
+function createIndentSettings(indent, tabWidth = 1) {
+  if (indent === ePropertyValue.tab) {
+    return {
+      indent_style: ePropertyValue.tab,
+      indent_size: tabWidth,
+      tab_width: tabWidth
+    };
+  }
+
+  return {
+    indent_style: ePropertyValue.space,
+    indent_size: indent,
+    tab_width: tabWidth
+  };
 }

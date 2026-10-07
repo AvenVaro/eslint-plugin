@@ -16,8 +16,7 @@ export interface IndentRuleTestHelper {
   createIndentRule(indentOptionsTuple: JsIndentOptionsTuple): Linter.Config['rules'];
 
   /**
-   * Asynchronously orchestrates an end-to-end integration test execution by provisioning
-   * transient filesystem configurations, parsing evaluation rule variants, and asserting
+   * Asynchronously orchestrates an end-to-end integration test execution by provisioning transient filesystem configurations, parsing evaluation rule variants, and asserting
    * compliance results before triggering automated environmental cleanup.
    *
    * @param testTempRootDir - The root directory where the temporary test folders are created.
@@ -53,6 +52,20 @@ export interface IndentRuleTestHelper {
    * @returns The evaluated number of indentation error counts (either `0` or the active `errorCount`).
    */
   calculateErrorCount(expectedIndent: IndentSize, actualIndent: IndentSize, errorCount?: number): number;
+
+  /**
+   * Normalizes base indentation properties into a structured formatting record.
+   *
+   * This factory function evaluates the requested indentation identifier to synthesize a standardized `Props` configuration instance. When configured to use tabs, it aligns both
+   * the indentation size metric and visual block scale to match the provided tab width value. For explicit space configurations, it enforces space-based constraints paired with
+   * the target indentation dimension.
+   *
+   * @param indent - The raw target indentation size value or style identifier (e.g., a specific number of spaces or a tab flag).
+   * @param tabWidth - The fallback visual spacing width allocated per single tab character token.
+   *
+   * @returns A fully populated, normalized properties configuration record representing the resolved indentation state.
+   */
+  createIndentSettings(indent: IndentSize, tabWidth?: number): Props;
 }
 
 declare const indentTestHelper: IndentRuleTestHelper;
