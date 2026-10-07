@@ -1,15 +1,20 @@
 import { Linter } from 'eslint';
-import { JsIndentOptionsTuple, IndentSize, IndentStyle } from '@avenvaro/eslint-plugin';
+import { Props } from 'editorconfig';
+import { JsIndentOptionsTuple, IndentSize } from '@avenvaro/eslint-plugin';
 
 /**
- * Represents an immutable paired combination of an indentation style and its corresponding size layout configuration.
+ * Represents a high-level comparative snapshot of expected versus actual formatting configurations.
+ *
+ * This contract isolates the completely resolved target settings blocks directly from the live,
+ * parsed workspace payload environments, allowing validation modules to compare full EditorConfig
+ * property records side by side.
  */
-export interface IndentStyleIndentSizePair {
-  /** The active indentation method configuration (e.g., spaces or tabs). */
-  readonly indentStyle: IndentStyle;
+export interface IndentSettings {
+  /** The complete set of targeted formatting layout properties dictated by configuration baselines. */
+  readonly expectedIndentSettings: Props;
 
-  /** The explicit target or fallback indentation size value block. */
-  readonly dIndent: IndentSize;
+  /** The live formatting layout properties actively detected or evaluated from the code block snapshot. */
+  readonly actualIndentSettings: Props;
 }
 
 /**
