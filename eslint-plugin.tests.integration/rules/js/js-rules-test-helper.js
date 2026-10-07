@@ -11,6 +11,7 @@ import rulesTestHelper from '../rules-test-helper.js';
  * @typedef {import('eslint').ESLint.LintResult} LintResult
  * @typedef {import('./rules-test-helper.d.ts').CodeProcessingResult} CodeProcessingResult
  * @typedef {import('../../test-helper.d.ts').FilesystemBlueprint} FilesystemBlueprint
+ * @typedef {import('editorconfig').Props} Props
  */
 
 //================================
@@ -22,7 +23,8 @@ const jsRulesTestHelper = Object.freeze({
   createESLlintEngine: createESLlintEngine,
   runESLintEngineAsync: runESLintEngineAsync,
   executeCodeProcessingAsync: executeCodeProcessingAsync,
-  executeCodeProcessingWithPathsAsync: executeCodeProcessingWithPathsAsync
+  executeCodeProcessingWithPathsAsync: executeCodeProcessingWithPathsAsync,
+  createEditorConfig: createEditorConfig
 });
 
 //================================
@@ -113,4 +115,26 @@ async function executeCodeProcessingWithPathsAsync(rules, brokenSourceCode, path
     withFix: await rulesTestHelper.runESLintEngineAsync(eslintEngineWithFix, brokenSourceCode, paths.mockTargetFile),
     withoutFix: await rulesTestHelper.runESLintEngineAsync(eslintEngineWithoutFix, brokenSourceCode, paths.mockTargetFile)
   };
+}
+
+/**
+ * @private
+ *
+ * Synthesizes a root `.editorconfig` file payload targeted specifically for JavaScript source files.
+ *
+ * This utility acts as a specialized shorthand helper for test suites. It automatically wraps
+ * the provided configuration properties into a single `MaskPropsPair` mapping bound to the
+ * standard `*.js` file glob mask.
+ *
+ * @param {Props} props - The active formatting layout configurations to apply within the JavaScript section block.
+ *
+ * @returns {string} A normalized, engine-ready `.editorconfig` configuration payload code string.
+ */
+function createEditorConfig(props) {
+  return rulesTestHelper.createEditorConfig([
+    {
+      mask: '*.js',
+      props: props
+    }
+  ]);
 }

@@ -1,6 +1,7 @@
 import { ESLint } from 'eslint';
 import { expect } from 'vitest';
 import avenvaro from '@avenvaro/eslint-plugin';
+import testHelper from '../test-helper.js';
 
 //================================
 // Typedefs
@@ -13,6 +14,7 @@ import avenvaro from '@avenvaro/eslint-plugin';
  * @typedef {import('eslint').ESLint} ESLint
  * @typedef {import('eslint').ESLint.LintResult} LintResult
  * @typedef {import('../test-helper.d.ts').FilesystemBlueprint} FilesystemBlueprint
+ * @typedef {import('../test-helper.d.ts').MaskPropsPair} MaskPropsPair
  */
 
 //================================
@@ -25,7 +27,8 @@ const rulesTestHelper = Object.freeze({
   runESLintEngineAsync: runESLintEngineAsync,
   executeCodeProcessingAsync: executeCodeProcessingAsync,
   expectResult: expectResult,
-  expectResults: expectResults
+  expectResults: expectResults,
+  createEditorConfig: createEditorConfig
 });
 
 //================================
@@ -171,4 +174,19 @@ function expectResults(results, expectedFixedSourceCode, brokenSourceCode, error
     },
     needCheck
   );
+}
+
+/**
+ * @private
+ *
+ * Synthesizes a root `.editorconfig` file payload from a collection of pattern-property pairs.
+ *
+ * This function serves as a convenient shorthand wrapper around the primary generation utility, automatically enforcing the topmost `root = true` structural directive at the file boundary.
+ *
+ * @param {MaskPropsPair[]} maskPropsPairs - An ordered sequence of file pattern targets bound to their respective configuration settings blocks.
+ *
+ * @returns {string} A normalized, engine-ready `.editorconfig` configuration payload code string.
+ */
+function createEditorConfig(maskPropsPairs) {
+  return testHelper.createEditorConfig(true, maskPropsPairs);
 }

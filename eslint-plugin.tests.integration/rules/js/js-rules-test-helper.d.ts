@@ -1,4 +1,5 @@
 import { ESLint, Linter } from 'eslint';
+import { Props } from 'editorconfig';
 import { CodeProcessingResult } from '../rules-test-helper.js';
 import { FilesystemBlueprint } from '../../test-helper.js';
 
@@ -47,6 +48,19 @@ export interface JSRulesTestHelper {
    * @returns A promise that resolves to the comprehensive metric configuration payload mapping both code execution passes.
    */
   executeCodeProcessingWithPathsAsync(rules: Linter.Config['rules'], brokenSourceCode: string, paths: FilesystemBlueprint): Promise<CodeProcessingResult>;
+
+  /**
+   * Synthesizes a root `.editorconfig` file payload targeted specifically for JavaScript source files.
+   *
+   * This utility acts as a specialized shorthand helper for test suites. It automatically wraps
+   * the provided configuration properties into a single `MaskPropsPair` mapping bound to the
+   * standard `*.js` file glob mask.
+   *
+   * @param props - The active formatting layout configurations to apply within the JavaScript section block.
+   *
+   * @returns A normalized, engine-ready `.editorconfig` configuration payload code string.
+   */
+  createEditorConfig(props: Props): string;
 }
 
 declare const jsRulesTestHelper: JSRulesTestHelper;

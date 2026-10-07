@@ -1,5 +1,5 @@
 import { ESLint, Linter } from 'eslint';
-import { FilesystemBlueprint } from '../test-helper.js';
+import { FilesystemBlueprint, MaskPropsPair } from '../test-helper.js';
 
 /**
  * Linting result.
@@ -73,6 +73,17 @@ export interface RulesTestHelper {
    * @returns void
    */
   expectResults(results: CodeProcessingResult, expectedFixedSourceCode: string, brokenSourceCode: string, errorCount?: number): void;
+
+  /**
+   * Synthesizes a root `.editorconfig` file payload from a collection of pattern-property pairs.
+   *
+   * This function serves as a convenient shorthand wrapper around the primary generation utility, automatically enforcing the topmost `root = true` structural directive at the file boundary.
+   *
+   * @param maskPropsPairs - An ordered sequence of file pattern targets bound to their respective configuration settings blocks.
+   *
+   * @returns A normalized, engine-ready `.editorconfig` configuration payload code string.
+   */
+  createEditorConfig(maskPropsPairs: MaskPropsPair[]): string;
 }
 
 declare const rulesTestHelper: RulesTestHelper;
