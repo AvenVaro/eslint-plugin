@@ -15,6 +15,8 @@ import { ePropertyValue } from '@avenvaro/eslint-plugin';
  * @typedef {import('./test-helper.d.ts').FilesystemBlueprint} FilesystemBlueprint
  * @typedef {import('@avenvaro/eslint-plugin').EPropertyValue} EPropertyValue
  * @typedef {import('@avenvaro/eslint-plugin').JsIndentOptionsTuple} JsIndentOptionsTuple
+ * @typedef {import('@avenvaro/eslint-plugin').IndentSize} IndentSize
+ * @typedef {import('@avenvaro/eslint-plugin').IndentStyle} IndentStyle
  */
 
 //================================
@@ -243,48 +245,47 @@ async function test_indentRule_defaultIndentIsTab_ignore_async(testTempRootDir, 
  * @param {string} testTempRootDir - The root directory path dedicated to storing ephemeral file assets during test execution loops.
  * @param {boolean | undefined} useEditorconfig - Flag indicating whether the underlying engine rule should actively bind to local EditorConfig schemas.
  * @param {string} dirName - The target unique namespace folder allocated specifically for separating this evaluation run.
- * @param {number | EPropertyValue['tab']} indent - The numerical count representing the source indentation size.
- * @param {number | EPropertyValue['tab']} defaultIndent - The numerical count representing the base fallback indentation size.
+ * @param {IndentSize} indent - The numerical count representing the source indentation size.
+ * @param {IndentSize} defaultIndent - The numerical count representing the base fallback indentation size.
  *
  * @returns {Promise<void>} A promise that fully resolves once assertions terminate successfully and cleanup actions conclude.
  */
 async function test_indentRule_defaultIndent_async(testTempRootDir, useEditorconfig, dirName, indent, defaultIndent) {
-  /** @type {EPropertyValue['tab'] | EPropertyValue['space']} */
-  let type;
+  /** @type {IndentStyle} */
+  let indentStyle;
 
-  /** @type {number} */
+  /** @type {IndentSize} */
   let dIndent;
 
-  const errorCount = defaultIndent === indent ? 0 : 1;
+  const errorCount = defaultIndent === indent
+    ? 0
+    : 1
+  ;
 
   if (defaultIndent === ePropertyValue.tab) {
-    type = ePropertyValue.tab;
+    indentStyle = ePropertyValue.tab;
     dIndent = 1;
-
-    if (indent === ePropertyValue.tab) {
-      indent = 1;
-    }
   }
   else {
-    type = ePropertyValue.space;
+    indentStyle = ePropertyValue.space;
     dIndent = defaultIndent;
+  }
 
-    if (indent === ePropertyValue.tab) {
-      indent = 1;
-    }
+  if (indent === ePropertyValue.tab) {
+    indent = 1;
   }
 
   const brokenSourceCode = testHelper.convertCodeArrayToCodeString([
     'const condition = true;',
     'if (condition) {',
-    `${testHelper.createIndentString(indent, type)}console.log("broken alignment");`,
+    `${testHelper.createIndentString(indent, indentStyle)}console.log("broken alignment");`,
     '}'
   ]);
 
   const expectedFixedSourceCode = testHelper.convertCodeArrayToCodeString([
     'const condition = true;',
     'if (condition) {',
-    `${testHelper.createIndentString(dIndent, type)}console.log("broken alignment");`,
+    `${testHelper.createIndentString(dIndent, indentStyle)}console.log("broken alignment");`,
     '}'
   ]);
 
