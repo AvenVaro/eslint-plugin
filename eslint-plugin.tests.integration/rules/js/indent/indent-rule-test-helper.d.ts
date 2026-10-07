@@ -1,5 +1,16 @@
 import { Linter } from 'eslint';
-import { JsIndentOptionsTuple } from '@avenvaro/eslint-plugin';
+import { JsIndentOptionsTuple, IndentSize, IndentStyle } from '@avenvaro/eslint-plugin';
+
+/**
+ * Represents an immutable paired combination of an indentation style and its corresponding size layout configuration.
+ */
+export interface IndentStyleIndentSizePair {
+  /** The active indentation method configuration (e.g., spaces or tabs). */
+  readonly indentStyle: IndentStyle;
+
+  /** The explicit target or fallback indentation size value block. */
+  readonly dIndent: IndentSize;
+}
 
 /**
  * Helper for testing the identity rule.
