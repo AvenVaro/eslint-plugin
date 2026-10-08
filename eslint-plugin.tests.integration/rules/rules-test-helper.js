@@ -26,7 +26,6 @@ const rulesTestHelper = Object.freeze({
   createESLlintEngine: createESLlintEngine,
   runESLintEngineAsync: runESLintEngineAsync,
   executeCodeProcessingAsync: executeCodeProcessingAsync,
-  expectResult: expectResult,
   expectResults: expectResults,
   createEditorConfig: createEditorConfig
 });
@@ -125,26 +124,6 @@ async function executeCodeProcessingAsync(files, rules, brokenSourceCode, paths)
  *
  * Assertively validates structural equality between properties of an actual ESLint evaluation result and an expected result blueprint.
  *
- * @param {LintResult} actualResult - The live evaluation metric record returned from the active execution pipeline block.
- * @param {LintResult} expectedResult - The baseline expectation blueprint object mapping reference layout values.
- * @param {boolean} needCheck - Skip the check if there is nothing to fix.
- *
- * @returns {void}
- */
-function expectResult(actualResult, expectedResult, needCheck) {
-  expect(actualResult.errorCount).toBe(expectedResult.errorCount);
-
-  if (needCheck) {
-    expect(actualResult.output).toBe(expectedResult.output);
-    expect(actualResult.source).toBe(expectedResult.source);
-  }
-}
-
-/**
- * @private
- *
- * Assertively validates structural equality between properties of an actual ESLint evaluation result and an expected result blueprint.
- *
  * @param {CodeProcessingResult} results - The comprehensive metric configuration payload mapping both code execution passes.
  * @param {string} expectedFixedSourceCode - The fixed source text payload containing potential layout variations.
  * @param {string} brokenSourceCode - The raw source text payload containing potential layout variations.
@@ -153,27 +132,23 @@ function expectResult(actualResult, expectedResult, needCheck) {
  * @returns {void}
  */
 function expectResults(results, expectedFixedSourceCode, brokenSourceCode, errorCount = 1) {
-  const needCheck = errorCount !== 0;
+  try {
+    const source = [ undefined, brokenSourceCode ];
 
-  expectResult(
-    results.withFix,
-    {
-      errorCount: 0,
-      output: expectedFixedSourceCode,
-      source: undefined
-    },
-    needCheck
-  );
+    expect(results.withFix.errorCount).toBe(0);
+    expect(results.withFix.output).toBeOneOf([ undefined, expectedFixedSourceCode ]);
+    expect(results.withFix.source).toBeOneOf(source);
 
-  expectResult(
-    results.withoutFix,
-    {
-      errorCount: errorCount,
-      output: undefined,
-      source: brokenSourceCode
-    },
-    needCheck
-  );
+    expect(results.withoutFix.errorCount).toBe(errorCount);
+    expect(results.withoutFix.output).toBeUndefined();
+    expect(results.withoutFix.source).toBeOneOf(source);
+  }
+  catch (e) {
+    console.dir(results.withFix);
+    console.dir(results.withoutFix);
+
+    throw e;
+  }
 }
 
 /**

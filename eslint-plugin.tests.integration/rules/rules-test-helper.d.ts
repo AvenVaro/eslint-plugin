@@ -54,17 +54,6 @@ export interface RulesTestHelper {
   /**
    * Assertively validates structural equality between properties of an actual ESLint evaluation result and an expected result blueprint.
    *
-   * @param actualResult - The live evaluation metric record returned from the active execution pipeline block.
-   * @param expectedResult - The baseline expectation blueprint object mapping reference layout values.
-   * @param needCheck - Skip the check if there is nothing to fix.
-   *
-   * @returns void
-   */
-  expectResult(actualResult: ESLint.LintResult, expectedResult: ESLint.LintResult, needCheck: boolean): void;
-
-  /**
-   * Assertively validates structural equality between properties of an actual ESLint evaluation result and an expected result blueprint.
-   *
    * @param results - The comprehensive metric configuration payload mapping both code execution passes.
    * @param expectedFixedSourceCode - The fixed source text payload containing potential layout variations.
    * @param brokenSourceCode - The raw source text payload containing potential layout variations.
