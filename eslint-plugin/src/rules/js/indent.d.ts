@@ -2,8 +2,7 @@ import { Rule } from 'eslint';
 import { JSONSchema4 } from 'json-schema';
 import { EPropertyValue } from '../../infrastructure/property-value.enum.js';
 import { EType } from '../../infrastructure/type.enum.js';
-import { IndentSize } from '../../infrastructure/editorconfig-provider.js';
-import { DisableProperty } from '../../infrastructure/rules-build-helper.js';
+import { DisableProperty, IndentSize } from '../../infrastructure/editorconfig-provider.js';
 
 /**
  * Defines a configuration value that can either be a numeric indent size or disabled entirely.

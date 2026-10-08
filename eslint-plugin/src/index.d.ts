@@ -3,6 +3,7 @@ import { ESLint } from 'eslint';
 import { default as ePropertyValue, EPropertyValue } from './infrastructure/property-value.enum.js';
 
 import {
+  DisableProperty,
   Charset,
   EndOfLine,
   IndentSize,
@@ -11,8 +12,6 @@ import {
   TabWidth,
   TrimTrailingWhitespace
 } from './infrastructure/editorconfig-provider.js';
-
-import { DisableProperty } from './infrastructure/rules-build-helper.js';
 
 import {
   IndentLevel,

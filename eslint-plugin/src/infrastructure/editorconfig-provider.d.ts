@@ -1,6 +1,10 @@
 import { Props } from 'editorconfig';
 import { EPropertyValue } from './property-value.enum.js';
-import { DisableProperty } from './rules-build-helper.js';
+
+/**
+ * Specifies the value of the disabled property, which can be either 'unset', 'off', null, undefined.
+ */
+export type DisableProperty = EPropertyValue['off'] | EPropertyValue['unset'] | null | undefined;
 
 /**
  * Specifies a configuration value that controls line endings, or disables it entirely.
