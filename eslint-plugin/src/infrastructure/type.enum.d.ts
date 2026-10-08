@@ -19,6 +19,7 @@ export type EType = Readonly<{
   readonly ConditionalExpression: 'ConditionalExpression';
   readonly Punctuator: 'Punctuator';
   readonly CallExpression: 'CallExpression';
+  readonly VariableDeclaration: 'VariableDeclaration';
 }>;
 
 declare const eType: EType;
