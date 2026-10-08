@@ -3,6 +3,7 @@ import testHelper from '../../../../test-helper.js';
 import jsRuleTestHelper from '../../js-rules-test-helper.js';
 import indentRuleTestHelper from '../indent-rule-test-helper.js';
 import { ePropertyValue } from '@avenvaro/eslint-plugin';
+import rulesBuildHelper from '@avenvaro/eslint-plugin/src/infrastructure/rules-build-helper.js';
 
 //================================
 // Typedefs
@@ -258,14 +259,14 @@ async function test_indentRule_defaultIndent_async(testTempRootDir, useEditorcon
   const brokenSourceCode = testHelper.convertCodeArrayToCodeString([
     'const condition = true;',
     'if (condition) {',
-    `${testHelper.createIndentString(actualIndentSettings.indent_size, actualIndentSettings.indent_style)}console.log("broken alignment");`,
+    `${rulesBuildHelper.createIndentString(actualIndentSettings.indent_size, actualIndentSettings.indent_style)}console.log("broken alignment");`,
     '}'
   ]);
 
   const expectedFixedSourceCode = testHelper.convertCodeArrayToCodeString([
     'const condition = true;',
     'if (condition) {',
-    `${testHelper.createIndentString(expectedIndentSettings.indent_size, expectedIndentSettings.indent_style)}console.log("broken alignment");`,
+    `${rulesBuildHelper.createIndentString(expectedIndentSettings.indent_size, expectedIndentSettings.indent_style)}console.log("broken alignment");`,
     '}'
   ]);
 

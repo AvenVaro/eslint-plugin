@@ -8,6 +8,8 @@ import eType from './type.enum.js';
 /**
  * @typedef {import('./rules-build-helper.d.ts').RulesBuildHelper} RulesBuildHelper
  * @typedef {import('./property-value.enum.d.ts').EPropertyValue} EPropertyValue
+ * @typedef {import('./editorconfig-provider.d.ts').IndentStyle} IndentStyle
+ * @typedef {import('./editorconfig-provider.d.ts').TabWidth} TabWidth
  * @typedef {import('json-schema').JSONSchema4} JSONSchema4
  */
 
@@ -25,7 +27,8 @@ const rulesBuildHelper = Object.freeze({
   createObjectPropertySchema: createObjectPropertySchema,
   getPropertyValuesToDisable: getPropertyValuesToDisable,
   getValueOrDefault: getValueOrDefault,
-  isUnset: isUnset
+  isUnset: isUnset,
+  createIndentString: createIndentString
 });
 
 //================================
@@ -223,4 +226,35 @@ function isUnset(value) {
     || (typeof value === eType.object && (value === null || Object.keys(value).length === 0))
     || (typeof value === eType.string && (value === ePropertyValue.off || value === ePropertyValue.unset))
   ;
+}
+
+/**
+ * @private
+ *
+ * Generates an indentation string consisting of repeated space or tab characters.
+ *
+ * This utility constructs a concrete whitespace indentation sequence based on the requested length and character type, throwing a TypeError if an unsupported format is provided.
+ *
+ * @param {number} indent - The number of times the indentation character should be repeated.
+ * @param {IndentStyle} indentStyle - The type of indentation character to use (space or tab).
+ * @param {TabWidth} [tabWidth=1] - An optional width of one tab.
+ *
+ * @returns {string} A string sequence composed entirely of the requested indentation characters. Or an empty string if the inden is less than or equal to zero.
+ *
+ * @throws {TypeError} If the provided indentation type is neither a space nor a tab configuration.
+ */
+function createIndentString(indent, indentStyle, tabWidth = 1) {
+  if (indent <= 0) {
+    return '';
+  }
+
+  if (indentStyle === ePropertyValue.space) {
+    return ' '.repeat(indent / tabWidth);
+  }
+
+  if (indentStyle === ePropertyValue.tab) {
+    return '\t'.repeat(indent);
+  }
+
+  throw new TypeError(`The 'indentStyle' must be '${ePropertyValue.space}' or '${ePropertyValue.tab}'.`);
 }

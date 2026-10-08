@@ -1,6 +1,5 @@
 import { MakeDirectoryOptions, RmOptions } from 'node:fs';
 import { Props } from 'editorconfig';
-import { IndentStyle } from '@avenvaro/eslint-plugin';
 
 /**
  * Represents a paired mapping between a file pattern filter and its associated EditorConfig properties.
@@ -105,20 +104,6 @@ export interface TestHelper {
    * @returns A promise that resolves when the removal operation is complete.
    */
   removeAsync(path: string): Promise<void>;
-
-  /**
-   * Generates an indentation string consisting of repeated space or tab characters.
-   *
-   * This utility constructs a concrete whitespace indentation sequence based on the requested length and character type, throwing a TypeError if an unsupported format is provided.
-   *
-   * @param indent The number of times the indentation character should be repeated.
-   * @param indentStyle The type of indentation character to use (space or tab).
-   *
-   * @returns A string sequence composed entirely of the requested indentation characters.
-   *
-   * @throws TypeError If the provided indentation type is neither a space nor a tab configuration.
-   */
-  createIndentString(indent: number, indentStyle: IndentStyle): string;
 
   /**
    * Synthesizes a complete `.editorconfig` file payload from an array of pattern-property pairs.

@@ -1,5 +1,6 @@
 import { JSONSchema4 } from 'json-schema';
 import { EPropertyValue } from './property-value.enum.js';
+import { IndentStyle, TabWidth } from './editorconfig-provider.js';
 
 /**
  * A utility helper interface designed to simplify the construction and type generation
@@ -103,6 +104,21 @@ export interface RulesBuildHelper {
    * @returns True if the value represents an empty or unassigned state, otherwise false.
    */
   isUnset(value: any): boolean; // eslint-disable-line @typescript-eslint/no-explicit-any
+
+  /**
+   * Generates an indentation string consisting of repeated space or tab characters.
+   *
+   * This utility constructs a concrete whitespace indentation sequence based on the requested length and character type, throwing a TypeError if an unsupported format is provided.
+   *
+   * @param indent The number of times the indentation character should be repeated.
+   * @param indentStyle The type of indentation character to use (space or tab).
+   * @param tabWidth An optional width of one tab.
+   *
+   * @returns A string sequence composed entirely of the requested indentation characters.
+   *
+   * @throws TypeError If the provided indentation type is neither a space nor a tab configuration.
+   */
+  createIndentString(indent: number, indentStyle: IndentStyle, tabWidth?: TabWidth): string;
 }
 
 declare const rulesBuildHelper: RulesBuildHelper;
