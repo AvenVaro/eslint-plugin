@@ -2,6 +2,7 @@ import testHelper from '../../../test-helper.js';
 import rulesTestHelper from '../../rules-test-helper.js';
 import jsRulesTestHelper from '../js-rules-test-helper.js';
 import { ePropertyValue } from '@avenvaro/eslint-plugin';
+import eType from '@avenvaro/eslint-plugin/src/infrastructure/type.enum.js';
 
 //================================
 // Typedefs
@@ -103,11 +104,21 @@ async function expectAsync(testTempRootDir, dirName, editorconfig, indentOptions
  *
  * @param {IndentSize} expectedIndent - The targeted, calculated indentation layout configuration block.
  * @param {IndentSize} actualIndent - The live, parsed indentation layout tracked from the code environment.
+ * @param {number} [expectedMultiplier=1] - Multiplier for shifting the expected indent.
+ * @param {number} [actualMultiplier=1] - Multiplier for shifting the actual indent.
  * @param {number} [errorCount=1] - An optional fallback multiplier specifying the number of violation blocks to charge if mismatch occurs.
  *
  * @returns {number} The evaluated number of indentation error counts (either `0` or the active `errorCount`)
  */
-function calculateErrorCount(expectedIndent, actualIndent, errorCount = 1) {
+function calculateErrorCount(expectedIndent, actualIndent, expectedMultiplier = 1, actualMultiplier = 1, errorCount = 1) {
+  if (typeof actualIndent === eType.number) {
+    actualIndent *= actualMultiplier;
+  }
+
+  if (typeof expectedIndent === eType.number) {
+    expectedIndent *= expectedMultiplier;
+  }
+
   if (expectedIndent === actualIndent) {
     return 0;
   }

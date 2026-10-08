@@ -47,11 +47,13 @@ export interface IndentRuleTestHelper {
    *
    * @param expectedIndent - The targeted, calculated indentation layout configuration block.
    * @param actualIndent - The live, parsed indentation layout tracked from the code environment.
+   * @param expectedMultiplier - An optional multiplier for shifting the expected indent.
+   * @param actualMultiplier - An optional multiplier for shifting the actual indent.
    * @param errorCount - An optional fallback multiplier specifying the number of violation blocks to charge if mismatch occurs.
    *
    * @returns The evaluated number of indentation error counts (either `0` or the active `errorCount`).
    */
-  calculateErrorCount(expectedIndent: IndentSize, actualIndent: IndentSize, errorCount?: number): number;
+  calculateErrorCount(expectedIndent: IndentSize, actualIndent: IndentSize, expectedMultiplier?: number, actualMultiplier?: number, errorCount?: number): number;
 
   /**
    * Normalizes base indentation properties into a structured formatting record.
