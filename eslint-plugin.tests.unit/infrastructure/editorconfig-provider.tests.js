@@ -377,9 +377,16 @@ function describe() {
   );
 
   vitest.it.concurrent(
-    'getCharset returns charset if charset is string',
+    'getCharset returns charset if charset is charset string',
     () => test_getCharset_returnsCharset({
-      charset: ePropertyValue.lf
+      charset: ePropertyValue.latin1
+    })
+  );
+
+  vitest.it.concurrent(
+    'getCharset returns default if charset is other string',
+    () => test_getCharset_returnsDefaultValue({
+      charset: 'ePropertyValue.lf'
     })
   );
 }
