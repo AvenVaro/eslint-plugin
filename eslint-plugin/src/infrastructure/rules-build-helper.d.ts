@@ -112,13 +112,12 @@ export interface RulesBuildHelper {
    *
    * @param indent The number of times the indentation character should be repeated.
    * @param indentStyle The type of indentation character to use (space or tab).
-   * @param tabWidth An optional width of one tab.
    *
    * @returns A string sequence composed entirely of the requested indentation characters.
    *
    * @throws TypeError If the provided indentation type is neither a space nor a tab configuration.
    */
-  createIndentString(indent: number, indentStyle: IndentStyle, tabWidth?: TabWidth): string;
+  createIndentString(indent: number, indentStyle: IndentStyle): string;
 }
 
 declare const rulesBuildHelper: RulesBuildHelper;

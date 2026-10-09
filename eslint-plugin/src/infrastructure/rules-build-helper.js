@@ -237,19 +237,18 @@ function isUnset(value) {
  *
  * @param {number} indent - The number of times the indentation character should be repeated.
  * @param {IndentStyle} indentStyle - The type of indentation character to use (space or tab).
- * @param {TabWidth} [tabWidth=1] - An optional width of one tab.
  *
  * @returns {string} A string sequence composed entirely of the requested indentation characters. Or an empty string if the inden is less than or equal to zero.
  *
  * @throws {TypeError} If the provided indentation type is neither a space nor a tab configuration.
  */
-function createIndentString(indent, indentStyle, tabWidth = 1) {
+function createIndentString(indent, indentStyle) {
   if (indent <= 0) {
     return '';
   }
 
   if (indentStyle === ePropertyValue.space) {
-    return ' '.repeat(indent / tabWidth);
+    return ' '.repeat(indent);
   }
 
   if (indentStyle === ePropertyValue.tab) {
