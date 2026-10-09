@@ -1,6 +1,6 @@
 import { JSONSchema4 } from 'json-schema';
 import { EPropertyValue } from './property-value.enum.js';
-import { IndentStyle, TabWidth } from './editorconfig-provider.js';
+import { IndentStyle } from './editorconfig-provider.js';
 
 /**
  * A utility helper interface designed to simplify the construction and type generation

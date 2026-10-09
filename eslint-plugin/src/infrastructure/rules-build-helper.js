@@ -9,7 +9,6 @@ import eType from './type.enum.js';
  * @typedef {import('./rules-build-helper.d.ts').RulesBuildHelper} RulesBuildHelper
  * @typedef {import('./property-value.enum.d.ts').EPropertyValue} EPropertyValue
  * @typedef {import('./editorconfig-provider.d.ts').IndentStyle} IndentStyle
- * @typedef {import('./editorconfig-provider.d.ts').TabWidth} TabWidth
  * @typedef {import('json-schema').JSONSchema4} JSONSchema4
  */
 
