@@ -9,6 +9,8 @@ import rulesBuildHelper from '../../infrastructure/rules-build-helper.js';
 //================================
 
 /**
+ * @typedef {import('../../infrastructure/editorconfig-provider.d.ts').IndentStyle} IndentStyle
+ * @typedef {import('./indent.d.ts').IndentComparisonMetrics} IndentComparisonMetrics
  * @typedef {import('./indent.d.ts').JsIndentRule} JsIndentRule
  * @typedef {import('./indent.d.ts').JsIndentContext} JsIndentContext
  * @typedef {import('./indent.d.ts').JsIndentOptions} JsIndentOptions
@@ -21,12 +23,40 @@ import rulesBuildHelper from '../../infrastructure/rules-build-helper.js';
  * @typedef {import('./indent.d.ts').JsOffsetTernaryExpressionsIndentOptions} JsOffsetTernaryExpressionsIndentOptions
  * @typedef {import('./indent.d.ts').JsIndentRuleDefaultValues} JsIndentRuleDefaultValues
  * @typedef {import('eslint').Rule.RuleListener} RuleListener
+ * @typedef {import('eslint').Rule.RuleContext['sourceCode']} SourceCode
+ * @typedef {import('eslint').Rule.RuleFixer} RuleFixer
+ * @typedef {import('eslint').Rule.RuleFixer['replaceTextRange']} RuleTextEdit
+ * @typedef {import('eslint').Rule.Node} RuleNode
+ * @typedef {import('eslint').AST.Token} AstToken
  * @typedef {import('json-schema').JSONSchema4} JSONSchema4
+ * @typedef {import('estree').ConditionalExpression & import('eslint').Rule.NodeParentExtension} ConditionalExpression
+ * @typedef {import('estree').Node} Node
+ */
+
+/**
+ * A normalized, IDE-friendly representation of the ESLint error report descriptor.
+ *
+ * This structure flattens the default ESLint `ReportDescriptor` union type to resolve
+ * contextual typing limitations in JSDoc, ensuring that properties like `node` and `loc`
+ * remain strictly typed and fully discoverable without falling back to `any`.
+ *
+ * @typedef {Object} CustomReportDescriptor
+ *
+ * @property {Node | AstToken} [node] - The AST node where the violation occurred, used to calculate error boundaries.
+ * @property {import('eslint').AST.SourceLocation} [loc] - The precise location coordinates of the issue, overriding the node's bounds.
+ * @property {string} message - The human-readable error message displayed to the user.
+ * @property {import('eslint').Rule.ReportFixer} [fix] - An optional callback function providing automated code adjustments.
+ */
+
+/**
+ * @typedef {Parameters<import('eslint').Rule.RuleContext['report']>[0] & CustomReportDescriptor} Descriptor
  */
 
 //================================
 // Constants
 //================================
+
+const semicolon = ';';
 
 const coreIndentRule = stylisticPlugin.rules.indent;
 const coreIndentRuleOptionsSchema = coreIndentRule.meta.schema[1];
@@ -226,10 +256,228 @@ export default {
  * @returns {RuleListener} A collection of selector methods mapping AST node types to validation hooks.
  */
 function create(context) {
-  const modifiedContext = Object.create(context, getCoreIdentProperties(context));
+  const jsIndentOptionsTuple = getProcessedJsIndentOptionsTuple(context);
+  const modifiedContext = Object.create(context, getCoreIdentProperties(jsIndentOptionsTuple));
   const listeners = coreIndentRule.create(modifiedContext);
 
-  return listeners;
+  return {
+    ...listeners,
+    ConditionalExpression: (node) => conditionalExpression(node, listeners, context, jsIndentOptionsTuple)
+  };
+}
+
+/**
+ * @private
+ *
+ * Processes a `ConditionalExpression` AST node by forwarding it to the appropriate rule listeners and applying a custom layout fix.
+ *
+ * This function serves as a wrapper hook during the rule execution. It triggers any registered validation selectors for ternary operators and then executes
+ * a workaround to properly handle edge-case indentation issues for trailing delimiters (such as commas or semicolons) placed on subsequent lines.
+ *
+ * @param {ConditionalExpression} node - The AST node representing the ternary operator with its parent reference.
+ * @param {RuleListener} listeners - A collection of selector methods mapping AST node types to validation hooks.
+ * @param {JsIndentContext} context - The runtime wrapper interface providing access to the current file scope and options tuple.
+ * @param {JsIndentOptionsTuple} jsIndentOptionsTuple - The configuration array passed to the rule options.
+ *
+ * @returns {void}
+ */
+function conditionalExpression(node, listeners, context, jsIndentOptionsTuple) {
+  listeners.ConditionalExpression?.(node);
+
+  // Workaround for a Stylistic indent bug.
+  // The original indent rule does not validate a semicolon placed on a separate line after a VariableDeclaration.
+  patchConditionalDelimiter(node, context, jsIndentOptionsTuple);
+}
+
+/**
+ * @private
+ *
+ * Validates and fixes the indentation of a trailing delimiter for a multi-line ternary statement.
+ *
+ * This function coordinates the workaround for the Stylistic indentation issue. It retrieves the separate-line delimiter (if present), computes its expected target alignment column based
+ * on the containing block statement, and compares it with the actual layout. If an alignment mismatch is detected, it registers a violation via `context.report` and attaches an automated
+ * code fix to correct the indentation.
+ *
+ * @param {ConditionalExpression} node - The AST node representing the ternary operator with its parent reference.
+ * @param {JsIndentContext} context - The runtime wrapper interface providing access to the current file scope and options tuple.
+ * @param {JsIndentOptionsTuple} jsIndentOptionsTuple - The configuration array passed to the rule options.
+ *
+ * @returns {void}
+ */
+function patchConditionalDelimiter(node, context, jsIndentOptionsTuple) {
+  if (node.parent?.type === eType.ConditionalExpression) {
+    return;
+  }
+
+  const parent = getParentForVariableDeclaration(node.parent);
+
+  if (parent === null) {
+    return;
+  }
+
+  const sourceCode = context.sourceCode;
+  const delimiter = getDelimiterOrNull(node, sourceCode);
+
+  if (delimiter === null) {
+    return;
+  }
+
+  const expectedColumn = parent.loc.start.column;
+  const actualColumn = delimiter.loc.start.column;
+
+  if (actualColumn === expectedColumn) {
+    return;
+  }
+
+  const metrics = createIndentComparisonMetrics(delimiter, sourceCode, actualColumn, expectedColumn, jsIndentOptionsTuple);
+  const indentation = rulesBuildHelper.createIndentString(metrics.expectedValue, metrics.expectedIndentStyle);
+
+  context.report({
+    node: delimiter,
+    loc: delimiter.loc,
+    message: `Expected indentation of ${metrics.expectedValue} ${metrics.expectedName} but found ${metrics.actualValue} ${metrics.actualName}.`,
+    fix: (fixer) => patchConditionalDelimiterFix(fixer, actualColumn, delimiter, indentation)
+  });
+}
+
+/**
+ * @private
+ *
+ * Extracts the raw leading indentation whitespace string preceding a specific token.
+ *
+ * This utility locates the exact code text line containing the target delimiter via the source code buffer lines index. It then isolates and returns a precise string slice
+ * covering everything from the start of that line up to the token's active column offset boundary, preserving the exact arrangement of tab and space characters.
+ *
+ * @param {AstToken} delimiter - The separate-line delimiter token initiating the target boundaries.
+ * @param {SourceCode} sourceCode - The current rule's source code object containing line character records.
+ * @param {number} actualColumn - The live column index location indicating the token's leading whitespace width.
+ *
+ * @returns {string} The exact substring of characters containing the leading indentation footprint.
+ */
+function getActualIndentation(delimiter, sourceCode, actualColumn) {
+  const line = sourceCode.lines[delimiter.loc.start.line - 1];
+
+  return line.slice(0, actualColumn);
+}
+
+/**
+ * @private
+ *
+ * Synthesizes a comparative metrics record mapping parsed indentation layouts against expected targets.
+ *
+ * This factory function inspects the leading whitespace preceding a separate-line delimiter to determine its active indentation style. It automatically normalizes raw numeric column positions
+ * into formatted metrics—converting column offsets to relative tab counts when tab-based spacing is detected or expected—and outputs a structured snapshot ready for error message rendering.
+ *
+ * @param {AstToken} delimiter - The separate-line delimiter token being evaluated.
+ * @param {SourceCode} sourceCode - The current rule's source code object used for indentation line lookups.
+ * @param {number} actualColumn - The live column index position showing the token's current leading whitespace width.
+ * @param {number} expectedColumn - The target column index alignment calculated by the core engine rules.
+ * @param {JsIndentOptionsTuple} jsIndentOptionsTuple - The active runtime configuration pair specifying target sizes and options blocks.
+ *
+ * @returns {IndentComparisonMetrics} A populated metrics snapshot tracking comparative layout styles, values, and unit tags.
+ */
+function createIndentComparisonMetrics(delimiter, sourceCode, actualColumn, expectedColumn, jsIndentOptionsTuple) {
+  const actualIndentation = getActualIndentation(delimiter, sourceCode, actualColumn);
+  const tabLength = jsIndentOptionsTuple[1].tabLength;
+  const tabs = 'tabs';
+  const spaces = 'spaces';
+
+  /** @type {IndentComparisonMetrics} */
+  const metrics = {};
+
+  if (actualIndentation.includes('\t')) {
+    metrics.actualValue = actualColumn / tabLength;
+    metrics.actualName = tabs;
+  }
+  else {
+    metrics.actualValue = actualColumn;
+    metrics.actualName = spaces;
+  }
+
+  if (jsIndentOptionsTuple[0] === ePropertyValue.tab) {
+    metrics.expectedIndentStyle = ePropertyValue.tab;
+    metrics.expectedValue = expectedColumn / tabLength;
+    metrics.expectedName = tabs;
+  }
+  else {
+    metrics.expectedIndentStyle = ePropertyValue.space;
+    metrics.expectedValue = expectedColumn;
+    metrics.expectedName = spaces;
+  }
+
+  return metrics;
+}
+
+/**
+ * @private
+ *
+ * Retrieves the trailing semicolon delimiter for a `ConditionalExpression` if it is placed on a separate line.
+ *
+ * This utility evaluates the token immediately succeeding the ternary's alternate branch expression. It ensures strict boundary separation by verifying that the semicolon token exists, is explicitly
+ * positioned on a subsequent line relative to the end of the alternate expression, and matches a valid standalone statement terminator target.
+ *
+ * @param {ConditionalExpression} node - The AST node representing the ternary operator with its parent reference.
+ * @param {SourceCode} sourceCode - The current rule's source code object used for token lookups.
+ *
+ * @returns {AstToken | null} The separate-line delimiter token, or `null` if the delimiter is inline, missing, or nested.
+ */
+function getDelimiterOrNull(node, sourceCode) {
+  const delimiter = sourceCode.getTokenAfter(node.alternate);
+
+  if (
+    delimiter === null
+    || delimiter.value !== semicolon
+    || delimiter.loc.start.line === node.alternate.loc.end.line // If ";" is not transferred, this is already the standard logic of Stylistic
+  ) {
+    return null;
+  }
+
+  return delimiter;
+}
+
+/**
+ * @private
+ *
+ * Traverses up the AST hierarchy to find the nearest wrapping `VariableDeclaration` ancestor node.
+ *
+ * This utility acts as a recursive parent scope resolver. It sequentially walks up the node chain via active `.parent` references, terminating the loop and returning the matched block
+ * only when it encounters a variable declaration statement. If the root boundary is reached without a match, it gracefully returns `null`.
+ *
+ * @param {RuleNode | null} parent - The starting AST node context to climb up from.
+ *
+ * @returns {RuleNode | null} The closest ancestral variable declaration node, or `null` if none is found.
+ */
+function getParentForVariableDeclaration(parent) {
+  while (parent !== null && parent.type !== eType.VariableDeclaration) {
+    parent = parent.parent;
+  }
+
+  return parent;
+}
+
+/**
+ * @private
+ *
+ * Generates an AST text edit operation to properly indent a separate-line delimiter.
+ *
+ * This utility calculates the character index for the absolute beginning of the line containing the delimiter and builds a range spanning from that line-start up to
+ * the delimiter token itself. It then returns a text edit instruction that replaces any leading whitespace within this range with the freshly computed expected indentation.
+ *
+ * @param {RuleFixer} fixer - The ESLint rule fixer object utilized to construct code modifications.
+ * @param {number} actualColumn - The live column index location indicating the token's current leading indent whitespace offset depth.
+ * @param {AstToken} delimiter - The delimiter token (semicolon or comma) being validated.
+ * @param {string} indentation - The target indentation string (e.g., spaces or tabs) to apply before the delimiter.
+ *
+ * @returns {RuleTextEdit} The structured text edit object (`RuleTextEdit`) instructing ESLint how to modify the line.
+ */
+function patchConditionalDelimiterFix(fixer, actualColumn, delimiter, indentation) {
+  return fixer.replaceTextRange(
+    [
+      delimiter.range[0] - actualColumn,
+      delimiter.range[0]
+    ],
+    indentation
+  );
 }
 
 /**
@@ -237,16 +485,13 @@ function create(context) {
  *
  * Constructs a descriptors dictionary for Object.create to patch the ESLint context options tuple.
  *
- * This method pipes the calculated indent size and mapped PascalCase options required by the core
- * engine into a modified properties blueprint.
+ * This method pipes the calculated indent size and mapped PascalCase options required by the core engine into a modified properties blueprint.
  *
- * @param {JsIndentContext} context - The active runtime ESLint rule context interface.
+ * @param {JsIndentOptionsTuple} jsIndentOptionsTuple - The configuration array passed to the rule options.
  *
  * @returns {PropertyDescriptorMap} A configured property descriptor map containing the modified options array.
  */
-function getCoreIdentProperties(context) {
-  const jsIndentOptionsTuple = getProcessedJsIndentOptionsTuple(context);
-
+function getCoreIdentProperties(jsIndentOptionsTuple) {
   return {
     options: {
       value: [
