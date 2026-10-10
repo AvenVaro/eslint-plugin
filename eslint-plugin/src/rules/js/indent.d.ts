@@ -2,7 +2,28 @@ import { Rule } from 'eslint';
 import { JSONSchema4 } from 'json-schema';
 import { EPropertyValue } from '../../infrastructure/property-value.enum.js';
 import { EType } from '../../infrastructure/type.enum.js';
-import { DisableProperty, IndentSize } from '../../infrastructure/editorconfig-provider.js';
+import { DisableProperty, IndentSize, IndentStyle } from '../../infrastructure/editorconfig-provider.js';
+
+/**
+ * Represents a set of immutable comparative metrics tracking actual versus expected indentation styles, value offsets, and structural names.
+ */
+export interface IndentComparisonMetrics {
+
+  /** The calculated target structural indentation format constraint dictated by configuration. */
+  expectedIndentStyle: IndentStyle;
+
+  /** The actual indentation indentation size or whitespace column depth parsed from the environment. */
+  actualValue: number;
+
+  /** The expected target indentation size or column offset depth calculated by the engine. */
+  expectedValue: number;
+
+  /** The actual character or identifier name length/value evaluated from the current token line. */
+  actualName: number;
+
+  /** The expected target character name length/value configured for layout alignment. */
+  expectedName: number;
+}
 
 /**
  * Defines a configuration value that can either be a numeric indent size or disabled entirely.
