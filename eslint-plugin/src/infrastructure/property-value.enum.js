@@ -26,7 +26,11 @@ const ePropertyValue = Object.freeze({
   utf16le: 'utf-16le',
   whitespace: 'whitespace',
   error: 'error',
-  warning: 'warning'
+  warning: 'warning',
+  options: 'options',
+  meta: 'meta',
+  create: 'create',
+  schema: 'schema'
 });
 
 //================================

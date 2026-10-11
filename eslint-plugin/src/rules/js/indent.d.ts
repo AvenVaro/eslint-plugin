@@ -179,7 +179,7 @@ export interface JsOffsetTernaryExpressionsIndentOptions {
 /**
  * Extended rule metadata interface explicitly mapped to custom JsIndentOptions.
  */
-export interface JsIndentRuleMeta extends Omit<Rule.RuleModule['meta'], 'schema'> {
+export interface JsIndentRuleMeta extends Omit<Rule.RuleModule['meta'], EPropertyValue['schema']> {
   schema: [
     {
       type: EType['number'];
@@ -211,7 +211,7 @@ export type JsIndentOptionsTuple = [
 /**
  * Isolated rule context structure replicating the official ESLint stylistic indent options tuple.
  */
-export interface JsIndentContext extends Omit<Rule.RuleContext, 'options'> {
+export interface JsIndentContext extends Omit<Rule.RuleContext, EPropertyValue['options']> {
   /**
    * The runtime configuration array passed to the rule options.
    */
@@ -221,7 +221,7 @@ export interface JsIndentContext extends Omit<Rule.RuleContext, 'options'> {
 /**
  * The main interface of the module for the indentation rule, extending the standard structure of ESLint and stylistic rules.
  */
-export interface JsIndentRule extends Omit<Rule.RuleModule, 'meta' | 'create'> {
+export interface JsIndentRule extends Omit<Rule.RuleModule, EPropertyValue['meta'] | EPropertyValue['create']> {
   /**
    * The rule metadata object containing schema validation, rule types, and documentation.
    */

@@ -17,6 +17,10 @@ export type EPropertyValue = Readonly<{
   readonly whitespace: 'whitespace';
   readonly error: 'error';
   readonly warning: 'warning';
+  readonly options: 'options';
+  readonly meta: 'meta';
+  readonly create: 'create';
+  readonly schema: 'schema';
 }>;
 
 declare const ePropertyValue: EPropertyValue;
