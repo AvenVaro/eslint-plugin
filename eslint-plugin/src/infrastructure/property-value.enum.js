@@ -23,7 +23,10 @@ const ePropertyValue = Object.freeze({
   utf8: 'utf-8',
   utf8bom: 'utf-8-bom',
   utf16be: 'utf-16be',
-  utf16le: 'utf-16le'
+  utf16le: 'utf-16le',
+  whitespace: 'whitespace',
+  error: 'error',
+  warning: 'warning'
 });
 
 //================================

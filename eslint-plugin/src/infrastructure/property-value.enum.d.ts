@@ -14,6 +14,9 @@ export type EPropertyValue = Readonly<{
   readonly utf8bom: 'utf-8-bom';
   readonly utf16be: 'utf-16be';
   readonly utf16le: 'utf-16le';
+  readonly whitespace: 'whitespace';
+  readonly error: 'error';
+  readonly warning: 'warning';
 }>;
 
 declare const ePropertyValue: EPropertyValue;
