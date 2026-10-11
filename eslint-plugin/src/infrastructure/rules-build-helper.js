@@ -79,8 +79,8 @@ function createDisablePropertySchema(property) {
   if (property === undefined) {
     return {
       oneOf: [
-        rulesBuildHelper.createNullPropertySchema(),
-        rulesBuildHelper.createEnumPropertySchema(...rulesBuildHelper.getPropertyValuesToDisable())
+        createNullPropertySchema(),
+        createEnumPropertySchema(...getPropertyValuesToDisable())
       ]
     };
   }
@@ -88,8 +88,8 @@ function createDisablePropertySchema(property) {
   return {
     ...property,
     oneOf: [
-      rulesBuildHelper.createNullPropertySchema(),
-      rulesBuildHelper.createEnumPropertySchema(...rulesBuildHelper.getPropertyValuesToDisable())
+      createNullPropertySchema(),
+      createEnumPropertySchema(...getPropertyValuesToDisable())
     ]
   };
 }
