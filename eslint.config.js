@@ -1,3 +1,4 @@
+import { defineConfig } from 'eslint';
 import js from '@eslint/js';
 import stylistic from '@stylistic/eslint-plugin';
 import globals from 'globals';
@@ -13,7 +14,7 @@ import avenvaro from '@avenvaro/eslint-plugin';
 const jsonc = jsoncPlugin.default || jsoncPlugin;
 const yml = ymlPlugin.default || ymlPlugin;
 
-export default tseslint.config(
+export default defineConfig(
   {
     ignores: [
       'LICENSE',
