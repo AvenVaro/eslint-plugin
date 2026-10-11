@@ -27,7 +27,8 @@ const eType = Object.freeze({
   ConditionalExpression: 'ConditionalExpression',
   Punctuator: 'Punctuator',
   CallExpression: 'CallExpression',
-  VariableDeclaration: 'VariableDeclaration'
+  VariableDeclaration: 'VariableDeclaration',
+  layout: 'layout'
 });
 
 //================================
