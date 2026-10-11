@@ -114,11 +114,16 @@ export default defineConfig(
           consistent: true
         }
       ],
+      '@stylistic/no-extra-semi': 'error',
       'curly': [
         'error',
         'all'
       ],
       'func-names': [
+        'error',
+        'always'
+      ],
+      'arrow-parens': [
         'error',
         'always'
       ],
@@ -144,10 +149,6 @@ export default defineConfig(
           selector: 'FunctionDeclaration VariableDeclarator > FunctionExpression',
           message: 'Creating local functional expressions within functions is prohibited. Move the logic to the top level.'
         }
-      ],
-      'arrow-parens': [
-        'error',
-        'always'
       ]
     }
   },
