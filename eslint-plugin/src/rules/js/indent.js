@@ -158,7 +158,8 @@ export default {
     ],
     docs: {
       ...coreIndentRule.meta.docs,
-      description: 'Native EditorConfig-driven indentation patch by AvenVaro.'
+      description: 'Stylistic indent wrapper with EditorConfig integration and a patch for the semicolon indentation bug in the underlying rule.',
+      url: 'https://github.com/AvenVaro/eslint-plugin'  // To Do: then add a link to the documentation
     },
     schema: [
       createIndentValuePropertySchema(coreIndentRule.meta.schema[0]),
