@@ -10,6 +10,7 @@ import eType from './type.enum.js';
  * @typedef {import('./property-value.enum.d.ts').EPropertyValue} EPropertyValue
  * @typedef {import('./editorconfig-provider.d.ts').IndentStyle} IndentStyle
  * @typedef {import('json-schema').JSONSchema4} JSONSchema4
+ * @typedef {import('eslint').AST.Token} AstToken
  */
 
 //================================
@@ -27,7 +28,8 @@ const rulesBuildHelper = Object.freeze({
   getPropertyValuesToDisable: getPropertyValuesToDisable,
   getValueOrDefault: getValueOrDefault,
   isUnset: isUnset,
-  createIndentString: createIndentString
+  createIndentString: createIndentString,
+  tokenIs: tokenIs
 });
 
 //================================
@@ -255,4 +257,21 @@ function createIndentString(indent, indentStyle) {
   }
 
   throw new TypeError(`The 'indentStyle' must be '${ePropertyValue.space}' or '${ePropertyValue.tab}'.`);
+}
+
+/**
+ * @private
+ *
+ * Validates whether a token exists and matches a specific text value.
+ *
+ * This utility serves as a type-safe guard for token evaluations. It checks if the provided token instance is valid (not null) and strictly compares its literal content against the
+ * targeted value string.
+ *
+ * @param {AstToken | null} token - The AST token instance to evaluate, or null if missing.
+ * @param {string[]} values - The expected literal string values to match against (e.g., a specific punctuator or keyword).
+ *
+ * @returns {boolean} `true` if the token is valid and matches the specified value; otherwise, `false`.
+ */
+function tokenIs(token, ...values) {
+  return token !== null && values.includes(token.value);
 }

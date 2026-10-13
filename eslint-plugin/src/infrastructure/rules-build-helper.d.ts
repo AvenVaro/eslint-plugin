@@ -1,4 +1,5 @@
 import { JSONSchema4 } from 'json-schema';
+import { AST } from 'eslint';
 import { EPropertyValue } from './property-value.enum.js';
 import { IndentStyle } from './editorconfig-provider.js';
 
@@ -118,6 +119,19 @@ export interface RulesBuildHelper {
    * @throws TypeError If the provided indentation type is neither a space nor a tab configuration.
    */
   createIndentString(indent: number, indentStyle: IndentStyle): string;
+
+  /**
+   * Validates whether a token exists and matches a specific text value.
+   *
+   * This utility serves as a type-safe guard for token evaluations. It checks if the provided token instance is valid (not null) and strictly compares its literal content against the
+   * targeted value string.
+   *
+   * @param token The AST token instance to evaluate, or null if missing.
+   * @param values The expected literal string value to match against (e.g., a specific punctuator or keyword).
+   *
+   * @returns True if the value represents an empty or unassigned state, otherwise false.
+   */
+  tokenIs(token: AST.Token, ...values: string[]): boolean;
 }
 
 declare const rulesBuildHelper: RulesBuildHelper;
