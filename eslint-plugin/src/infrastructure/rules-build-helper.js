@@ -8,6 +8,7 @@ import eType from './type.enum.js';
 /**
  * @typedef {import('./rules-build-helper.d.ts').RulesBuildHelper} RulesBuildHelper
  * @typedef {import('./property-value.enum.d.ts').EPropertyValue} EPropertyValue
+ * @typedef {import('./token.enum.d.ts').EToken} EToken
  * @typedef {import('./editorconfig-provider.d.ts').IndentStyle} IndentStyle
  * @typedef {import('json-schema').JSONSchema4} JSONSchema4
  * @typedef {import('eslint').AST.Token} AstToken
@@ -268,7 +269,7 @@ function createIndentString(indent, indentStyle) {
  * targeted value string.
  *
  * @param {AstToken | null} token - The AST token instance to evaluate, or null if missing.
- * @param {string[]} values - The expected literal string values to match against (e.g., a specific punctuator or keyword).
+ * @param {EToken[]} values - The expected literal string values to match against (e.g., a specific punctuator or keyword).
  *
  * @returns {boolean} `true` if the token is valid and matches the specified value; otherwise, `false`.
  */

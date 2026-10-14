@@ -1,6 +1,7 @@
 import { JSONSchema4 } from 'json-schema';
 import { AST } from 'eslint';
 import { EPropertyValue } from './property-value.enum.js';
+import { EToken } from './token.enum.js';
 import { IndentStyle } from './editorconfig-provider.js';
 
 /**
@@ -131,7 +132,7 @@ export interface RulesBuildHelper {
    *
    * @returns True if the value represents an empty or unassigned state, otherwise false.
    */
-  tokenIs(token: AST.Token, ...values: string[]): boolean;
+  tokenIs(token: AST.Token, ...values: EToken[]): boolean;
 }
 
 declare const rulesBuildHelper: RulesBuildHelper;
