@@ -10,11 +10,11 @@ vitest.describe.concurrent('Type - Unit Testing', describe);
 function describe() {
   vitest.it.concurrent(
     'Should expose a strict, immutable lookup dictionary of standardized types',
-    test_propertyValue_isStrictImmutableDictionary
+    test_type_isStrictImmutableDictionary
   );
 }
 
-function test_propertyValue_isStrictImmutableDictionary() {
+function test_type_isStrictImmutableDictionary() {
   vitest.expect(Object.isFrozen(eType)).toBe(true);
 
   vitest.expect(eType.undefined).toBe('undefined');
