@@ -2,6 +2,7 @@ import stylisticPlugin from '@stylistic/eslint-plugin';
 import editorconfigProvider from '../../infrastructure/editorconfig-provider.js';
 import ePropertyValue from '../../infrastructure/property-value.enum.js';
 import eType from '../../infrastructure/type.enum.js';
+import eToken from '../../infrastructure/token.enum.js';
 import rulesBuildHelper from '../../infrastructure/rules-build-helper.js';
 
 //================================
@@ -33,31 +34,9 @@ import rulesBuildHelper from '../../infrastructure/rules-build-helper.js';
  * @typedef {import('estree').Node} Node
  */
 
-/**
- * A normalized, IDE-friendly representation of the ESLint error report descriptor.
- *
- * This structure flattens the default ESLint `ReportDescriptor` union type to resolve
- * contextual typing limitations in JSDoc, ensuring that properties like `node` and `loc`
- * remain strictly typed and fully discoverable without falling back to `any`.
- *
- * @typedef {Object} CustomReportDescriptor
- *
- * @property {Node | AstToken} [node] - The AST node where the violation occurred, used to calculate error boundaries.
- * @property {import('eslint').AST.SourceLocation} [loc] - The precise location coordinates of the issue, overriding the node's bounds.
- * @property {string} message - The human-readable error message displayed to the user.
- * @property {import('eslint').Rule.ReportFixer} [fix] - An optional callback function providing automated code adjustments.
- */
-
-/**
- * @typedef {Parameters<import('eslint').Rule.RuleContext['report']>[0] & CustomReportDescriptor} Descriptor
- */
-
 //================================
 // Constants
 //================================
-
-const semicolon = ';';
-
 const coreIndentRule = stylisticPlugin.rules.indent;
 const coreIndentRuleOptionsSchema = coreIndentRule.meta.schema[1];
 
@@ -426,8 +405,7 @@ function getDelimiterOrNull(node, sourceCode) {
   const delimiter = sourceCode.getTokenAfter(node.alternate);
 
   if (
-    delimiter === null
-    || delimiter.value !== semicolon
+    !rulesBuildHelper.tokenIs(delimiter, eToken.semicolon)
     || delimiter.loc.start.line === node.alternate.loc.end.line // If ";" is not transferred, this is already the standard logic of Stylistic
   ) {
     return null;
